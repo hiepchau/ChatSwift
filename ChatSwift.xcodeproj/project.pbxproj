@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10F02AF299BAE18688EDB4AE /* Pods_ChatSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40834A07A70C73620C1B0502 /* Pods_ChatSwift.framework */; };
 		F16395232940FB3700DED7D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395222940FB3700DED7D7 /* AppDelegate.swift */; };
 		F16395252940FB3700DED7D7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395242940FB3700DED7D7 /* SceneDelegate.swift */; };
 		F16395272940FB3700DED7D7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395262940FB3700DED7D7 /* ViewController.swift */; };
@@ -16,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		40834A07A70C73620C1B0502 /* Pods_ChatSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		93847A0A10559867002730FE /* Pods-ChatSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSwift.debug.xcconfig"; path = "Target Support Files/Pods-ChatSwift/Pods-ChatSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		CF0F50421057FECB0152A4C9 /* Pods-ChatSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSwift.release.xcconfig"; path = "Target Support Files/Pods-ChatSwift/Pods-ChatSwift.release.xcconfig"; sourceTree = "<group>"; };
 		F163951F2940FB3700DED7D7 /* ChatSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F16395222940FB3700DED7D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F16395242940FB3700DED7D7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,17 +35,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10F02AF299BAE18688EDB4AE /* Pods_ChatSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A1CE8B186BF123DD84B4EAB1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				40834A07A70C73620C1B0502 /* Pods_ChatSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D52F7567EACDAE886E366748 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				93847A0A10559867002730FE /* Pods-ChatSwift.debug.xcconfig */,
+				CF0F50421057FECB0152A4C9 /* Pods-ChatSwift.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		F16395162940FB3700DED7D7 = {
 			isa = PBXGroup;
 			children = (
 				F16395212940FB3700DED7D7 /* ChatSwift */,
 				F16395202940FB3700DED7D7 /* Products */,
+				D52F7567EACDAE886E366748 /* Pods */,
+				A1CE8B186BF123DD84B4EAB1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F16395332940FB3800DED7D7 /* Build configuration list for PBXNativeTarget "ChatSwift" */;
 			buildPhases = (
+				0E9A6DAFD33D49C63986D12B /* [CP] Check Pods Manifest.lock */,
 				F163951B2940FB3700DED7D7 /* Sources */,
 				F163951C2940FB3700DED7D7 /* Frameworks */,
 				F163951D2940FB3700DED7D7 /* Resources */,
+				2CD3960ECF2B82D24E158350 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +159,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E9A6DAFD33D49C63986D12B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ChatSwift-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2CD3960ECF2B82D24E158350 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChatSwift/Pods-ChatSwift-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChatSwift/Pods-ChatSwift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatSwift/Pods-ChatSwift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F163951B2940FB3700DED7D7 /* Sources */ = {
@@ -282,6 +351,7 @@
 		};
 		F16395342940FB3800DED7D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93847A0A10559867002730FE /* Pods-ChatSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -309,6 +379,7 @@
 		};
 		F16395352940FB3800DED7D7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CF0F50421057FECB0152A4C9 /* Pods-ChatSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
