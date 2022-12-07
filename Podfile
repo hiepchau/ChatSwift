@@ -8,4 +8,6 @@ target 'ChatSwift' do
   # Pods for ChatSwift
   pod 'MessageKit'
   pod 'JGProgressHUD'
+  pod 'RealmSwift'
+  pod 'SDWebImage'
 end
