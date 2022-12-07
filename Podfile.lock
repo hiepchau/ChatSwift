@@ -1,0 +1,26 @@
+PODS:
+  - InputBarAccessoryView (5.5.0):
+    - InputBarAccessoryView/Core (= 5.5.0)
+  - InputBarAccessoryView/Core (5.5.0)
+  - JGProgressHUD (2.2)
+  - MessageKit (3.8.0):
+    - InputBarAccessoryView (~> 5.5.0)
+
+DEPENDENCIES:
+  - JGProgressHUD
+  - MessageKit
+
+SPEC REPOS:
+  trunk:
+    - InputBarAccessoryView
+    - JGProgressHUD
+    - MessageKit
+
+SPEC CHECKSUMS:
+  InputBarAccessoryView: 1d7b0a672b36e370f01f264b3907ef39d03328e3
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
+  MessageKit: a1ba0c69ebead94029867853eb44dd05b9b3f453
+
+PODFILE CHECKSUM: 1100988c038cf6905af457fdbd552d18c6c4486b
+
+COCOAPODS: 1.11.3
