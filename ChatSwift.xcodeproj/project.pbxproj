@@ -21,6 +21,7 @@
 		F16395432940FE6A00DED7D7 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395422940FE6A00DED7D7 /* ConversationsViewController.swift */; };
 		F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395442940FE7D00DED7D7 /* LoginTableViewController.swift */; };
 		F16395472940FE9000DED7D7 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395462940FE9000DED7D7 /* NewConversationViewController.swift */; };
+		F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173D5C32941EE5C00DDF7DE /* UserModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		F16395422940FE6A00DED7D7 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		F16395442940FE7D00DED7D7 /* LoginTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		F16395462940FE9000DED7D7 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
+		F173D5C32941EE5C00DDF7DE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		F16395212940FB3700DED7D7 /* ChatSwift */ = {
 			isa = PBXGroup;
 			children = (
+				F173D5C02941EDAB00DDF7DE /* Model */,
 				F16395482940FEA400DED7D7 /* Resources */,
 				F163953F2940FE3C00DED7D7 /* Controllers */,
 				F16395492940FEE200DED7D7 /* Views */,
@@ -139,6 +142,14 @@
 				F163952D2940FB3800DED7D7 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		F173D5C02941EDAB00DDF7DE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F173D5C32941EE5C00DDF7DE /* UserModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +278,7 @@
 			files = (
 				F16395472940FE9000DED7D7 /* NewConversationViewController.swift in Sources */,
 				F16395432940FE6A00DED7D7 /* ConversationsViewController.swift in Sources */,
+				F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */,
 				F16395232940FB3700DED7D7 /* AppDelegate.swift in Sources */,
 				F16395412940FE5000DED7D7 /* ChatViewController.swift in Sources */,
 				F16395252940FB3700DED7D7 /* SceneDelegate.swift in Sources */,

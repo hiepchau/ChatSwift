@@ -66,8 +66,7 @@
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="loginButtonTapped" destination="gQT-IV-Ix2" eventType="touchUpOutside" id="4cV-Sa-GVX"/>
-                                                        <segue destination="tlg-Kj-857" kind="presentation" identifier="segue" modalPresentationStyle="fullScreen" id="Yb3-PZ-Efz"/>
+                                                        <action selector="loginButtonTapped" destination="gQT-IV-Ix2" eventType="touchUpInside" id="Km2-rk-8DV"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="LTi-a9-267">
@@ -173,6 +172,7 @@
                     <connections>
                         <outlet property="passwordField" destination="aHV-Uu-3BJ" id="ioG-sb-tnT"/>
                         <outlet property="usernameField" destination="fuY-SC-IHW" id="UnH-oK-QLz"/>
+                        <segue destination="tlg-Kj-857" kind="presentation" modalPresentationStyle="fullScreen" id="NyU-ed-MCY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DQQ-d2-wuX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

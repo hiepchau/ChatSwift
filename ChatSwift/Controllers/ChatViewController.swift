@@ -25,6 +25,8 @@ class ChatViewController: MessagesViewController {
     private var messages = [Message]()
     public var isNewConversation = false
     public let selfSender = Sender(senderId: "1", displayName: "hip")
+    public let anotherSender = Sender(senderId: "2", displayName: "who")
+    public let another1Sender = Sender(senderId: "2", displayName: "whoa")
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +40,14 @@ class ChatViewController: MessagesViewController {
                                 messageId: "2",
                                 sentDate: Date(),
                                 kind: .text("First message1")))
+        messages.append(Message(sender: anotherSender,
+                                messageId: "3",
+                                sentDate: Date(),
+                                kind: .text("receive message")))
+        messages.append(Message(sender: anotherSender,
+                                messageId: "3",
+                                sentDate: Date(),
+                                kind: .text("receive message1")))
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
@@ -76,7 +86,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
                                                  messageId: "2",
                                                  sentDate: Date(),
                                                  kind: .text(text)))
-            
+            self.messageInputBar.inputTextView.text = nil
             self.messagesCollectionView.reloadData()
         }
 
