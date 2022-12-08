@@ -9,7 +9,7 @@ import UIKit
 import JGProgressHUD
 
 class ConversationsViewController: UIViewController {
-
+    
     private let spinner = JGProgressHUD(style: .dark)
     
     private let tableView: UITableView = {
@@ -25,12 +25,13 @@ class ConversationsViewController: UIViewController {
         label.textColor = .gray
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 21, weight: .medium)
-        label.isHidden = false
+        label.isHidden = true
         return label
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(didTapComposeButton))
@@ -43,6 +44,10 @@ class ConversationsViewController: UIViewController {
     
     @objc private func didTapComposeButton() {
         let vc = NewConversationViewController()
+        vc.completionHandler = { [weak self] result in
+            print("\(result)")
+            self?.createNewConversation(result: result)
+        }
         let navVC = UINavigationController(rootViewController: vc)
         present(navVC, animated: true)
     }
@@ -51,6 +56,15 @@ class ConversationsViewController: UIViewController {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
         noConversationsLabel.frame = view.bounds
+    }
+    
+    private func createNewConversation(result: String){
+        let vc = ChatViewController()
+        vc.title = result
+        vc.isNewConversation = true
+        vc.navigationItem.largeTitleDisplayMode = .never
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func setupTableView(){
@@ -79,11 +93,10 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         tableView.deselectRow(at: indexPath, animated: true)
 
         let vc = ChatViewController()
-//        let nav = UINavigationController(rootViewController: vc)
-//        nav.pushViewController(vc, animated: true)
-//        present(nav, animated: true)
         vc.title = "hi"
         vc.navigationItem.largeTitleDisplayMode = .never
+        
         navigationController?.pushViewController(vc, animated: true)
+        print("flag")
     }
 }
