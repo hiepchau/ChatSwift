@@ -22,6 +22,8 @@
 		F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395442940FE7D00DED7D7 /* LoginTableViewController.swift */; };
 		F16395472940FE9000DED7D7 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395462940FE9000DED7D7 /* NewConversationViewController.swift */; };
 		F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173D5C32941EE5C00DDF7DE /* UserModel.swift */; };
+		F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBF42942CBE500D65D69 /* BaseModel.swift */; };
+		F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		F16395442940FE7D00DED7D7 /* LoginTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		F16395462940FE9000DED7D7 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		F173D5C32941EE5C00DDF7DE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		F1B2BBF42942CBE500D65D69 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,7 @@
 			children = (
 				F16395222940FB3700DED7D7 /* AppDelegate.swift */,
 				F16395242940FB3700DED7D7 /* SceneDelegate.swift */,
+				F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -147,6 +152,7 @@
 		F173D5C02941EDAB00DDF7DE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F1B2BBF42942CBE500D65D69 /* BaseModel.swift */,
 				F173D5C32941EE5C00DDF7DE /* UserModel.swift */,
 			);
 			path = Model;
@@ -282,7 +288,9 @@
 				F16395232940FB3700DED7D7 /* AppDelegate.swift in Sources */,
 				F16395412940FE5000DED7D7 /* ChatViewController.swift in Sources */,
 				F16395252940FB3700DED7D7 /* SceneDelegate.swift in Sources */,
+				F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */,
 				F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */,
+				F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

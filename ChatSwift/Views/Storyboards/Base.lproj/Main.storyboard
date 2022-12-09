@@ -172,7 +172,7 @@
                     <connections>
                         <outlet property="passwordField" destination="aHV-Uu-3BJ" id="ioG-sb-tnT"/>
                         <outlet property="usernameField" destination="fuY-SC-IHW" id="UnH-oK-QLz"/>
-                        <segue destination="tlg-Kj-857" kind="presentation" modalPresentationStyle="fullScreen" id="NyU-ed-MCY"/>
+                        <segue destination="tlg-Kj-857" kind="presentation" identifier="loginSegue" modalPresentationStyle="fullScreen" id="NyU-ed-MCY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DQQ-d2-wuX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -213,8 +213,9 @@
         <!--Text Me-->
         <scene sceneID="cyu-Tq-WoL">
             <objects>
-                <navigationController title="Text Me" automaticallyAdjustsScrollViewInsets="NO" id="tlg-Kj-857" sceneMemberID="viewController">
+                <navigationController restorationIdentifier="LoginNav" storyboardIdentifier="LoginNav" title="Text Me" automaticallyAdjustsScrollViewInsets="NO" id="tlg-Kj-857" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="hsj-bw-VYn"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="1E4-6r-wiE">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>

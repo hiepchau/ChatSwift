@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class User{
+final class UserModel : BaseModel {
     var username: String?
     var password: String?
     
@@ -25,4 +25,5 @@ final class User{
     var nsDictionary: NSDictionary {
         return dictionary as NSDictionary
     }
+    
 }

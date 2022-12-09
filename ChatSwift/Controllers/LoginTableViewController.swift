@@ -39,38 +39,8 @@ class LoginTableViewController: UITableViewController {
             return
         }
         
+        spinner.show(in: view)
    
-//        storeUserInformation()
-        
-        getUserData()
-//        spinner.show(in: view)
-//        performSegue(withIdentifier: "segue", sender: self)
-    }
-    
-    private func storeUserInformation(){
-        let userData = User(username: usernameField.text, password: passwordField.text)
-        db.collection("users").document().setData(userData.dictionary as [String : Any]){ err in
-            if let err = err {
-                print("Error writing document: \(err)")
-            } else {
-                print("Document successfully written!")
-            }
-        }
-        print("ham` dc chay")
-    }
-
-    private func getUserData(){
-        
-//        db.collection("users").getDocuments() { (querySnapshot, err) in
-//            if let err = err {
-//                print("Error getting documents: \(err)")
-//            } else {
-//                for document in querySnapshot!.documents {
-//                    print(document.data())
-//                }
-//            }
-//        }
-        // Create a reference to the cities collection
         let userRef = db.collection("users")
 
         // Create a query against the collection.
@@ -78,27 +48,39 @@ class LoginTableViewController: UITableViewController {
             .whereField("password", isEqualTo: passwordField.text!)
         
         
-        query.getDocuments(completion: { (querySnapshot, err) in
+        query.getDocuments(completion: { [self](querySnapshot, err) in
+            DispatchQueue.main.async {
+                self.spinner.dismiss()
+            }
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-//                    guard let refdata = document.data(), !refdata.isEmpty else{
-//                        print("nothing")
-//                    }
-                    let flag = document.data().isEmpty
-                    print(flag)
-                    if flag{
-                        print("nothing")
-                    }
-                    else {
-                        print(document.data())
-                    }
+                        
+                    UserDefaults.standard.set(document.documentID, forKey: "loginToken")
+                    let name = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
+                    print("Token: \(name)")
+                    print("Logged in with user: \(document.data())")
+
+                    performSegue(withIdentifier: "loginSegue", sender: self)
                 }
             }
         })
        
-  }
+    }
+    
+    private func storeUserInformation(){
+        let userData = UserModel(username: usernameField.text, password: passwordField.text)
+        db.collection("users").document().setData(userData.dictionary as [String : Any]){ err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+    }
+
+
     
     func alertUserLoginError() {
         let alert = UIAlertController(title: "Error", message: "Please fill information", preferredStyle: .alert)

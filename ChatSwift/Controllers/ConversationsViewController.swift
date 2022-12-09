@@ -29,13 +29,15 @@ class ConversationsViewController: UIViewController {
         return label
     }()
     
+//MARK: - Load view
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(didTapComposeButton))
-        
+        let name = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
+        print(name)
         view.addSubview(tableView)
         view.addSubview(noConversationsLabel)
         setupTableView()
