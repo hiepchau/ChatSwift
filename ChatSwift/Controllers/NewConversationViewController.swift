@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class NewConversationViewController: UIViewController {
 
-    var items:[String] = ["user1", "user2", "user3", "user4", "user5"]
-
+    var users = [UserModel]()
+    let db = Firestore.firestore()
+    
     public var completionHandler: ((String) ->Void)?
     
     private let searchBar: UISearchBar = {
@@ -36,10 +38,14 @@ class NewConversationViewController: UIViewController {
         return label
     }()
     
+    
+    // MARK: - Load view
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(noResultLabel)
         view.addSubview(tableView)
+        
+        fetchUsersData()
         
         setupTableView()
         searchBar.delegate = self
@@ -70,25 +76,41 @@ class NewConversationViewController: UIViewController {
     @objc private func dismissSelf(){
         dismiss(animated: true, completion: nil)
     }
+    //MARK: DB
+    private func fetchUsersData(){
+        db.collection("users").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print(document.data())
+                    self.users.append(.init(data: document.data()))
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                print("Fetch success")
+            }
+        }
+        
+    }
 }
 
 extension NewConversationViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(items.count)
-        return items.count
+        return users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = items[indexPath.row]
-        print(cell.textLabel?.text)
+        cell.textLabel?.text = users[indexPath.row].username
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let targetUserData = items[indexPath.row]
+        let targetUserData = users[indexPath.row].username
         
         dismiss(animated: true, completion: { [weak self] in
             self?.completionHandler?(targetUserData)

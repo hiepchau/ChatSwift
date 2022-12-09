@@ -8,18 +8,15 @@
 import Foundation
 
 final class UserModel : BaseModel {
-    var username: String?
-    var password: String?
     
-    convenience init(username: String?, password: String?) {
-        self.init()
-        self.username = username
-        self.password = password
+    let username: String
+    
+    init(data: [String: Any?]) {
+        self.username = data["username"] as? String ?? ""
     }
     
     var dictionary: [String: Any?] {
-        return ["username": username,
-                "password": password]
+        return ["username": username]
     }
     
     var nsDictionary: NSDictionary {

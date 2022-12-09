@@ -11,12 +11,12 @@ import FirebaseFirestore
 
 class DatabaseManage {
     static let shared = DatabaseManage()
-    private let currentUser = UserModel()
     private var isLoggedIn = false
-    private let db = Firestore.firestore()
+    private let db: Firestore
     
-    public func test(){
-
+    init(){
+        
+        self.db = Firestore.firestore()
     }
     
     public func authenticate(username: String?, password: String?) -> Bool?{

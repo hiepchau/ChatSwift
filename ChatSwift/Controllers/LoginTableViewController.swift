@@ -61,27 +61,12 @@ class LoginTableViewController: UITableViewController {
                     let name = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
                     print("Token: \(name)")
                     print("Logged in with user: \(document.data())")
-
                     performSegue(withIdentifier: "loginSegue", sender: self)
                 }
             }
         })
        
     }
-    
-    private func storeUserInformation(){
-        let userData = UserModel(username: usernameField.text, password: passwordField.text)
-        db.collection("users").document().setData(userData.dictionary as [String : Any]){ err in
-            if let err = err {
-                print("Error writing document: \(err)")
-            } else {
-                print("Document successfully written!")
-            }
-        }
-    }
-
-
-    
     func alertUserLoginError() {
         let alert = UIAlertController(title: "Error", message: "Please fill information", preferredStyle: .alert)
         

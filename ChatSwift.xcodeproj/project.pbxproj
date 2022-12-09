@@ -24,6 +24,8 @@
 		F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173D5C32941EE5C00DDF7DE /* UserModel.swift */; };
 		F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBF42942CBE500D65D69 /* BaseModel.swift */; };
 		F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */; };
+		F1B2BBFB294312F200D65D69 /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBFA294312F200D65D69 /* ConversationModel.swift */; };
+		F1B2BBFD294313A200D65D69 /* MessagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBFC294313A200D65D69 /* MessagesModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,8 @@
 		F173D5C32941EE5C00DDF7DE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		F1B2BBF42942CBE500D65D69 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		F1B2BBFA294312F200D65D69 /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModel.swift; sourceTree = "<group>"; };
+		F1B2BBFC294313A200D65D69 /* MessagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,8 @@
 			children = (
 				F1B2BBF42942CBE500D65D69 /* BaseModel.swift */,
 				F173D5C32941EE5C00DDF7DE /* UserModel.swift */,
+				F1B2BBFA294312F200D65D69 /* ConversationModel.swift */,
+				F1B2BBFC294313A200D65D69 /* MessagesModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -286,8 +292,10 @@
 				F16395432940FE6A00DED7D7 /* ConversationsViewController.swift in Sources */,
 				F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */,
 				F16395232940FB3700DED7D7 /* AppDelegate.swift in Sources */,
+				F1B2BBFD294313A200D65D69 /* MessagesModel.swift in Sources */,
 				F16395412940FE5000DED7D7 /* ChatViewController.swift in Sources */,
 				F16395252940FB3700DED7D7 /* SceneDelegate.swift in Sources */,
+				F1B2BBFB294312F200D65D69 /* ConversationModel.swift in Sources */,
 				F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */,
 				F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */,
 				F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */,
