@@ -83,7 +83,6 @@ class NewConversationViewController: UIViewController {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    dump(document.data())
                     self.users.append(.init(data: document.data()))
                 }
                 DispatchQueue.main.async {

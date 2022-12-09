@@ -60,18 +60,29 @@ class ConversationsViewController: UIViewController {
     //MARK: New conversation
     private func createNewConversation(result: [String: String]) {
         let vc = ChatViewController()
-//        let arrayUser = [[String: String]]()
+        var arrayUser = [[String: Any]]()
         print(result)
-//        arrayUser.append(result)
+        arrayUser.append(result)
+        arrayUser.append(UserDefaults.standard.dictionary(forKey: "CURUSER")!)
         vc.title = result["username"]!
+        
+        let uuid = UUID().uuidString
         
         if let unwrappedUid = result["uid"]{
             let name = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
             print("UID1: \(name), UID2; \(String(describing: unwrappedUid))")
-            
             //MARK: Add database
-//            DatabaseManage.shared.db.collection("conversation").document().collection("users").document(unwrappedUid!).setData(result as [String : Any])
-//            DatabaseManage.shared.db.collection("conversation").document().collection("users").document(unwrappedUid!).setData(result as [String : Any])
+            for data in arrayUser {
+                DatabaseManage.shared.db.collection("conversation").document(uuid)
+                    .collection("users").document(data["uid"] as! String).setData(data){ err in
+                    if let err = err {
+                        print("Error writing document: \(err)")
+                    } else {
+                        print("Conversation successfully written!")
+                    }
+                }
+            }
+
         }
 
         
@@ -113,3 +124,4 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         print("flag")
     }
 }
+

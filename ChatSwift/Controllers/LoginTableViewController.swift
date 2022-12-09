@@ -57,10 +57,11 @@ class LoginTableViewController: UITableViewController {
             } else {
                 for document in querySnapshot!.documents {
                         
-                    UserDefaults.standard.set(document.documentID, forKey: "loginToken")
-                    let name = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
-                    UserDefaults.standard.set(document.data(), forKey: "currentUser")
-                    let currentUser = UserDefaults.standard.dictionary(forKey: "currentUser")
+                    UserDefaults.standard.set(document.documentID, forKey: "LOGINTOKEN")
+                    let name = UserDefaults.standard.string(forKey: "LOGINTOKEN") ?? "Nothing"
+                    let tempUser = UserModel(data: document.data())
+                    UserDefaults.standard.set(tempUser.dictionary, forKey: "CURUSER")
+                    let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
                     print("Token: \(name)")
                     print("Logged in with user: \(currentUser!)")
                     performSegue(withIdentifier: "loginSegue", sender: self)
