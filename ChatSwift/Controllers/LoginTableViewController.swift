@@ -59,8 +59,10 @@ class LoginTableViewController: UITableViewController {
                         
                     UserDefaults.standard.set(document.documentID, forKey: "loginToken")
                     let name = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
+                    UserDefaults.standard.set(document.data(), forKey: "currentUser")
+                    let currentUser = UserDefaults.standard.dictionary(forKey: "currentUser")
                     print("Token: \(name)")
-                    print("Logged in with user: \(document.data())")
+                    print("Logged in with user: \(currentUser!)")
                     performSegue(withIdentifier: "loginSegue", sender: self)
                 }
             }

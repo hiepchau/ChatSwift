@@ -13,7 +13,7 @@ class NewConversationViewController: UIViewController {
     var users = [UserModel]()
     let db = Firestore.firestore()
     
-    public var completionHandler: ((String) ->Void)?
+    public var completionHandler: (([String: String]) ->Void)?
     
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -83,7 +83,7 @@ class NewConversationViewController: UIViewController {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    print(document.data())
+                    dump(document.data())
                     self.users.append(.init(data: document.data()))
                 }
                 DispatchQueue.main.async {
@@ -110,10 +110,10 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let targetUserData = users[indexPath.row].username
+        let targetUserData = users[indexPath.row]
         
         dismiss(animated: true, completion: { [weak self] in
-            self?.completionHandler?(targetUserData)
+            self?.completionHandler?(targetUserData.dictionary)
         })
 
     }

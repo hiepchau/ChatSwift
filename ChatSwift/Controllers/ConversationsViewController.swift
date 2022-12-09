@@ -7,7 +7,7 @@
 
 import UIKit
 import JGProgressHUD
-
+import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
@@ -36,8 +36,6 @@ class ConversationsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(didTapComposeButton))
-        let name = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
-        print(name)
         view.addSubview(tableView)
         view.addSubview(noConversationsLabel)
         setupTableView()
@@ -47,7 +45,6 @@ class ConversationsViewController: UIViewController {
     @objc private func didTapComposeButton() {
         let vc = NewConversationViewController()
         vc.completionHandler = { [weak self] result in
-            print("\(result)")
             self?.createNewConversation(result: result)
         }
         let navVC = UINavigationController(rootViewController: vc)
@@ -59,13 +56,27 @@ class ConversationsViewController: UIViewController {
         tableView.frame = view.bounds
         noConversationsLabel.frame = view.bounds
     }
-    
-    private func createNewConversation(result: String){
+
+    //MARK: New conversation
+    private func createNewConversation(result: [String: String]) {
         let vc = ChatViewController()
-        vc.title = result
+//        let arrayUser = [[String: String]]()
+        print(result)
+//        arrayUser.append(result)
+        vc.title = result["username"]!
+        
+        if let unwrappedUid = result["uid"]{
+            let name = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
+            print("UID1: \(name), UID2; \(String(describing: unwrappedUid))")
+            
+            //MARK: Add database
+//            DatabaseManage.shared.db.collection("conversation").document().collection("users").document(unwrappedUid!).setData(result as [String : Any])
+//            DatabaseManage.shared.db.collection("conversation").document().collection("users").document(unwrappedUid!).setData(result as [String : Any])
+        }
+
+        
         vc.isNewConversation = true
         vc.navigationItem.largeTitleDisplayMode = .never
-        
         navigationController?.pushViewController(vc, animated: true)
     }
     

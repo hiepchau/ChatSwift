@@ -12,10 +12,9 @@ import FirebaseFirestore
 class DatabaseManage {
     static let shared = DatabaseManage()
     private var isLoggedIn = false
-    private let db: Firestore
+    let db: Firestore
     
     init(){
-        
         self.db = Firestore.firestore()
     }
     
@@ -37,4 +36,14 @@ class DatabaseManage {
         })
         return isLoggedIn
     }
+    
+//    public func getAllUsers(completion: @escaping (Result<[[String: String]], Error>) -> Void){
+//        db.collection("users").getDocuments() { (querySnapshot, err) in
+//            if let err = err {
+//                print("Error getting documents: \(err)")
+//            } else {
+//                completion(querySnapshot!.documents)
+//            }
+//        }
+//    }
 }
