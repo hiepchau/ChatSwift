@@ -41,7 +41,7 @@ class LoginTableViewController: UITableViewController {
         
         spinner.show(in: view)
    
-        let userRef = db.collection("users")
+        let userRef = db.collection("user")
 
         // Create a query against the collection.
         let query = userRef.whereField("username", isEqualTo: usernameField.text!)
@@ -58,11 +58,11 @@ class LoginTableViewController: UITableViewController {
                 for document in querySnapshot!.documents {
                         
                     UserDefaults.standard.set(document.documentID, forKey: "LOGINTOKEN")
-                    let name = UserDefaults.standard.string(forKey: "LOGINTOKEN") ?? "Nothing"
+                    let name = UserDefaults.standard.string(forKey: "LOGINTOKEN")
                     let tempUser = UserModel(data: document.data())
                     UserDefaults.standard.set(tempUser.dictionary, forKey: "CURUSER")
                     let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
-                    print("Token: \(name)")
+                    print("Token: \(String(describing: name))")
                     print("Logged in with user: \(currentUser!)")
                     performSegue(withIdentifier: "loginSegue", sender: self)
                 }

@@ -78,7 +78,7 @@ class NewConversationViewController: UIViewController {
     }
     //MARK: DB
     private func fetchUsersData(){
-        db.collection("users").getDocuments() { (querySnapshot, err) in
+        db.collection("user").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {

@@ -69,12 +69,21 @@ class ConversationsViewController: UIViewController {
         let uuid = UUID().uuidString
         
         if let unwrappedUid = result["uid"]{
-            let name = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
-            print("UID1: \(name), UID2; \(String(describing: unwrappedUid))")
+            let documentData: [String: Any] = ["id": uuid, "name": result["username"]!]
+            let refConversation = DatabaseManage.shared.db.collection("conversation").document(uuid)
+           refConversation.setData(documentData){ err in
+                if let err = err {
+                    print("Error writing document: \(err)")
+                } else {
+                    print("Conversation successfully written!")
+                }
+            }
+            
+            let cur = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
+            print("UID1: \(cur), UID2: \(String(describing: unwrappedUid))")
             //MARK: Add database
             for data in arrayUser {
-                DatabaseManage.shared.db.collection("conversation").document(uuid)
-                    .collection("users").document(data["uid"] as! String).setData(data){ err in
+                refConversation.collection("users").document(data["uid"] as! String).setData(data){ err in
                     if let err = err {
                         print("Error writing document: \(err)")
                     } else {
@@ -84,7 +93,6 @@ class ConversationsViewController: UIViewController {
             }
 
         }
-
         
         vc.isNewConversation = true
         vc.navigationItem.largeTitleDisplayMode = .never
@@ -98,6 +106,19 @@ class ConversationsViewController: UIViewController {
     
     private func fecthConversation(){
         tableView.isHidden = false
+        let curID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
+
+        DatabaseManage.shared.db.collectionGroup("users").whereField("uid", isEqualTo: curID!).getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents{
+                    print(document.data())
+                    print(document.reference.parent.parent!.documentID)
+                }
+                print("Fetch success")
+            }
+        }
     }
 }
 
