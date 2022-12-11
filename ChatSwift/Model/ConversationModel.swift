@@ -7,20 +7,19 @@
 
 import Foundation
 
-final class ConversationModel : BaseModel {
+final class ConversationModel : BaseModel, Identifiable {
+    var conversationID: String { id }
     
     let id , name: String
     var users = [UserModel]()
     
     init(data: [String: Any?]) {
         self.id = data["id"] as? String ?? ""
-        self.users = data["users"] as? [UserModel] ?? []
         self.name = data["name"] as? String ?? ""
     }
     
-    var dictionary: [String: Any] {
+    var dictionary: [String: String] {
         return ["id": id,
-                "users": users,
                 "name": name]
     }
     

@@ -11,7 +11,7 @@ import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
-    
+    var listConversation = [ConversationModel]()
     private let tableView: UITableView = {
         let table = UITableView()
         table.isHidden = true
@@ -108,14 +108,26 @@ class ConversationsViewController: UIViewController {
         tableView.isHidden = false
         let curID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
 
-        DatabaseManage.shared.db.collectionGroup("users").whereField("uid", isEqualTo: curID!).getDocuments { (querySnapshot, err) in
+        DatabaseManage.shared.db.collectionGroup("users").whereField("uid", isEqualTo: curID!).getDocuments { [self](querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents{
-                    print(document.data())
-                    print(document.reference.parent.parent!.documentID)
+                    //Get conversation data
+                    document.reference.parent.parent!.getDocument(completion: { snapShot, error in
+                        if let error = error{
+                            print("Error getting documents: \(error)")
+                        } else {
+                            print("Data conversation: \(snapShot!.data() ?? [:])")
+                            self.listConversation.append(.init(data: snapShot!.data() ?? [:]))
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                            print("List conver: \(self.listConversation.count)")
+                        }
+                    })
                 }
+                print("List conver: \(self.listConversation.count)")
                 print("Fetch success")
             }
         }
@@ -124,13 +136,12 @@ class ConversationsViewController: UIViewController {
 
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return listConversation.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "Helo"
-        cell.accessoryType = .disclosureIndicator
+        cell.textLabel?.text = listConversation[indexPath.row].name
         return cell
     }
     
@@ -138,11 +149,9 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         tableView.deselectRow(at: indexPath, animated: true)
 
         let vc = ChatViewController()
-        vc.title = "hi"
+        vc.title = listConversation[indexPath.row].name
         vc.navigationItem.largeTitleDisplayMode = .never
-        
         navigationController?.pushViewController(vc, animated: true)
-        print("flag")
     }
 }
 
