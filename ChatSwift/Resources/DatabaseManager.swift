@@ -13,11 +13,11 @@ class DatabaseManage {
     static let shared = DatabaseManage()
     private var isLoggedIn = false
     let db: Firestore
-    
+
     init(){
         self.db = Firestore.firestore()
     }
-    
+    //TODO: Create method get value (user, conversation, message)
     public func authenticate(username: String?, password: String?) -> Bool?{
         let userRef = db.collection("users")
         // Create a query against the collection.

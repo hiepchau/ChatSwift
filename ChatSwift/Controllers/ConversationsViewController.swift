@@ -39,9 +39,20 @@ class ConversationsViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(noConversationsLabel)
         setupTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         fecthConversation()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
+        noConversationsLabel.frame = view.bounds
+    }
+    
+//MARK: - Function
     @objc private func didTapComposeButton() {
         let vc = NewConversationViewController()
         vc.completionHandler = { [weak self] result in
@@ -50,12 +61,7 @@ class ConversationsViewController: UIViewController {
         let navVC = UINavigationController(rootViewController: vc)
         present(navVC, animated: true)
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
-        noConversationsLabel.frame = view.bounds
-    }
+
 
     //MARK: New conversation
     private func createNewConversation(result: [String: String]) {
@@ -75,7 +81,7 @@ class ConversationsViewController: UIViewController {
                 if let err = err {
                     print("Error writing document: \(err)")
                 } else {
-                    print("Conversation successfully written!")
+                    print("Conversation successfully written: fields!")
                 }
             }
             
@@ -87,7 +93,7 @@ class ConversationsViewController: UIViewController {
                     if let err = err {
                         print("Error writing document: \(err)")
                     } else {
-                        print("Conversation successfully written!")
+                        print("Conversation successfully written: user collection!")
                     }
                 }
             }
@@ -105,10 +111,15 @@ class ConversationsViewController: UIViewController {
     }
     
     private func fecthConversation(){
+        listConversation = []
         tableView.isHidden = false
         let curID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
-
+        spinner.show(in: view)
+        
         DatabaseManage.shared.db.collectionGroup("users").whereField("uid", isEqualTo: curID!).getDocuments { [self](querySnapshot, err) in
+            DispatchQueue.main.async {
+                self.spinner.dismiss()
+            }
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -123,11 +134,10 @@ class ConversationsViewController: UIViewController {
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
                             }
-                            print("List conver: \(self.listConversation.count)")
                         }
                     })
+                    print("Conversation count: \(self.listConversation.count)")
                 }
-                print("List conver: \(self.listConversation.count)")
                 print("Fetch success")
             }
         }
