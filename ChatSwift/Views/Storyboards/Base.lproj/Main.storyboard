@@ -57,7 +57,7 @@
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aHV-Uu-3BJ">
                                                     <rect key="frame" x="30" y="358" width="354" height="40"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" textContentType="password"/>
+                                                    <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="wzp-UO-3Dm">
                                                     <rect key="frame" x="133.5" y="438" width="147" height="37"/>
@@ -66,8 +66,7 @@
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="loginButtonTapped" destination="gQT-IV-Ix2" eventType="touchUpOutside" id="4cV-Sa-GVX"/>
-                                                        <segue destination="nol-Rr-IGL" kind="presentation" identifier="segue" modalPresentationStyle="fullScreen" id="Yb3-PZ-Efz"/>
+                                                        <action selector="loginButtonTapped" destination="gQT-IV-Ix2" eventType="touchUpInside" id="Km2-rk-8DV"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="LTi-a9-267">
@@ -173,13 +172,14 @@
                     <connections>
                         <outlet property="passwordField" destination="aHV-Uu-3BJ" id="ioG-sb-tnT"/>
                         <outlet property="usernameField" destination="fuY-SC-IHW" id="UnH-oK-QLz"/>
+                        <segue destination="tlg-Kj-857" kind="presentation" identifier="loginSegue" modalPresentationStyle="fullScreen" id="NyU-ed-MCY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DQQ-d2-wuX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-993" y="90"/>
         </scene>
-        <!--Conversations View Controller-->
+        <!--Text Me-->
         <scene sceneID="qFd-rE-6fJ">
             <objects>
                 <viewController id="nol-Rr-IGL" customClass="ConversationsViewController" customModule="ChatSwift" customModuleProvider="target" sceneMemberID="viewController">
@@ -189,10 +189,11 @@
                         <viewLayoutGuide key="safeArea" id="Ww6-0C-lDi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Text Me" id="zu9-TR-JmK"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rjG-af-d7z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3" y="100"/>
+            <point key="canvasLocation" x="905.79710144927549" y="99.776785714285708"/>
         </scene>
         <!--Messages View Controller-->
         <scene sceneID="NYQ-PT-AJF">
@@ -207,7 +208,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y2B-Hq-dAl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="835" y="100"/>
+            <point key="canvasLocation" x="1744.9275362318842" y="99.776785714285708"/>
+        </scene>
+        <!--Text Me-->
+        <scene sceneID="cyu-Tq-WoL">
+            <objects>
+                <navigationController restorationIdentifier="LoginNav" storyboardIdentifier="LoginNav" title="Text Me" automaticallyAdjustsScrollViewInsets="NO" id="tlg-Kj-857" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="hsj-bw-VYn"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="1E4-6r-wiE">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="nol-Rr-IGL" kind="relationship" relationship="rootViewController" id="uD2-Im-KgU"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CK7-3S-KSU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4.3478260869565224" y="99.776785714285708"/>
         </scene>
     </scenes>
     <resources>

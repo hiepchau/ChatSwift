@@ -7,11 +7,18 @@
 
 import UIKit
 import JGProgressHUD
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseAnalytics
+
+
 class LoginTableViewController: UITableViewController {
+    
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     private let spinner = JGProgressHUD(style: .dark)
-
+    
+//MARK: - LoadView
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameField.delegate = self
@@ -19,19 +26,46 @@ class LoginTableViewController: UITableViewController {
 
         // Do any additional setup after loading the view.
     }
-    
+    //TODO: setdata for firestore
     @IBAction func loginButtonTapped(){
         usernameField.resignFirstResponder()
         passwordField.resignFirstResponder()
+
         guard let email = usernameField.text, let password = passwordField.text, !email.isEmpty, password.count >= 6 else {
             alertUserLoginError()
             return
         }
-//        spinner.show(in: view)
-//        performSegue(withIdentifier: "segue", sender: self)
-    }
-    
+        
+        spinner.show(in: view)
+   
+        let userRef = DatabaseManage.shared.db.collection("user")
 
+        // Create a query against the collection.
+        let query = userRef.whereField("username", isEqualTo: usernameField.text!)
+            .whereField("password", isEqualTo: passwordField.text!)
+        
+        
+        query.getDocuments(completion: { [self](querySnapshot, err) in
+            DispatchQueue.main.async {
+                self.spinner.dismiss()
+            }
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                        
+                    UserDefaults.standard.set(document.documentID, forKey: "LOGINTOKEN")
+                    let token = UserDefaults.standard.string(forKey: "LOGINTOKEN")
+                    let tempUser = UserModel(data: document.data())
+                    UserDefaults.standard.set(tempUser.dictionary, forKey: "CURUSER")
+                    let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
+                    print("Logged in with user: \(currentUser!); Token: \(String(describing: token))")
+                    performSegue(withIdentifier: "loginSegue", sender: self)
+                }
+            }
+        })
+       
+    }
     func alertUserLoginError() {
         let alert = UIAlertController(title: "Error", message: "Please fill information", preferredStyle: .alert)
         

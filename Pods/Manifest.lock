@@ -5,22 +5,38 @@ PODS:
   - JGProgressHUD (2.2)
   - MessageKit (3.8.0):
     - InputBarAccessoryView (~> 5.5.0)
+  - Realm (10.33.0):
+    - Realm/Headers (= 10.33.0)
+  - Realm/Headers (10.33.0)
+  - RealmSwift (10.33.0):
+    - Realm (= 10.33.0)
+  - SDWebImage (5.14.2):
+    - SDWebImage/Core (= 5.14.2)
+  - SDWebImage/Core (5.14.2)
 
 DEPENDENCIES:
   - JGProgressHUD
   - MessageKit
+  - RealmSwift
+  - SDWebImage
 
 SPEC REPOS:
   trunk:
     - InputBarAccessoryView
     - JGProgressHUD
     - MessageKit
+    - Realm
+    - RealmSwift
+    - SDWebImage
 
 SPEC CHECKSUMS:
   InputBarAccessoryView: 1d7b0a672b36e370f01f264b3907ef39d03328e3
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   MessageKit: a1ba0c69ebead94029867853eb44dd05b9b3f453
+  Realm: d4f810e161fa2c2c589b9860b6eb09238deacd73
+  RealmSwift: cef9946f09f2333a8f2ac8bac4f8de52fb9f5ac3
+  SDWebImage: b9a731e1d6307f44ca703b3976d18c24ca561e84
 
-PODFILE CHECKSUM: 1100988c038cf6905af457fdbd552d18c6c4486b
+PODFILE CHECKSUM: e29dbb88d4d53578e2c6563fa6db879044f38e87
 
 COCOAPODS: 1.11.3
