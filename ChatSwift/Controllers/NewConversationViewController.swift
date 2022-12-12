@@ -59,6 +59,7 @@ class NewConversationViewController: UIViewController {
 
         searchBar.becomeFirstResponder()
     }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
@@ -94,7 +95,9 @@ class NewConversationViewController: UIViewController {
         
     }
 }
+//MARK: - Extension
 
+//TODO: search querry func
 extension NewConversationViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

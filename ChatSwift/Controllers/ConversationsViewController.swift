@@ -136,14 +136,15 @@ class ConversationsViewController: UIViewController {
                             }
                         }
                     })
-                    print("Conversation count: \(self.listConversation.count)")
                 }
                 print("Fetch success")
             }
         }
     }
 }
+//MARK: - Extension
 
+//TODO: custom cell
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listConversation.count
@@ -160,6 +161,7 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
 
         let vc = ChatViewController()
         vc.title = listConversation[indexPath.row].name
+        vc.currentConversationID = listConversation[indexPath.row].id
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
