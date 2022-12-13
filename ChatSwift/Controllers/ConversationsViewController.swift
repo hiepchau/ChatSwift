@@ -11,6 +11,9 @@ import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
+    let curID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
+
+
     var listConversation = [ConversationModel]()
     private let tableView: UITableView = {
         let table = UITableView()
@@ -43,7 +46,9 @@ class ConversationsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        fecthConversation()
+        fecthConversation(){
+            print("Fetch conversation success")
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -52,99 +57,125 @@ class ConversationsViewController: UIViewController {
         noConversationsLabel.frame = view.bounds
     }
     
+    private func setupTableView(){
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
 //MARK: - Function
+    
     @objc private func didTapComposeButton() {
+        //Handle from NewConversationViewController
         let vc = NewConversationViewController()
         vc.completionHandler = { [weak self] result in
-            self?.createNewConversation(result: result)
+            self?.handleChatViewController(result: result)
         }
         let navVC = UINavigationController(rootViewController: vc)
         present(navVC, animated: true)
     }
 
-
-    //MARK: New conversation
+    //Check exsists conversation
+    private func handleChatViewController(result: [String: String]){
+        if let receivedUid = result["uid"] {
+            checkExists(id: receivedUid, completion: { [self] flag, resID, name in
+                if flag {
+                    print("Navigate: \(flag)")
+                    navigateToChatView(id: resID, name: name)
+                } else {
+                    print("Create new")
+                    createNewConversation(result: result)
+                }
+            })
+        }
+        
+    }
+    
+    //New conversation
     private func createNewConversation(result: [String: String]) {
-        let vc = ChatViewController()
-        var arrayUser = [[String: Any]]()
-        print(result)
-        arrayUser.append(result)
-        arrayUser.append(UserDefaults.standard.dictionary(forKey: "CURUSER")!)
-        vc.title = result["username"]!
-        
+        var arrayUser = [String]()
+        arrayUser.append(curID!)
+        //Create new Conversation
         let uuid = UUID().uuidString
-        
         if let unwrappedUid = result["uid"]{
-            let documentData: [String: Any] = ["id": uuid, "name": result["username"]!]
+            arrayUser.append(unwrappedUid)
+            let documentData: [String: Any] = ["id": uuid, "name": result["username"]!, "users": arrayUser]
             let refConversation = DatabaseManage.shared.db.collection("conversation").document(uuid)
            refConversation.setData(documentData){ err in
                 if let err = err {
                     print("Error writing document: \(err)")
+                    //TODO: handle
+                    return
                 } else {
                     print("Conversation successfully written: fields!")
                 }
             }
-            
-            let cur = UserDefaults.standard.string(forKey: "loginToken") ?? "Nothing"
-            print("UID1: \(cur), UID2: \(String(describing: unwrappedUid))")
-            //MARK: Add database
-            for data in arrayUser {
-                refConversation.collection("users").document(data["uid"] as! String).setData(data){ err in
-                    if let err = err {
-                        print("Error writing document: \(err)")
-                    } else {
-                        print("Conversation successfully written: user collection!")
-                    }
-                }
-            }
-
+            print("UID1: \(String(describing: curID)), UID2: \(String(describing: unwrappedUid))")
         }
-        
-        vc.isNewConversation = true
+        navigateToChatView(id: uuid, name: result["username"]!)
+    }
+    
+    private func navigateToChatView(id: String, name: String){
+        let vc = ChatViewController()
+        vc.isNewConversation = false
+        vc.currentConversationID = id
+        vc.title = name
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func setupTableView(){
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-    
-    private func fecthConversation(){
+    //fetch Conversation
+    private func fecthConversation(completion: @escaping () -> Void){
         listConversation = []
         tableView.isHidden = false
-        let curID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
         spinner.show(in: view)
+        let conversationRef = DatabaseManage.shared.db.collection("conversation")
         
-        DatabaseManage.shared.db.collectionGroup("users").whereField("uid", isEqualTo: curID!).getDocuments { [self](querySnapshot, err) in
+        //Get conversation list
+        conversationRef.whereField("users", arrayContainsAny: [curID!]).getDocuments { [self](querySnapshot, err) in
             DispatchQueue.main.async {
                 self.spinner.dismiss()
             }
             if let err = err {
                 print("Error getting documents: \(err)")
+                completion()
+                return
             } else {
                 for document in querySnapshot!.documents{
+                    print("Data conversation: \(document.data())")
                     //Get conversation data
-                    document.reference.parent.parent!.getDocument(completion: { snapShot, error in
-                        if let error = error{
-                            print("Error getting documents: \(error)")
-                        } else {
-                            print("Data conversation: \(snapShot!.data() ?? [:])")
-                            self.listConversation.append(.init(data: snapShot!.data() ?? [:]))
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
-                            }
-                        }
-                    })
+                    let temp = ConversationModel(data: document.data())
+                    listConversation.append(temp)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 }
-                print("Fetch success")
+                completion()
             }
         }
+        
+    }
+    
+    
+    private func checkExists(id: String, completion: @escaping (Bool, String, String) -> Void){
+        var flag = false
+        var convarsationID = ""
+        var name = ""
+        for item in listConversation {
+            let set = Set(item.users)
+            if [id, curID!].allSatisfy(set.contains) {
+                flag = true
+                convarsationID = item.id
+                name = item.name
+                completion(flag, convarsationID, name)
+                return
+            }
+        }
+        completion(flag, convarsationID, name)
     }
 }
+
 //MARK: - Extension
 
-//TODO: custom cell
+//TODO: Custom cell
 extension ConversationsViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listConversation.count
@@ -160,10 +191,12 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         tableView.deselectRow(at: indexPath, animated: true)
 
         let vc = ChatViewController()
-        vc.title = listConversation[indexPath.row].name
         vc.currentConversationID = listConversation[indexPath.row].id
+        vc.title = listConversation[indexPath.row].name
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
 }
+
+
 

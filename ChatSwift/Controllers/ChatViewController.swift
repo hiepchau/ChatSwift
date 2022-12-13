@@ -17,20 +17,19 @@ class ChatViewController: MessagesViewController {
     
     private var testMssg = [Message]()
     var currentConversationID = ""
+    var currentConversation = ConversationModel()
     static let currentToken = UserDefaults.standard.string(forKey: "LOGINTOKEN")
     public let selfSender = Sender(senderId: currentToken!, displayName: "self")
     public var isNewConversation = false
-    public let anotherSender = Sender(senderId: "2", displayName: "who")
-    public let another1Sender = Sender(senderId: "2", displayName: "whoa")
-
     
-  
+//MARK: - LoadView
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = false
+        
         view.backgroundColor = .blue
-        //TODO: Get conversation ID, Messages list, push mssg to db,
-
+        getConversationData()
+        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
@@ -40,6 +39,7 @@ class ChatViewController: MessagesViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchMessage(shouldScrollToBottom: true)
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,12 +68,24 @@ class ChatViewController: MessagesViewController {
                     let resMessage = MessageModel(data: change.document.data())
                     appendMessage(mssg: resMessage)
                 }
-
             })
             DispatchQueue.main.async {
                 self.messagesCollectionView.reloadDataAndKeepOffset()
                 if shouldScrollToBottom{
                     self.messagesCollectionView.scrollToLastItem()
+                }
+            }
+        }
+    }
+    
+    private func getConversationData(){
+        let conversationRef = DatabaseManage.shared.db.collection("conversation")
+        conversationRef.whereField("uid", isEqualTo: currentConversationID).getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    self.currentConversation =  ConversationModel(data: document.data())
                 }
             }
         }
