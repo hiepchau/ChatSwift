@@ -50,7 +50,7 @@ class ChatViewController: MessagesViewController {
     //MARK: - Func
     
     private func fetchMessage(shouldScrollToBottom: Bool) {
-        let messagesRef = DatabaseManage.shared.db.collection("messages")
+        let messagesRef = DatabaseManager.shared.db.collection("messages")
         print("Current conversation ID: \(currentConversationID)")
         let query = messagesRef.whereField("conversationID", isEqualTo: currentConversationID).order(by: "sentDate")
         spinner.show(in: view)
@@ -79,7 +79,7 @@ class ChatViewController: MessagesViewController {
     }
     
     private func getConversationData(){
-        let conversationRef = DatabaseManage.shared.db.collection("conversation")
+        let conversationRef = DatabaseManager.shared.db.collection("conversation")
         conversationRef.whereField("uid", isEqualTo: currentConversationID).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -111,7 +111,7 @@ class ChatViewController: MessagesViewController {
         }
 
         let data = MessageModel(message: sendMssg, conversationID: currentConversationID, text: text)
-        DatabaseManage.shared.db.collection("messages").document(sendMssg.messageId).setData(data.dictionary){ err in
+        DatabaseManager.shared.db.collection("messages").document(sendMssg.messageId).setData(data.dictionary){ err in
             if let err = err {
                 print("Error writing document: \(err)")
             } else {
@@ -121,7 +121,7 @@ class ChatViewController: MessagesViewController {
     }
     private func getUsernameByID(id: String) -> String{
         var result = ""
-        let userRef = DatabaseManage.shared.db.collection("user")
+        let userRef = DatabaseManager.shared.db.collection("user")
         
         // Create a query against the collection.
         let query = userRef.whereField("uid", isEqualTo: id)

@@ -9,8 +9,8 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 
-class DatabaseManage {
-    static let shared = DatabaseManage()
+class DatabaseManager {
+    static let shared = DatabaseManager()
     private var isLoggedIn = false
     let db: Firestore
 

@@ -10,6 +10,20 @@ import JGProgressHUD
 import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
+    private let floatingButton: UIButton = {
+        let floatingButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        floatingButton.layer.masksToBounds = true
+        floatingButton.backgroundColor = .blue
+        floatingButton.layer.cornerRadius = 30
+//        floatingButton.backgroundColor = .systemPink
+        let image = UIImage(systemName: "plus",
+                            withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
+        floatingButton.setImage(image, for: .normal)
+        floatingButton.setTitleColor(.white, for: .normal)
+        floatingButton.tintColor = .white
+        return floatingButton
+    }()
+    
     private let spinner = JGProgressHUD(style: .dark)
     let curID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
 
@@ -40,6 +54,7 @@ class ConversationsViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(didTapComposeButton))
         view.addSubview(tableView)
+        view.addSubview(floatingButton)
         view.addSubview(noConversationsLabel)
         setupTableView()
     }
@@ -98,7 +113,7 @@ class ConversationsViewController: UIViewController {
         if let unwrappedUid = result["uid"]{
             arrayUser.append(unwrappedUid)
             let documentData: [String: Any] = ["id": uuid, "name": result["username"]!, "users": arrayUser]
-            let refConversation = DatabaseManage.shared.db.collection("conversation").document(uuid)
+            let refConversation = DatabaseManager.shared.db.collection("conversation").document(uuid)
            refConversation.setData(documentData){ err in
                 if let err = err {
                     print("Error writing document: \(err)")
@@ -127,7 +142,7 @@ class ConversationsViewController: UIViewController {
         listConversation = []
         tableView.isHidden = false
         spinner.show(in: view)
-        let conversationRef = DatabaseManage.shared.db.collection("conversation")
+        let conversationRef = DatabaseManager.shared.db.collection("conversation")
         
         //Get conversation list
         conversationRef.whereField("users", arrayContainsAny: [curID!]).getDocuments { [self](querySnapshot, err) in
