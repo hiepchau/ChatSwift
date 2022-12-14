@@ -14,12 +14,14 @@ import SDWebImage
 import AVFoundation
 import AVKit
 import CoreLocation
+import SwiftUI
 
 class ChatViewController: MessagesViewController {
 
     private let spinner = JGProgressHUD(style: .dark)
     
     private var messages = [Message]()
+    var currentCountCell = -1
     var currentConversationID = ""
     var currentConversation = ConversationModel()
     static let currentToken = UserDefaults.standard.string(forKey: "LOGINTOKEN")
@@ -37,6 +39,7 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
         
         setupInputButton()
@@ -199,27 +202,57 @@ class ChatViewController: MessagesViewController {
             DispatchQueue.main.async {
                 self.messagesCollectionView.reloadDataAndKeepOffset()
                 if shouldScrollToBottom{
-                    self.messagesCollectionView.scrollToLastItem()
+                    self.messagesCollectionView.scrollToLastItem(animated: false)
                 }
+            }
+        }
+    }
+    
+    private func GetImageFromURL(url: URL, row: Int) {
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: url) else {
+                return
+            }
+            let media = Media(url: url,
+                              image: UIImage(data: data),
+                              placeholderImage: UIImage(systemName: "photo")!,
+                              size: CGSize(width: 300, height: 300))
+        
+            let indexPath = IndexPath(row: row, section: 0)
+            self.messages[row].kind = .photo(media)
+
+            DispatchQueue.main.async {
+                self.messagesCollectionView.reloadItems(at: [indexPath])
             }
         }
     }
 
     private func appendMessage(mssg: MessageModel) {
         print("Append executed")
-
+        currentCountCell += 1
         var currKind: MessageKind?
+      
         if mssg.kind == "photo"{
+
             guard let imageUrl = URL(string: mssg.content),
-            let placeHolder = UIImage(systemName: "plus") else {
+                  //TODO: Custom place holder
+                  let placeHolder = UIImage(systemName: "photo") else {
                 return
             }
+            
+            DispatchQueue.global().async {
+                self.GetImageFromURL(url: imageUrl, row: self.currentCountCell)
+            }
+
             let media = Media(url: imageUrl,
                               image: nil,
                               placeholderImage: placeHolder,
                               size: CGSize(width: 300, height: 300))
+            
+            print("Image URl: \(imageUrl)")
             currKind = .photo(media)
         }
+        
         else if mssg.kind == "video" {
             // photo
             guard let videoUrl = URL(string: mssg.content),
@@ -231,6 +264,7 @@ class ChatViewController: MessagesViewController {
                               image: nil,
                               placeholderImage: placeHolder,
                               size: CGSize(width: 300, height: 300))
+            print("Video URl: \(videoUrl)")
             currKind = .video(media)
         }
         else if mssg.kind == "location" {
@@ -252,18 +286,22 @@ class ChatViewController: MessagesViewController {
         guard let finalKind = currKind else{
             return
         }
+
+            // update UI
+            var sender = Sender(senderId: mssg.senderID, displayName: self.getUsernameByID(id: mssg.id))
+            
+            if(mssg.id == ChatViewController.currentToken){
+                sender = self.selfSender
+            }
+            self.messages.append(Message(sender: sender,
+                                    messageId: mssg.id,
+                                    sentDate: mssg.sentDate,
+                                    kind: finalKind))
         
-        var sender = Sender(senderId: mssg.senderID, displayName: getUsernameByID(id: mssg.id))
+            print("Count message: \(self.messages.count)")
         
-        if(mssg.id == ChatViewController.currentToken){
-            sender = selfSender
-        }
         
-        messages.append(Message(sender: sender,
-                                messageId: mssg.id,
-                                sentDate: mssg.sentDate,
-                                kind: finalKind))
-        print("Count message: \(self.messages.count)")
+
     }
     
     //Send to database
@@ -337,7 +375,6 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
         guard !text.replacingOccurrences(of: "", with: "").isEmpty else{
             return
         }
-
        
         let mssgID = createMessageID()
         DispatchQueue.main.async {
@@ -505,3 +542,4 @@ extension ChatViewController: MessageCellDelegate {
         }
     }
 }
+
