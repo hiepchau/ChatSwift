@@ -91,6 +91,7 @@ class ConversationsViewController: UIViewController {
     //Check exsists conversation
     private func handleChatViewController(result: [String: String]){
         if let receivedUid = result["uid"] {
+            print("RECEIVEUID: \(receivedUid)")
             checkExists(id: receivedUid, completion: { [self] flag, resID, name in
                 if flag {
                     print("Navigate: \(flag)")
@@ -108,11 +109,16 @@ class ConversationsViewController: UIViewController {
     private func createNewConversation(result: [String: String]) {
         var arrayUser = [String]()
         arrayUser.append(curID!)
+
         //Create new Conversation
         let uuid = UUID().uuidString
         if let unwrappedUid = result["uid"]{
             arrayUser.append(unwrappedUid)
-            let documentData: [String: Any] = ["id": uuid, "name": result["username"]!, "users": arrayUser]
+            var name = result["username"]!
+            if curID == unwrappedUid {
+                name = "self"
+            }
+            let documentData: [String: Any] = ["id": uuid, "name": name, "users": arrayUser]
             let refConversation = DatabaseManager.shared.db.collection("conversation").document(uuid)
            refConversation.setData(documentData){ err in
                 if let err = err {
@@ -137,6 +143,30 @@ class ConversationsViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    
+    private func checkExists(id: String, completion: @escaping (Bool, String, String) -> Void){
+        var flag = false
+        var conversationID = ""
+        var name = ""
+//        var tempID: String?
+//        if id == curID {
+//
+//        }
+
+        for item in listConversation {
+            let arrUser = item.users
+            
+            print("ARRAY: \(arrUser)")
+            if [curID!, id] == arrUser {
+                flag = true
+                conversationID = item.id
+                name = item.name
+                completion(flag, conversationID, name)
+                return
+            }
+        }
+        completion(flag, conversationID, name)
+    }
     //fetch Conversation
     private func fecthConversation(completion: @escaping () -> Void){
         listConversation = []
@@ -169,23 +199,6 @@ class ConversationsViewController: UIViewController {
         
     }
     
-    
-    private func checkExists(id: String, completion: @escaping (Bool, String, String) -> Void){
-        var flag = false
-        var convarsationID = ""
-        var name = ""
-        for item in listConversation {
-            let set = Set(item.users)
-            if [id, curID!].allSatisfy(set.contains) {
-                flag = true
-                convarsationID = item.id
-                name = item.name
-                completion(flag, convarsationID, name)
-                return
-            }
-        }
-        completion(flag, convarsationID, name)
-    }
 }
 
 //MARK: - Extension
