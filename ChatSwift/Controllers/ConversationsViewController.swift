@@ -54,7 +54,7 @@ class ConversationsViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(didTapComposeButton))
         view.addSubview(tableView)
-        view.addSubview(floatingButton)
+//        view.addSubview(floatingButton)
         view.addSubview(noConversationsLabel)
         setupTableView()
     }

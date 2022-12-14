@@ -31,6 +31,8 @@
 		F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */; };
 		F1B2BBFB294312F200D65D69 /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBFA294312F200D65D69 /* ConversationModel.swift */; };
 		F1B2BBFD294313A200D65D69 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBFC294313A200D65D69 /* MessageModel.swift */; };
+		F1BB257629495F9C00127807 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257529495F9C00127807 /* PhotoViewController.swift */; };
+		F1BB257829495FEE00127807 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257729495FED00127807 /* LocationPickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +58,8 @@
 		F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		F1B2BBFA294312F200D65D69 /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModel.swift; sourceTree = "<group>"; };
 		F1B2BBFC294313A200D65D69 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		F1BB257529495F9C00127807 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		F1BB257729495FED00127807 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +135,8 @@
 				F16395422940FE6A00DED7D7 /* ConversationsViewController.swift */,
 				F16395402940FE5000DED7D7 /* ChatViewController.swift */,
 				F16395462940FE9000DED7D7 /* NewConversationViewController.swift */,
+				F1BB257529495F9C00127807 /* PhotoViewController.swift */,
+				F1BB257729495FED00127807 /* LocationPickerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -315,7 +321,9 @@
 				F155219F294876620083F652 /* ConversationTableViewCell.swift in Sources */,
 				F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */,
 				F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */,
+				F1BB257629495F9C00127807 /* PhotoViewController.swift in Sources */,
 				F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */,
+				F1BB257829495FEE00127807 /* LocationPickerViewController.swift in Sources */,
 				F15521A8294884F30083F652 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
