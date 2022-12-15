@@ -9,7 +9,6 @@ A beginners swift project to create a real time chat application in Swift 5 usin
 - Video Messages
 - Real Time Conversations
 - Location Messages
-- User Profile
 
 
 
