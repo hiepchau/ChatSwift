@@ -33,5 +33,18 @@ extension UIView {
     public var right: CGFloat {
         return frame.size.width + frame.origin.x
     }
+    
+    func dropShadow() {
+        DispatchQueue.main.async {  [weak self] in
+               guard let this = self else { return }
+              this.layer.masksToBounds = false
+                  this.layer.shadowColor = UIColor.gray.cgColor
+                  this.layer.shadowOpacity = 0.3
+                  this.layer.shadowOffset = CGSize.zero
+                  this.layer.shadowRadius = 5
+                  this.layer.shouldRasterize = true
+                  this.layer.rasterizationScale = UIScreen.main.scale
+        }
+    }
 
 }

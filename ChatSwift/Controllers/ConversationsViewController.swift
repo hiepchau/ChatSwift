@@ -10,31 +10,28 @@ import JGProgressHUD
 import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
-    private let floatingButton: UIButton = {
-        let floatingButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        floatingButton.layer.masksToBounds = true
-        floatingButton.backgroundColor = .blue
-        floatingButton.layer.cornerRadius = 30
-//        floatingButton.backgroundColor = .systemPink
-        let image = UIImage(systemName: "plus",
-                            withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
-        floatingButton.setImage(image, for: .normal)
-        floatingButton.setTitleColor(.white, for: .normal)
-        floatingButton.tintColor = .white
-        return floatingButton
-    }()
+    @IBOutlet weak var tableView: UITableView!
+//    private let floatingButton: UIButton = {
+//        let floatingButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+//        floatingButton.layer.masksToBounds = true
+//        floatingButton.backgroundColor = .blue
+//        floatingButton.layer.cornerRadius = 30
+////        floatingButton.backgroundColor = .systemPink
+//        let image = UIImage(systemName: "plus",
+//                            withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
+//        floatingButton.setImage(image, for: .normal)
+//        floatingButton.setTitleColor(.white, for: .normal)
+//        floatingButton.tintColor = .white
+//        return floatingButton
+//    }()
     
     private let spinner = JGProgressHUD(style: .dark)
     let curID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
 
 
     var listConversation = [ConversationModel]()
-    private let tableView: UITableView = {
-        let table = UITableView()
-        table.isHidden = true
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        return table
-    }()
+    
+
     
     private let noConversationsLabel: UILabel = {
        let label = UILabel()
@@ -53,7 +50,6 @@ class ConversationsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(didTapComposeButton))
-        view.addSubview(tableView)
 //        view.addSubview(floatingButton)
         view.addSubview(noConversationsLabel)
         setupTableView()
@@ -61,6 +57,8 @@ class ConversationsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.tableView.estimatedRowHeight = 120
+        self.tableView.rowHeight = UITableView.automaticDimension
         fecthConversation(){
             print("Fetch conversation success")
         }
@@ -210,9 +208,16 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = listConversation[indexPath.row].name
+        let model = listConversation[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: ConversationTableViewCell.identifier,
+                                                 for: indexPath) as! ConversationTableViewCell
+        cell.configure(with: model)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70.0;
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

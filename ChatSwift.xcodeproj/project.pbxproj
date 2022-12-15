@@ -99,6 +99,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		F115EA68294B0FE50056A31F /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				F155219E294876620083F652 /* ConversationTableViewCell.swift */,
+			);
+			path = CustomCell;
+			sourceTree = "<group>";
+		};
 		F16395162940FB3700DED7D7 = {
 			isa = PBXGroup;
 			children = (
@@ -150,7 +158,6 @@
 				F16395242940FB3700DED7D7 /* SceneDelegate.swift */,
 				F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */,
 				F15521A7294884F30083F652 /* StorageManager.swift */,
-				F115EA66294ADB660056A31F /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -158,9 +165,10 @@
 		F16395492940FEE200DED7D7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F115EA66294ADB660056A31F /* Extensions.swift */,
+				F115EA68294B0FE50056A31F /* CustomCell */,
 				F163952B2940FB3800DED7D7 /* Assets.xcassets */,
 				F163954A2940FEED00DED7D7 /* Storyboards */,
-				F155219E294876620083F652 /* ConversationTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
