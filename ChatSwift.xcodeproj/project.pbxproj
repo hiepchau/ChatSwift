@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		10F02AF299BAE18688EDB4AE /* Pods_ChatSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40834A07A70C73620C1B0502 /* Pods_ChatSwift.framework */; };
+		F115EA67294ADB660056A31F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F115EA66294ADB660056A31F /* Extensions.swift */; };
 		F155219F294876620083F652 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F155219E294876620083F652 /* ConversationTableViewCell.swift */; };
 		F15521A2294881E00083F652 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F15521A1294881E00083F652 /* FirebaseAnalytics */; };
 		F15521A4294881E00083F652 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F15521A3294881E00083F652 /* FirebaseFirestore */; };
@@ -39,6 +40,7 @@
 		40834A07A70C73620C1B0502 /* Pods_ChatSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93847A0A10559867002730FE /* Pods-ChatSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSwift.debug.xcconfig"; path = "Target Support Files/Pods-ChatSwift/Pods-ChatSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		CF0F50421057FECB0152A4C9 /* Pods-ChatSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatSwift.release.xcconfig"; path = "Target Support Files/Pods-ChatSwift/Pods-ChatSwift.release.xcconfig"; sourceTree = "<group>"; };
+		F115EA66294ADB660056A31F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F155219E294876620083F652 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		F15521A7294884F30083F652 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		F163951F2940FB3700DED7D7 /* ChatSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +150,7 @@
 				F16395242940FB3700DED7D7 /* SceneDelegate.swift */,
 				F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */,
 				F15521A7294884F30083F652 /* StorageManager.swift */,
+				F115EA66294ADB660056A31F /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				F155219F294876620083F652 /* ConversationTableViewCell.swift in Sources */,
 				F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */,
 				F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */,
+				F115EA67294ADB660056A31F /* Extensions.swift in Sources */,
 				F1BB257629495F9C00127807 /* PhotoViewController.swift in Sources */,
 				F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */,
 				F1BB257829495FEE00127807 /* LocationPickerViewController.swift in Sources */,

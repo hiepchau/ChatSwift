@@ -207,25 +207,7 @@ class ChatViewController: MessagesViewController {
             }
         }
     }
-    
-    private func GetImageFromURL(url: URL, row: Int) {
-        DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: url) else {
-                return
-            }
-            let media = Media(url: url,
-                              image: UIImage(data: data),
-                              placeholderImage: UIImage(systemName: "photo")!,
-                              size: CGSize(width: 300, height: 300))
-        
-            let indexPath = IndexPath(row: row, section: 0)
-            self.messages[row].kind = .photo(media)
 
-            DispatchQueue.main.async {
-                self.messagesCollectionView.reloadItems(at: [indexPath])
-            }
-        }
-    }
 
     private func appendMessage(mssg: MessageModel) {
         print("Append executed")
@@ -239,17 +221,12 @@ class ChatViewController: MessagesViewController {
                   let placeHolder = UIImage(systemName: "photo") else {
                 return
             }
-            
-            DispatchQueue.global().async {
-                self.GetImageFromURL(url: imageUrl, row: self.currentCountCell)
-            }
 
             let media = Media(url: imageUrl,
                               image: nil,
                               placeholderImage: placeHolder,
                               size: CGSize(width: 300, height: 300))
             
-            print("Image URl: \(imageUrl)")
             currKind = .photo(media)
         }
         
@@ -299,9 +276,6 @@ class ChatViewController: MessagesViewController {
                                     kind: finalKind))
         
             print("Count message: \(self.messages.count)")
-        
-        
-
     }
     
     //Send to database
@@ -320,6 +294,7 @@ class ChatViewController: MessagesViewController {
             }
         }
     }
+    
     private func getUsernameByID(id: String) -> String{
         var result = ""
         let userRef = DatabaseManager.shared.db.collection("user")
@@ -351,6 +326,7 @@ class ChatViewController: MessagesViewController {
             }
         }
     }
+ 
     
 }
 
@@ -370,6 +346,33 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
     }
+    
+    func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        guard let message = message as? Message else {
+            return
+        }
+
+        switch message.kind {
+        case .photo(let media):
+            guard let imageUrl = media.url else {
+                return
+            }
+            imageView.sd_setImage(with: imageUrl, completed: nil)
+        default:
+            break
+        }
+    }
+
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        let sender = message.sender
+        if sender.senderId == selfSender.senderId {
+            // our message that we've sent
+            return .link
+        }
+
+        return .secondarySystemBackground
+    }
+    
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         guard !text.replacingOccurrences(of: "", with: "").isEmpty else{
@@ -406,6 +409,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
 }
 
 extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
@@ -433,7 +437,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                     print("Uploaded Message Photo: \(urlString)")
 
                     guard let url = URL(string: urlString),
-                        let placeholder = UIImage(systemName: "plus") else {
+                        let placeholder = UIImage(systemName: "photo") else {
                             return
                     }
 
@@ -454,6 +458,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                 }
             })
         }
+        
         else if let videoUrl = info[.mediaURL] as? URL {
             let fileName = "photo_message_" + messageId.replacingOccurrences(of: " ", with: "-") + ".mov"
 

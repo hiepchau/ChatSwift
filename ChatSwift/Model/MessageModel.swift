@@ -137,4 +137,3 @@ final class MessageModel: BaseModel{
         return dictionary as NSDictionary
     }
 }
-
