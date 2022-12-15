@@ -27,8 +27,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="828"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sun.min.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Psv-vA-2Ll">
-                                                    <rect key="frame" x="87" y="60.5" width="240" height="127"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-org" translatesAutoresizingMaskIntoConstraints="NO" id="Psv-vA-2Ll">
+                                                    <rect key="frame" x="87" y="60" width="240" height="128"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="240" id="APS-9l-HEZ"/>
                                                         <constraint firstAttribute="height" constant="128" id="UZt-nO-LU2"/>
@@ -234,7 +234,7 @@
         <image name="apple" width="512" height="512"/>
         <image name="facebook-icon" width="1200" height="1200"/>
         <image name="google-icon" width="1080" height="1080"/>
-        <image name="sun.min.fill" catalog="system" width="128" height="121"/>
+        <image name="logo-org" width="126.5" height="47"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

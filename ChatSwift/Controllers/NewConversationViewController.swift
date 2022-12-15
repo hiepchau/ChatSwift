@@ -59,6 +59,7 @@ class NewConversationViewController: UIViewController {
 
         searchBar.becomeFirstResponder()
     }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
@@ -76,7 +77,8 @@ class NewConversationViewController: UIViewController {
     @objc private func dismissSelf(){
         dismiss(animated: true, completion: nil)
     }
-    //MARK: DB
+    
+//MARK: - Func
     private func fetchUsersData(){
         db.collection("user").getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -88,13 +90,15 @@ class NewConversationViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                print("Fetch success")
+                print("Fetch user success")
             }
         }
-        
     }
 }
 
+//MARK: - Extension
+
+//TODO: search querry func
 extension NewConversationViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -8,9 +8,10 @@
 import Foundation
 import FirebaseCore
 import FirebaseFirestore
+import UIKit
 
-class DatabaseManage {
-    static let shared = DatabaseManage()
+class DatabaseManager {
+    static let shared = DatabaseManager()
     private var isLoggedIn = false
     let db: Firestore
 
@@ -46,4 +47,39 @@ class DatabaseManage {
 //            }
 //        }
 //    }
+}
+
+
+
+class ImageCache
+{
+    static let shared = ImageCache()
+    private let imageCache = NSCache<AnyObject, UIImage>()
+    
+    func loadImage(fromURL imageURL: URL) -> UIImage
+    {
+        var image = UIImage(systemName: "photo")!
+
+        if let cachedImage = self.imageCache.object(forKey: imageURL as AnyObject)
+        {
+            debugPrint("image loaded from cache for =\(imageURL)")
+            image = cachedImage
+            return image
+        }
+
+        DispatchQueue.global().async { [weak self] in
+            if let imageData = try? Data(contentsOf: imageURL)
+            {
+                debugPrint("image downloaded from server...")
+                if let imageTemp = UIImage(data: imageData)
+                {
+                    DispatchQueue.main.async {
+                        self!.imageCache.setObject(image, forKey: imageURL as AnyObject)
+                        image = imageTemp
+                    }
+                }
+            }
+        }
+        return image
+    }
 }

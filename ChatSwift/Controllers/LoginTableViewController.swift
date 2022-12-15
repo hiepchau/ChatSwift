@@ -26,7 +26,8 @@ class LoginTableViewController: UITableViewController {
 
         // Do any additional setup after loading the view.
     }
-    //TODO: setdata for firestore
+//MARK: -Func
+    
     @IBAction func loginButtonTapped(){
         usernameField.resignFirstResponder()
         passwordField.resignFirstResponder()
@@ -38,12 +39,11 @@ class LoginTableViewController: UITableViewController {
         
         spinner.show(in: view)
    
-        let userRef = DatabaseManage.shared.db.collection("user")
+        let userRef = DatabaseManager.shared.db.collection("user")
 
         // Create a query against the collection.
         let query = userRef.whereField("username", isEqualTo: usernameField.text!)
             .whereField("password", isEqualTo: passwordField.text!)
-        
         
         query.getDocuments(completion: { [self](querySnapshot, err) in
             DispatchQueue.main.async {
@@ -64,7 +64,6 @@ class LoginTableViewController: UITableViewController {
                 }
             }
         })
-       
     }
     func alertUserLoginError() {
         let alert = UIAlertController(title: "Error", message: "Please fill information", preferredStyle: .alert)
@@ -73,6 +72,7 @@ class LoginTableViewController: UITableViewController {
         present(alert, animated: true)
     }
 }
+// MARK: - Extension
 
 extension LoginTableViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
