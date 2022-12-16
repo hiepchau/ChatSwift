@@ -21,9 +21,8 @@ class ChatViewController: MessagesViewController {
     private let spinner = JGProgressHUD(style: .dark)
     
     private var messages = [Message]()
-    var currentCountCell = -1
     var currentConversationID = ""
-    var currentConversation = ConversationModel()
+
     static let currentToken = UserDefaults.standard.string(forKey: "LOGINTOKEN")
     public let selfSender = Sender(senderId: currentToken!, displayName: "self")
     public var isNewConversation = false
@@ -34,7 +33,6 @@ class ChatViewController: MessagesViewController {
         self.navigationController?.navigationBar.isHidden = false
         
         view.backgroundColor = .blue
-        getConversationData()
         
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -99,8 +97,6 @@ class ChatViewController: MessagesViewController {
             }
             let messageId = strongSelf.createMessageID()
 
-            let selfSender = strongSelf.selfSender
-
             let longitude: Double = selectedCoorindates.longitude
             let latitude: Double = selectedCoorindates.latitude
 
@@ -110,7 +106,7 @@ class ChatViewController: MessagesViewController {
             let location = Location(location: CLLocation(latitude: latitude, longitude: longitude),
                                  size: .zero)
 
-            let message = Message(sender: selfSender,
+            let message = Message(sender: strongSelf.selfSender,
                                   messageId: messageId,
                                   sentDate: Date(),
                                   kind: .location(location))
@@ -177,157 +173,42 @@ class ChatViewController: MessagesViewController {
 
         present(actionSheet, animated: true)
     }
-    //MARK: - Func
-    
-    private func fetchMessage(shouldScrollToBottom: Bool) {
-        let messagesRef = DatabaseManager.shared.db.collection("messages")
-        print("Current conversation ID: \(currentConversationID)")
-        let query = messagesRef.whereField("conversationID", isEqualTo: currentConversationID).order(by: "sentDate")
-        spinner.show(in: view)
-        query.addSnapshotListener { [self] querySnapshot, err in
-            DispatchQueue.main.async {
-                self.spinner.dismiss()
-            }
-            if let err = err{
-                print("Error getting messages: \(err)")
-                return
-            }
-            querySnapshot!.documentChanges.forEach({ change in
-                //Apend to mssg List
-                if change.type == .added{
-                    let resMessage = MessageModel(data: change.document.data())
-                    appendMessage(mssg: resMessage)
-                }
-            })
-            DispatchQueue.main.async {
-                self.messagesCollectionView.reloadDataAndKeepOffset()
-                if shouldScrollToBottom{
-                    self.messagesCollectionView.scrollToLastItem(animated: false)
-                }
-            }
-        }
-    }
-
-
-    private func appendMessage(mssg: MessageModel) {
-        print("Append executed")
-        currentCountCell += 1
-        var currKind: MessageKind?
-      
-        if mssg.kind == "photo"{
-
-            guard let imageUrl = URL(string: mssg.content),
-                  //TODO: Custom place holder
-                  let placeHolder = UIImage(systemName: "photo") else {
-                return
-            }
-
-            let media = Media(url: imageUrl,
-                              image: nil,
-                              placeholderImage: placeHolder,
-                              size: CGSize(width: 300, height: 300))
-            
-            currKind = .photo(media)
-        }
-        
-        else if mssg.kind == "video" {
-            // photo
-            guard let videoUrl = URL(string: mssg.content),
-                let placeHolder = UIImage(named: "video_placeholder") else {
-                    return
-            }
-            
-            let media = Media(url: videoUrl,
-                              image: nil,
-                              placeholderImage: placeHolder,
-                              size: CGSize(width: 300, height: 300))
-            print("Video URl: \(videoUrl)")
-            currKind = .video(media)
-        }
-        else if mssg.kind == "location" {
-            let locationComponents = mssg.content.components(separatedBy: ",")
-            guard let longitude = Double(locationComponents[0]),
-                let latitude = Double(locationComponents[1]) else {
-                return
-            }
-            print("Rendering location; long=\(longitude) | lat=\(latitude)")
-            let location = Location(location: CLLocation(latitude: latitude, longitude: longitude),
-                                    size: CGSize(width: 300, height: 300))
-            currKind = .location(location)
-        }
-        else {
-            currKind = .text(mssg.content)
-        }
-        
-        //apend
-        guard let finalKind = currKind else{
-            return
-        }
-
-            // update UI
-            var sender = Sender(senderId: mssg.senderID, displayName: self.getUsernameByID(id: mssg.id))
-            
-            if(mssg.id == ChatViewController.currentToken){
-                sender = self.selfSender
-            }
-            self.messages.append(Message(sender: sender,
-                                    messageId: mssg.id,
-                                    sentDate: mssg.sentDate,
-                                    kind: finalKind))
-        
-            print("Count message: \(self.messages.count)")
-    }
-    
-    //Send to database
+//MARK: - Func
+    //Write to database
     private func createMessage(sendMssg: Message)  {
         guard currentConversationID != "" else {
-            print("Error: Empty conversation ID")
+            print("Error: Don't match any conversation")
             return
         }
-
-        let data = MessageModel(message: sendMssg, conversationID: currentConversationID)
-        DatabaseManager.shared.db.collection("messages").document(sendMssg.messageId).setData(data.dictionary){ err in
-            if let err = err {
-                print("Error writing document: \(err)")
-            } else {
+        DatabaseManager.shared.createNewMessage(sendMsg: sendMssg, conversationID: currentConversationID) { isSucess in
+            if isSucess {
                 print("Message successfully written!")
+            } else {
+                //TODO: Display error noti
             }
         }
     }
     
-    private func getUsernameByID(id: String) -> String{
-        var result = ""
-        let userRef = DatabaseManager.shared.db.collection("user")
+    private func fetchMessage(shouldScrollToBottom: Bool) {
+        print("Current conversation ID: \(currentConversationID)")
         
-        // Create a query against the collection.
-        let query = userRef.whereField("uid", isEqualTo: id)
-        query.getDocuments(completion: { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let resUser = UserModel(data: document.data())
-                    result = resUser.username
+        DatabaseManager.shared.getAllMessages(currentConversationID: currentConversationID, completion: { result in
+            switch result {
+            case .success(let messageCollection):
+                self.messages = messageCollection
+                
+                DispatchQueue.main.async {
+                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                    if shouldScrollToBottom{
+                        self.messagesCollectionView.scrollToLastItem(animated: false)
+                    }
                 }
+                print("Fetch successful!")
+            case .failure(let error):
+                print("Failed to get conversation: \(error)")
             }
         })
-        return result
     }
-    
-    private func getConversationData(){
-        let conversationRef = DatabaseManager.shared.db.collection("conversation")
-        conversationRef.whereField("uid", isEqualTo: currentConversationID).getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    self.currentConversation =  ConversationModel(data: document.data())
-                }
-            }
-        }
-    }
- 
-    
 }
 
 

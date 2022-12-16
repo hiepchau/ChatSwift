@@ -33,42 +33,32 @@ class LoginTableViewController: UITableViewController {
         passwordField.resignFirstResponder()
 
         guard let email = usernameField.text, let password = passwordField.text, !email.isEmpty, password.count >= 6 else {
-            alertUserLoginError()
+            alertUserLoginError(message: "Please fill information...")
             return
         }
         
         spinner.show(in: view)
    
-        let userRef = DatabaseManager.shared.db.collection("user")
-
-        // Create a query against the collection.
-        let query = userRef.whereField("username", isEqualTo: usernameField.text!)
-            .whereField("password", isEqualTo: passwordField.text!)
-        
-        query.getDocuments(completion: { [self](querySnapshot, err) in
+        DatabaseManager.shared.authenticate(username: usernameField.text!, password: passwordField.text!) { isSuccess in
             DispatchQueue.main.async {
                 self.spinner.dismiss()
             }
-            if let err = err {
-                print("Error getting documents: \(err)")
+            if isSuccess {
+                let token = UserDefaults.standard.string(forKey: "LOGINTOKEN")
+                let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
+                print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
+                self.performSegue(withIdentifier: "loginSegue", sender: self)
             } else {
-                for document in querySnapshot!.documents {
-                        
-                    UserDefaults.standard.set(document.documentID, forKey: "LOGINTOKEN")
-                    let token = UserDefaults.standard.string(forKey: "LOGINTOKEN")
-                    let tempUser = UserModel(data: document.data())
-                    UserDefaults.standard.set(tempUser.dictionary, forKey: "CURUSER")
-                    let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
-                    print("Logged in with user: \(currentUser!); Token: \(String(describing: token))")
-                    performSegue(withIdentifier: "loginSegue", sender: self)
-                }
+                self.alertUserLoginError(message: "That password doesn't look right")
+                self.passwordField.text = nil
+                print("Authenticate failed")
             }
-        })
+        }
     }
-    func alertUserLoginError() {
-        let alert = UIAlertController(title: "Error", message: "Please fill information", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "Dissmiss", style: .cancel, handler: nil))
+    
+    func alertUserLoginError(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "TRY AGAIN", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
 }

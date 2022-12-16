@@ -11,31 +11,16 @@ import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-//    private let floatingButton: UIButton = {
-//        let floatingButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-//        floatingButton.layer.masksToBounds = true
-//        floatingButton.backgroundColor = .blue
-//        floatingButton.layer.cornerRadius = 30
-////        floatingButton.backgroundColor = .systemPink
-//        let image = UIImage(systemName: "plus",
-//                            withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
-//        floatingButton.setImage(image, for: .normal)
-//        floatingButton.setTitleColor(.white, for: .normal)
-//        floatingButton.tintColor = .white
-//        return floatingButton
-//    }()
     
     private let spinner = JGProgressHUD(style: .dark)
-    let curID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
+    let curID = DatabaseManager.shared.currentID
 
 
     var listConversation = [ConversationModel]()
     
-
-    
     private let noConversationsLabel: UILabel = {
        let label = UILabel()
-        label.text = "hi"
+        label.text = "Hi"
         label.textColor = .gray
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 21, weight: .medium)
@@ -50,20 +35,17 @@ class ConversationsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(didTapComposeButton))
-//        view.addSubview(floatingButton)
+        fecthConversation()
         view.addSubview(noConversationsLabel)
         setupTableView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.tableView.estimatedRowHeight = 120
-        self.tableView.rowHeight = UITableView.automaticDimension
-        fecthConversation(){
-            print("Fetch conversation success")
-        }
-    }
-    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        self.tableView.estimatedRowHeight = 120
+//        self.tableView.rowHeight = UITableView.automaticDimension
+//    }
+//
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
@@ -103,35 +85,6 @@ class ConversationsViewController: UIViewController {
         
     }
     
-    //New conversation
-    private func createNewConversation(result: [String: String]) {
-        var arrayUser = [String]()
-        arrayUser.append(curID!)
-
-        //Create new Conversation
-        let uuid = UUID().uuidString
-        if let unwrappedUid = result["uid"]{
-            arrayUser.append(unwrappedUid)
-            var name = result["username"]!
-            if curID == unwrappedUid {
-                name = "self"
-            }
-            let documentData: [String: Any] = ["id": uuid, "name": name, "users": arrayUser]
-            let refConversation = DatabaseManager.shared.db.collection("conversation").document(uuid)
-           refConversation.setData(documentData){ err in
-                if let err = err {
-                    print("Error writing document: \(err)")
-                    //TODO: handle
-                    return
-                } else {
-                    print("Conversation successfully written: fields!")
-                }
-            }
-            print("UID1: \(String(describing: curID)), UID2: \(String(describing: unwrappedUid))")
-        }
-        navigateToChatView(id: uuid, name: result["username"]!)
-    }
-    
     private func navigateToChatView(id: String, name: String){
         let vc = ChatViewController()
         vc.isNewConversation = false
@@ -146,10 +99,6 @@ class ConversationsViewController: UIViewController {
         var flag = false
         var conversationID = ""
         var name = ""
-//        var tempID: String?
-//        if id == curID {
-//
-//        }
 
         for item in listConversation {
             let arrUser = item.users
@@ -165,36 +114,50 @@ class ConversationsViewController: UIViewController {
         }
         completion(flag, conversationID, name)
     }
-    //fetch Conversation
-    private func fecthConversation(completion: @escaping () -> Void){
-        listConversation = []
+    
+    //New conversation
+    private func createNewConversation(result: [String: String]) {
+        DatabaseManager.shared.createNewConversation(result: result) { isSuccess, uuid in
+            if isSuccess {
+                self.navigateToChatView(id: uuid, name: result["username"]!)
+            }
+            else {
+                //TODO: Handle noti
+            }
+        }
+    }
+    
+    //Fetch Conversation
+    private func fecthConversation(){
+        
+        self.listConversation = []
         tableView.isHidden = false
         spinner.show(in: view)
-        let conversationRef = DatabaseManager.shared.db.collection("conversation")
         
         //Get conversation list
-        conversationRef.whereField("users", arrayContainsAny: [curID!]).getDocuments { [self](querySnapshot, err) in
+        DatabaseManager.shared.getAllConversation { result in
             DispatchQueue.main.async {
                 self.spinner.dismiss()
             }
-            if let err = err {
-                print("Error getting documents: \(err)")
-                completion()
-                return
-            } else {
-                for document in querySnapshot!.documents{
-                    print("Data conversation: \(document.data())")
-                    //Get conversation data
-                    let temp = ConversationModel(data: document.data())
-                    listConversation.append(temp)
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
+            
+            switch result {
+            case .success(let dataCollection):
+                self.listConversation = dataCollection
+                
+                if self.listConversation.isEmpty {
+                    self.tableView.isHidden = true
+                    self.noConversationsLabel.isHidden = false
+                    return
                 }
-                completion()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                self.tableView.isHidden = true
+                self.noConversationsLabel.isHidden = false
+                print("Failed to get conversation: \(error)")
             }
         }
-        
     }
     
 }
@@ -219,7 +182,7 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70.0;
     }
-    
+        
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
