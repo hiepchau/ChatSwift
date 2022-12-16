@@ -23,8 +23,8 @@ final class PhotoViewerViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
+    private let imageView: CacheImageView = {
+        let imageView = CacheImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -35,11 +35,8 @@ final class PhotoViewerViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         view.backgroundColor = .black
         view.addSubview(imageView)
-        guard let data = try? Data(contentsOf: url) else{
-            return
-        }
-        imageView.image = UIImage(data: data)
-        imageView.sd_setImage(with: url, completed: nil)
+
+        imageView.loadImage(fromURL: url)
     }
 
     override func viewDidLayoutSubviews() {
