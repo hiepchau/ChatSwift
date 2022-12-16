@@ -10,8 +10,7 @@ import FirebaseFirestore
 
 class NewConversationViewController: UIViewController {
 
-    var users = [UserModel]()
-    let db = Firestore.firestore()
+    var usersList = [UserModel]()
     
     public var completionHandler: (([String: String]) ->Void)?
     
@@ -23,7 +22,7 @@ class NewConversationViewController: UIViewController {
     
     private let tableView: UITableView = {
         let table = UITableView()
-        table.isHidden = false
+        table.isHidden = true
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return table
     }()
@@ -31,7 +30,7 @@ class NewConversationViewController: UIViewController {
     private let noResultLabel: UILabel = {
         let label = UILabel()
         label.isHidden = true
-        label.text = "No result"
+        label.text = "No body here..."
         label.textAlignment = .center
         label.textColor = .green
         label.font = .systemFont(ofSize: 21, weight: .medium)
@@ -63,9 +62,9 @@ class NewConversationViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
-        noResultLabel.frame = CGRect(x: view.bounds.width / 4 ,
-                                 y: (view.bounds.height - 200)/2,
-                                 width: view.bounds.width / 2,
+        noResultLabel.frame = CGRect(x: view.width / 4 ,
+                                 y: (view.height - 200)/2,
+                                 width: view.width / 2,
                                  height: 200)
     }
     
@@ -80,18 +79,26 @@ class NewConversationViewController: UIViewController {
     
 //MARK: - Func
     private func fetchUsersData(){
-        db.collection("user").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    self.users.append(.init(data: document.data()))
+        self.usersList = []
+        tableView.isHidden = false
+        DatabaseManager.shared.getAllUsers { result in
+            switch result {
+            case.success(let userCollection):
+                self.usersList = userCollection
+                if self.usersList.isEmpty {
+                    self.tableView.isHidden = true
+                    self.noResultLabel.isHidden = false
+                    return
                 }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                print("Fetch user success")
+            case.failure(let error):
+                self.tableView.isHidden = true
+                self.noResultLabel.isHidden = false
+                print("Failed to get users: \(error)")
             }
+            
         }
     }
 }
@@ -102,25 +109,25 @@ class NewConversationViewController: UIViewController {
 extension NewConversationViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        return usersList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = users[indexPath.row].username
+        cell.textLabel?.text = usersList[indexPath.row].username
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let targetUserData = users[indexPath.row]
+        let targetUserData = usersList[indexPath.row]
         
         dismiss(animated: true, completion: { [weak self] in
             self?.completionHandler?(targetUserData.dictionary)
         })
 
     }
-    
+    //TODO: search handle
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
         
     }
