@@ -22,7 +22,7 @@ class ChatViewController: MessagesViewController {
     
     private var messages = [Message]()
     var currentConversationID = ""
-    var currentConversation = ConversationModel()
+
     static let currentToken = UserDefaults.standard.string(forKey: "LOGINTOKEN")
     public let selfSender = Sender(senderId: currentToken!, displayName: "self")
     public var isNewConversation = false
@@ -33,7 +33,6 @@ class ChatViewController: MessagesViewController {
         self.navigationController?.navigationBar.isHidden = false
         
         view.backgroundColor = .blue
-        getConversationData()
         
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -98,8 +97,6 @@ class ChatViewController: MessagesViewController {
             }
             let messageId = strongSelf.createMessageID()
 
-            let selfSender = strongSelf.selfSender
-
             let longitude: Double = selectedCoorindates.longitude
             let latitude: Double = selectedCoorindates.latitude
 
@@ -109,7 +106,7 @@ class ChatViewController: MessagesViewController {
             let location = Location(location: CLLocation(latitude: latitude, longitude: longitude),
                                  size: .zero)
 
-            let message = Message(sender: selfSender,
+            let message = Message(sender: strongSelf.selfSender,
                                   messageId: messageId,
                                   sentDate: Date(),
                                   kind: .location(location))
@@ -176,32 +173,8 @@ class ChatViewController: MessagesViewController {
 
         present(actionSheet, animated: true)
     }
-    //MARK: - Func
-    
-    private func fetchMessage(shouldScrollToBottom: Bool) {
-        print("Current conversation ID: \(currentConversationID)")
-        
-        DatabaseManager.shared.getAllMessages(currentConversationID: currentConversationID, completion: { result in
-            switch result {
-            case .success(let messageCollection):
-                //TODO: GET NAME
-//                var sender = Sender(senderId: mssg.senderID, displayName: self.getUsernameByID(id: mssg.id))
-                self.messages = messageCollection
-                
-                DispatchQueue.main.async {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
-                    if shouldScrollToBottom{
-                        self.messagesCollectionView.scrollToLastItem(animated: false)
-                    }
-                }
-                print("Fetch successful!")
-            case .failure(let error):
-                print("Failed to get conversation: \(error)")
-            }
-        })
-    }
-    
-    //Send to database
+//MARK: - Func
+    //Write to database
     private func createMessage(sendMssg: Message)  {
         guard currentConversationID != "" else {
             print("Error: Don't match any conversation")
@@ -216,39 +189,26 @@ class ChatViewController: MessagesViewController {
         }
     }
     
-    private func getUsernameByID(id: String) -> String{
-        var result = ""
-        let userRef = DatabaseManager.shared.db.collection("user")
+    private func fetchMessage(shouldScrollToBottom: Bool) {
+        print("Current conversation ID: \(currentConversationID)")
         
-        // Create a query against the collection.
-        let query = userRef.whereField("uid", isEqualTo: id)
-        query.getDocuments(completion: { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let resUser = UserModel(data: document.data())
-                    result = resUser.username
+        DatabaseManager.shared.getAllMessages(currentConversationID: currentConversationID, completion: { result in
+            switch result {
+            case .success(let messageCollection):
+                self.messages = messageCollection
+                
+                DispatchQueue.main.async {
+                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                    if shouldScrollToBottom{
+                        self.messagesCollectionView.scrollToLastItem(animated: false)
+                    }
                 }
+                print("Fetch successful!")
+            case .failure(let error):
+                print("Failed to get conversation: \(error)")
             }
         })
-        return result
     }
-    
-    private func getConversationData(){
-        let conversationRef = DatabaseManager.shared.db.collection("conversation")
-        conversationRef.whereField("uid", isEqualTo: currentConversationID).getDocuments { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    self.currentConversation =  ConversationModel(data: document.data())
-                }
-            }
-        }
-    }
- 
-    
 }
 
 

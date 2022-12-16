@@ -48,11 +48,43 @@ extension DatabaseManager {
             } else {
                 for document in querySnapshot!.documents {
                     UserDefaults.standard.set(document.documentID, forKey: "LOGINTOKEN")
-                    print("HEHEHEHHE:\(document.data())")
                     let curUser = UserModel(data: document.data())
                     UserDefaults.standard.set(curUser.dictionary, forKey: "CURUSER")
                 }
                 completion(true)
+            }
+        })
+    }
+    
+    public func getUsernameByID(id: String) -> String{
+        var name = ""
+        DatabaseManager.shared.getUserByID(id: id) { result in
+            switch result{
+            case .success(let user):
+                name = user.username
+            case .failure(let err):
+                print("Get username failed: \(err)")
+            }
+        }
+        return name
+    }
+    
+    public func getUserByID(id: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+        let userRef = DatabaseManager.shared.db.collection("user")
+        let query = userRef.whereField("uid", isEqualTo: id)
+        query.getDocuments(completion: { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                completion(.failure(err))
+                return
+            } else {
+                let document = querySnapshot!.documents.first
+                guard let doc = document else {
+                    completion(.failure(err!))
+                    return
+                }
+                let resUser = UserModel(data: doc.data())
+                completion(.success(resUser))
             }
         })
     }
@@ -79,29 +111,6 @@ extension DatabaseManager {
 }
 //MARK: - Conversation
 extension DatabaseManager {
-    public func getAllConversation(completion: @escaping (Result<[ConversationModel], Error>) -> Void){
-        var listConversation = [ConversationModel]()
-        let conversationRef = db.collection("conversation")
-        
-        //Get conversation list
-        conversationRef.whereField("users", arrayContainsAny: [currentID as Any]).addSnapshotListener { (querySnapshot, err) in
-            if let error = err {
-                print("Error getting documents: \(error)")
-                completion(.failure(DatabaseError.failedToFetch))
-                return
-            } else {
-                listConversation = []
-                for document in querySnapshot!.documents{
-                    print("Data conversation: \(document.data())")
-                    //Get conversation data
-                    let temp = ConversationModel(data: document.data())
-                    listConversation.append(temp)
-                }
-                completion(.success(listConversation))
-            }
-        }
-    }
-    
     public func createNewConversation(result: [String: String], completion: @escaping (Bool, String) -> Void) {
         var arrayUser = [String]()
         arrayUser.append(currentID!)
@@ -129,6 +138,48 @@ extension DatabaseManager {
             }
         }
     }
+    
+    private func getConversationByID(id: String, completion: @escaping(Result<ConversationModel, Error>) -> Void){
+        let conversationRef = DatabaseManager.shared.db.collection("conversation")
+        conversationRef.whereField("uid", isEqualTo: id).getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting conversation: \(err)")
+                completion(.failure(err))
+                return
+            } else {
+                let document = querySnapshot!.documents.first
+                guard let doc = document else {
+                    completion(.failure(err!))
+                    return
+                }
+                let conversation = ConversationModel(data: doc.data())
+                completion(.success(conversation))
+            }
+        }
+    }
+    
+    public func getAllConversation(completion: @escaping (Result<[ConversationModel], Error>) -> Void){
+        var listConversation = [ConversationModel]()
+        let conversationRef = db.collection("conversation")
+        
+        //Get conversation list
+        conversationRef.whereField("users", arrayContainsAny: [currentID as Any]).addSnapshotListener { (querySnapshot, err) in
+            if let error = err {
+                print("Error getting documents: \(error)")
+                completion(.failure(DatabaseError.failedToFetch))
+                return
+            } else {
+                listConversation = []
+                for document in querySnapshot!.documents{
+                    print("Data conversation: \(document.data())")
+                    //Get conversation data
+                    let temp = ConversationModel(data: document.data())
+                    listConversation.append(temp)
+                }
+                completion(.success(listConversation))
+            }
+        }
+    }
 }
 
 //MARK: - Messages
@@ -152,7 +203,7 @@ extension DatabaseManager {
         var listMessages = [Message]()
         let msgRef = db.collection("messages")
         let query = msgRef.whereField("conversationID", isEqualTo: currentConversationID).order(by: "sentDate")
-        
+
         //Listen for msg
         query.addSnapshotListener { querySnapshot, err in
             if let err = err{
@@ -216,7 +267,9 @@ extension DatabaseManager {
                     guard let finalKind = currKind else{
                         return
                     }
-                    var sender = Sender(senderId: resMessage.senderID, displayName: "self.getUsernameByID(id: resMessage.id)")
+                    let name = self.getUsernameByID(id: resMessage.senderID)
+                    
+                    var sender = Sender(senderId: resMessage.senderID, displayName: name)
                     
                     //HANDLE nil
                     if(resMessage.id == self.currentID){
@@ -233,9 +286,6 @@ extension DatabaseManager {
         }
     }
 }
-
-
-
 
 
 class ImageCache
