@@ -117,9 +117,6 @@ class ConversationsViewController: UIViewController {
     
     //New conversation
     private func createNewConversation(result: [String: String]) {
-        var arrayUser = [String]()
-        arrayUser.append(curID!)
-
         DatabaseManager.shared.createNewConversation(result: result) { isSuccess, uuid in
             if isSuccess {
                 self.navigateToChatView(id: uuid, name: result["username"]!)
@@ -128,7 +125,6 @@ class ConversationsViewController: UIViewController {
                 //TODO: Handle noti
             }
         }
-
     }
     
     //Fetch Conversation

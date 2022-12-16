@@ -9,6 +9,8 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 import UIKit
+import CoreLocation
+import MessageKit
 
 class DatabaseManager {
     static let shared = DatabaseManager()
@@ -34,7 +36,7 @@ class DatabaseManager {
 //MARK: - Authenticate, users
 extension DatabaseManager {
     public func authenticate(username: String?, password: String?, completion: @escaping (Bool) -> Void) {
-        let userRef = db.collection("users")
+        let userRef = db.collection("user")
         // Create a query against the collection.
         let query = userRef.whereField("username", isEqualTo: username!)
             .whereField("password", isEqualTo: password!)
@@ -46,6 +48,7 @@ extension DatabaseManager {
             } else {
                 for document in querySnapshot!.documents {
                     UserDefaults.standard.set(document.documentID, forKey: "LOGINTOKEN")
+                    print("HEHEHEHHE:\(document.data())")
                     let curUser = UserModel(data: document.data())
                     UserDefaults.standard.set(curUser.dictionary, forKey: "CURUSER")
                 }
@@ -81,7 +84,7 @@ extension DatabaseManager {
         let conversationRef = db.collection("conversation")
         
         //Get conversation list
-        conversationRef.whereField("users", arrayContainsAny: [currentID!]).addSnapshotListener { (querySnapshot, err) in
+        conversationRef.whereField("users", arrayContainsAny: [currentID as Any]).addSnapshotListener { (querySnapshot, err) in
             if let error = err {
                 print("Error getting documents: \(error)")
                 completion(.failure(DatabaseError.failedToFetch))
@@ -130,6 +133,106 @@ extension DatabaseManager {
 
 //MARK: - Messages
 
+extension DatabaseManager {
+    public func createNewMessage(sendMsg: Message, conversationID: String, completion: @escaping(Bool) -> Void){
+        let msgRef = db.collection("messages")
+        let data = MessageModel(message: sendMsg, conversationID: conversationID)
+        msgRef.document(sendMsg.messageId).setData(data.dictionary){ err in
+            if let err = err {
+                print("Error writing document: \(err)")
+                completion(false)
+            } else {
+                print("Message successfully written!")
+                completion(true)
+            }
+        }
+    }
+    
+    public func getAllMessages(currentConversationID: String, completion: @escaping(Result<[Message], Error>) -> Void){
+        var listMessages = [Message]()
+        let msgRef = db.collection("messages")
+        let query = msgRef.whereField("conversationID", isEqualTo: currentConversationID).order(by: "sentDate")
+        
+        //Listen for msg
+        query.addSnapshotListener { querySnapshot, err in
+            if let err = err{
+                print("Error getting messages: \(err)")
+                completion(.failure(err))
+                return
+            }
+
+            querySnapshot!.documentChanges.forEach({ change in
+                //Get msg
+                if change.type == .added {
+                    let resMessage = MessageModel(data: change.document.data())
+                    var currKind: MessageKind?
+                  
+                    if resMessage.kind == "photo"{
+
+                        guard let imageUrl = URL(string: resMessage.content),
+                              //TODO: Custom place holder
+                              let placeHolder = UIImage(systemName: "photo") else {
+                            return
+                        }
+
+                        let media = Media(url: imageUrl,
+                                          image: nil,
+                                          placeholderImage: placeHolder,
+                                          size: CGSize(width: 300, height: 300))
+                        
+                        currKind = .photo(media)
+                    }
+                    
+                    else if resMessage.kind == "video" {
+                        // photo
+                        guard let videoUrl = URL(string: resMessage.content),
+                            let placeHolder = UIImage(named: "video_placeholder") else {
+                                return
+                        }
+                        
+                        let media = Media(url: videoUrl,
+                                          image: nil,
+                                          placeholderImage: placeHolder,
+                                          size: CGSize(width: 300, height: 300))
+                        print("Video URl: \(videoUrl)")
+                        currKind = .video(media)
+                    }
+                    else if resMessage.kind == "location" {
+                        let locationComponents = resMessage.content.components(separatedBy: ",")
+                        guard let longitude = Double(locationComponents[0]),
+                            let latitude = Double(locationComponents[1]) else {
+                            return
+                        }
+                        print("Rendering location; long=\(longitude) | lat=\(latitude)")
+                        let location = Location(location: CLLocation(latitude: latitude, longitude: longitude),
+                                                size: CGSize(width: 300, height: 300))
+                        currKind = .location(location)
+                    }
+                    else {
+                        currKind = .text(resMessage.content)
+                    }
+                    
+                    //apend
+                    guard let finalKind = currKind else{
+                        return
+                    }
+                    var sender = Sender(senderId: resMessage.senderID, displayName: "self.getUsernameByID(id: resMessage.id)")
+                    
+                    //HANDLE nil
+                    if(resMessage.id == self.currentID){
+                        sender = Sender(senderId: self.currentID ?? "",                     displayName: "self")
+                    }
+                    
+                    listMessages.append(Message(sender: sender,
+                                                messageId: resMessage.id,
+                                                sentDate: resMessage.sentDate,
+                                                kind: finalKind))
+                }
+            })
+            completion(.success(listMessages))
+        }
+    }
+}
 
 
 

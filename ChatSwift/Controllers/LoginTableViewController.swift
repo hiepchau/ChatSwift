@@ -46,7 +46,7 @@ class LoginTableViewController: UITableViewController {
             if isSuccess {
                 let token = UserDefaults.standard.string(forKey: "LOGINTOKEN")
                 let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
-                print("Logged in with user: \(currentUser!); Token: \(String(describing: token))")
+                print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
                 self.performSegue(withIdentifier: "loginSegue", sender: self)
             } else {
                 self.alertUserLoginError(message: "That password doesn't look right")
@@ -75,5 +75,3 @@ extension LoginTableViewController : UITextFieldDelegate {
         return true
     }
 }
-
-
