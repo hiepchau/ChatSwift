@@ -104,7 +104,7 @@ class ConversationsViewController: UIViewController {
             let arrUser = item.users
             
             print("ARRAY: \(arrUser)")
-            if [curID!, id] == arrUser {
+            if [curID, id] == arrUser {
                 flag = true
                 conversationID = item.id
                 name = item.name
@@ -119,7 +119,7 @@ class ConversationsViewController: UIViewController {
     private func createNewConversation(result: [String: String]) {
         DatabaseManager.shared.createNewConversation(result: result) { isSuccess, uuid in
             if isSuccess {
-                self.navigateToChatView(id: uuid, name: result["username"]!)
+                self.navigateToChatView(id: uuid, name: result["username"] ?? "")
             }
             else {
                 //TODO: Handle noti
@@ -135,26 +135,29 @@ class ConversationsViewController: UIViewController {
         spinner.show(in: view)
         
         //Get conversation list
-        DatabaseManager.shared.getAllConversation { result in
+        DatabaseManager.shared.getAllConversation {[weak self] result in
+          
+            guard let strongself = self else { return }
+            
             DispatchQueue.main.async {
-                self.spinner.dismiss()
+                strongself.spinner.dismiss()
             }
             
             switch result {
             case .success(let dataCollection):
-                self.listConversation = dataCollection
+                strongself.listConversation = dataCollection
                 
-                if self.listConversation.isEmpty {
-                    self.tableView.isHidden = true
-                    self.noConversationsLabel.isHidden = false
+                if strongself.listConversation.isEmpty {
+                    strongself.tableView.isHidden = true
+                    strongself.noConversationsLabel.isHidden = false
                     return
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    strongself.tableView.reloadData()
                 }
             case .failure(let error):
-                self.tableView.isHidden = true
-                self.noConversationsLabel.isHidden = false
+                strongself.tableView.isHidden = true
+                strongself.noConversationsLabel.isHidden = false
                 print("Failed to get conversation: \(error)")
             }
         }

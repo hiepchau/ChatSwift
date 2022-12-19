@@ -14,7 +14,7 @@ import SDWebImage
 import AVFoundation
 import AVKit
 import CoreLocation
-import SwiftUI
+
 
 class ChatViewController: MessagesViewController {
 
@@ -23,8 +23,8 @@ class ChatViewController: MessagesViewController {
     private var messages = [Message]()
     var currentConversationID = ""
 
-    static let currentToken = UserDefaults.standard.string(forKey: "LOGINTOKEN")
-    public let selfSender = Sender(senderId: currentToken!, displayName: "self")
+    let currentToken = UserDefaults.standard.string(forKey: "LOGINTOKEN")
+    public var selfSender = Sender(senderId: "", displayName: "self")
     public var isNewConversation = false
     
 //MARK: - LoadView
@@ -34,6 +34,10 @@ class ChatViewController: MessagesViewController {
         
         view.backgroundColor = .blue
         
+        guard let currentToken = currentToken else {
+            return
+        }
+        selfSender = Sender(senderId: currentToken, displayName: "self")
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
@@ -69,17 +73,17 @@ class ChatViewController: MessagesViewController {
         let actionSheet = UIAlertController(title: "Attach Media",
                                             message: "What would you like to attach?",
                                             preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Photo", style: .default, handler: { [self] _ in
-            self.presentPhotoInputActionsheet()
+        actionSheet.addAction(UIAlertAction(title: "Photo", style: .default, handler: { [weak self] _ in
+            self?.presentPhotoInputActionsheet()
         }))
-        actionSheet.addAction(UIAlertAction(title: "Video", style: .default, handler: { [self]  _ in
-            self.presentVideoInputActionsheet()
+        actionSheet.addAction(UIAlertAction(title: "Video", style: .default, handler: { [weak self]  _ in
+            self?.presentVideoInputActionsheet()
         }))
         actionSheet.addAction(UIAlertAction(title: "Audio", style: .default, handler: {  _ in
 
         }))
-        actionSheet.addAction(UIAlertAction(title: "Location", style: .default, handler: { [self]  _ in
-            self.presentLocationPicker()
+        actionSheet.addAction(UIAlertAction(title: "Location", style: .default, handler: { [weak self]  _ in
+            self?.presentLocationPicker()
         }))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
@@ -95,6 +99,7 @@ class ChatViewController: MessagesViewController {
             guard let strongSelf = self else {
                 return
             }
+            
             let messageId = strongSelf.createMessageID()
 
             let longitude: Double = selectedCoorindates.longitude
@@ -120,22 +125,20 @@ class ChatViewController: MessagesViewController {
         let actionSheet = UIAlertController(title: "Attach Photo",
                                             message: "Where would you like to attach a photo from",
                                             preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [self] _ in
-
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
             let picker = UIImagePickerController()
             picker.sourceType = .camera
             picker.delegate = self
             picker.allowsEditing = true
-            self.present(picker, animated: true)
-
+            self?.present(picker, animated: true)
         }))
-        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [self] _ in
-
+        
+        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
             picker.delegate = self
             picker.allowsEditing = true
-            self.present(picker, animated: true)
+            self?.present(picker, animated: true)
 
         }))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -147,7 +150,7 @@ class ChatViewController: MessagesViewController {
         let actionSheet = UIAlertController(title: "Attach Video",
                                             message: "Where would you like to attach a video from?",
                                             preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [self] _ in
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] _ in
 
             let picker = UIImagePickerController()
             picker.sourceType = .camera
@@ -155,10 +158,10 @@ class ChatViewController: MessagesViewController {
             picker.mediaTypes = ["public.movie"]
             picker.videoQuality = .typeMedium
             picker.allowsEditing = true
-            self.present(picker, animated: true)
+            self?.present(picker, animated: true)
 
         }))
-        actionSheet.addAction(UIAlertAction(title: "Library", style: .default, handler: { [self] _ in
+        actionSheet.addAction(UIAlertAction(title: "Library", style: .default, handler: { [weak self] _ in
 
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
@@ -166,9 +169,9 @@ class ChatViewController: MessagesViewController {
             picker.allowsEditing = true
             picker.mediaTypes = ["public.movie"]
             picker.videoQuality = .typeMedium
-            self.present(picker, animated: true)
-
+            self?.present(picker, animated: true)
         }))
+        
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
         present(actionSheet, animated: true)
@@ -176,7 +179,7 @@ class ChatViewController: MessagesViewController {
 //MARK: - Func
     //Write to database
     private func createMessage(sendMssg: Message)  {
-        guard currentConversationID != "" else {
+        guard currentConversationID.isEmpty else {
             print("Error: Don't match any conversation")
             return
         }
@@ -192,15 +195,20 @@ class ChatViewController: MessagesViewController {
     private func fetchMessage(shouldScrollToBottom: Bool) {
         print("Current conversation ID: \(currentConversationID)")
         
-        DatabaseManager.shared.getAllMessages(currentConversationID: currentConversationID, completion: { result in
+        DatabaseManager.shared.getAllMessages(currentConversationID: currentConversationID, completion: {[weak self] result in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
             switch result {
             case .success(let messageCollection):
-                self.messages = messageCollection
+                strongSelf.messages = messageCollection
                 
                 DispatchQueue.main.async {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                    strongSelf.messagesCollectionView.reloadDataAndKeepOffset()
                     if shouldScrollToBottom{
-                        self.messagesCollectionView.scrollToLastItem(animated: false)
+                        strongSelf.messagesCollectionView.scrollToLastItem(animated: false)
                     }
                 }
                 print("Fetch successful!")
@@ -256,21 +264,19 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        guard !text.replacingOccurrences(of: "", with: "").isEmpty else{
+        guard !text.replacingOccurrences(of: " ", with: "").isEmpty else{
             return
         }
        
         let mssgID = createMessageID()
-        DispatchQueue.main.async {
-            let sendMssg = Message(sender: self.selfSender,
-                                   messageId: mssgID,
-                                   sentDate: Date(),
-                                   kind: .text(text))
-            //Insert db
-            self.createMessage(sendMssg: sendMssg)
-            
-            self.messageInputBar.inputTextView.text = nil
-        }
+        let sendMssg = Message(sender: self.selfSender,
+                               messageId: mssgID,
+                               sentDate: Date(),
+                               kind: .text(text))
+        //Insert db
+        self.createMessage(sendMssg: sendMssg)
+        
+        self.messageInputBar.inputTextView.text = nil
 
         print("Sending mssg: \(text)")
         //Send message

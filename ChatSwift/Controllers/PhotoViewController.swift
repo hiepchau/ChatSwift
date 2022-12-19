@@ -35,7 +35,6 @@ final class PhotoViewerViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         view.backgroundColor = .black
         view.addSubview(imageView)
-
         imageView.loadImage(fromURL: url)
     }
 

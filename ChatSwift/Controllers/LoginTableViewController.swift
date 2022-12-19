@@ -39,18 +39,29 @@ class LoginTableViewController: UITableViewController {
         
         spinner.show(in: view)
    
-        DatabaseManager.shared.authenticate(username: usernameField.text!, password: passwordField.text!) { isSuccess in
-            DispatchQueue.main.async {
-                self.spinner.dismiss()
+        guard let username = usernameField.text, let password = passwordField.text else {
+            return
+        }
+        
+        DatabaseManager.shared.authenticate(username: username, password: password) {[weak self] isSuccess in
+            
+            guard let strongself = self else {
+                return
             }
+            
+            DispatchQueue.main.async {
+                strongself.spinner.dismiss()
+            }
+            
             if isSuccess {
                 let token = UserDefaults.standard.string(forKey: "LOGINTOKEN")
                 let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
                 print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
-                self.performSegue(withIdentifier: "loginSegue", sender: self)
-            } else {
-                self.alertUserLoginError(message: "That password doesn't look right")
-                self.passwordField.text = nil
+                strongself.performSegue(withIdentifier: "loginSegue", sender: self)
+            }
+            else {
+                strongself.alertUserLoginError(message: "That password doesn't look right")
+                strongself.passwordField.text = nil
                 print("Authenticate failed")
             }
         }
