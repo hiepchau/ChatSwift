@@ -62,8 +62,8 @@ class ChatViewController: MessagesViewController {
         let button = InputBarButtonItem()
         button.setSize(CGSize(width: 35, height: 35), animated: false)
         button.setImage(UIImage(systemName: "paperclip"), for: .normal)
-        button.onTouchUpInside { [self] _ in
-            self.presentInputActionSheet()
+        button.onTouchUpInside { [weak self] _ in
+            self?.presentInputActionSheet()
         }
         messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
         messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
