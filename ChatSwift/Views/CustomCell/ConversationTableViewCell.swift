@@ -29,7 +29,6 @@ class ConversationTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-
     public func configure(with model: ConversationModel) {
 //        userMessageLabel.text = model.latestMessage.text
         usernameLabel.text = model.name
