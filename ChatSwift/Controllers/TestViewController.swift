@@ -96,21 +96,20 @@ class TestViewController: UIViewController {
 //            msg.append(values ?? [])
 //        }
     }
-    
-
-    
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        attemptToAssembleGroupedMessages()
-//        tableView.estimatedRowHeight = UITableView.automaticDimension
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
+        setupTableView()
      
     }
     
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        attemptToAssembleGroupedMessages()
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+    }
     
 }
 
