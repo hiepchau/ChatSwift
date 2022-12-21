@@ -84,23 +84,7 @@ class TestViewController: UIViewController {
      
     }
 
-    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
-        let oldWidth = image.size.width;
-        let oldHeight = image.size.height;
-        
-        let scaleFactor = (oldWidth > oldHeight) ? width / oldWidth : height / oldHeight;
-        
-        let newHeight = oldHeight * scaleFactor;
-        let newWidth = oldWidth * scaleFactor;
-        let newSize = CGSize(width: newWidth, height: newHeight)
-        
-        UIGraphicsBeginImageContextWithOptions(newSize,false,UIScreen.main.scale);
-        
-        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height));
-        let newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        return newImage
-    }
+
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -133,10 +117,10 @@ extension TestViewController: UITableViewDelegate, UITableViewDataSource{
             textCell.setupUI(isSender: item.isSender)
             return textCell
         case .photo(let img):
-            let resimg = resizeImageWithAspect(image: img, scaledToMaxWidth: 300, maxHeight: 300)
-                imgCell.imageMsg.image = resimg!.resizeWithScaleAspectFitMode(to: CGFloat(2000))
-                imgCell.setupUI(isSender: item.isSender)
-                return imgCell
+//            let resimg = img.resizeImageWithAspect(image: img, scaledToMaxWidth: 300, maxHeight: 300)
+            imgCell.imageMsg.image = img.resizeWithScaleAspectFitMode(to: CGFloat(300))
+            imgCell.setupUI(isSender: item.isSender)
+            return imgCell
         }
     }
     

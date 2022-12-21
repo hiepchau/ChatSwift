@@ -74,12 +74,13 @@ extension UIImage {
 }
 
 extension UIImage {
-
+        
     /// Resize image with ScaleAspectFit mode and given size.
     ///
     /// - Parameter dimension: width or length of the image output.
     /// - Parameter resizeFramework: Technique for image resizing: UIKit / CoreImage / CoreGraphics / ImageIO / Accelerate.
     /// - Returns: Resized image.
+    
 
     func resizeWithScaleAspectFitMode(to dimension: CGFloat) -> UIImage? {
 
@@ -119,5 +120,24 @@ extension UIImage {
         defer { UIGraphicsEndImageContext() }
         return UIGraphicsGetImageFromCurrentImageContext()
     }
-
+    
+    
+    /// Second way
+    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
+        let oldWidth = image.size.width;
+        let oldHeight = image.size.height;
+        
+        let scaleFactor = (oldWidth > oldHeight) ? width / oldWidth : height / oldHeight;
+        
+        let newHeight = oldHeight * scaleFactor;
+        let newWidth = oldWidth * scaleFactor;
+        let newSize = CGSize(width: newWidth, height: newHeight)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize,false,UIScreen.main.scale);
+        
+        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height));
+        let newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return newImage
+    }
 }

@@ -12,7 +12,7 @@ import UIKit
 import CoreLocation
 import MessageKit
 
-class DatabaseManager {
+final class DatabaseManager {
     static let shared = DatabaseManager()
     var currentID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
     let _userRef = Firestore.firestore().collection("user")

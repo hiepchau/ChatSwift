@@ -36,6 +36,7 @@
 		F1B2BBFD294313A200D65D69 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBFC294313A200D65D69 /* MessageModel.swift */; };
 		F1BB257629495F9C00127807 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257529495F9C00127807 /* PhotoViewController.swift */; };
 		F1BB257829495FEE00127807 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257729495FED00127807 /* LocationPickerViewController.swift */; };
+		F1C6D3E429531C0D00387F04 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C6D3E329531C0D00387F04 /* MediaManager.swift */; };
 		F1F5CAC12952C41E009B7749 /* ImageMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F5CAC02952C41E009B7749 /* ImageMessageCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		F1B2BBFC294313A200D65D69 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		F1BB257529495F9C00127807 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		F1BB257729495FED00127807 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
+		F1C6D3E329531C0D00387F04 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
 		F1F5CAC02952C41E009B7749 /* ImageMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,6 +142,7 @@
 				F16395482940FEA400DED7D7 /* Resources */,
 				F163953F2940FE3C00DED7D7 /* Controllers */,
 				F16395492940FEE200DED7D7 /* Views */,
+				F1C6D3E229531BAE00387F04 /* Services */,
 				F16395302940FB3800DED7D7 /* Info.plist */,
 				F163953D2940FDEF00DED7D7 /* GoogleService-Info.plist */,
 			);
@@ -165,8 +168,6 @@
 			children = (
 				F16395222940FB3700DED7D7 /* AppDelegate.swift */,
 				F16395242940FB3700DED7D7 /* SceneDelegate.swift */,
-				F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */,
-				F15521A7294884F30083F652 /* StorageManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -174,7 +175,6 @@
 		F16395492940FEE200DED7D7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F115EA66294ADB660056A31F /* Extensions.swift */,
 				F115EA68294B0FE50056A31F /* CustomCell */,
 				F163952B2940FB3800DED7D7 /* Assets.xcassets */,
 				F163954A2940FEED00DED7D7 /* Storyboards */,
@@ -200,6 +200,17 @@
 				F1B2BBFC294313A200D65D69 /* MessageModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		F1C6D3E229531BAE00387F04 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F115EA66294ADB660056A31F /* Extensions.swift */,
+				F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */,
+				F15521A7294884F30083F652 /* StorageManager.swift */,
+				F1C6D3E329531C0D00387F04 /* MediaManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,6 +345,7 @@
 				F16395432940FE6A00DED7D7 /* ConversationsViewController.swift in Sources */,
 				F129E207295058ED007621A1 /* TestViewController.swift in Sources */,
 				F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */,
+				F1C6D3E429531C0D00387F04 /* MediaManager.swift in Sources */,
 				F16395232940FB3700DED7D7 /* AppDelegate.swift in Sources */,
 				F1B2BBFD294313A200D65D69 /* MessageModel.swift in Sources */,
 				F16395412940FE5000DED7D7 /* ChatViewController.swift in Sources */,
