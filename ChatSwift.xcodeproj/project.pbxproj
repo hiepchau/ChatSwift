@@ -36,6 +36,7 @@
 		F1B2BBFD294313A200D65D69 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBFC294313A200D65D69 /* MessageModel.swift */; };
 		F1BB257629495F9C00127807 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257529495F9C00127807 /* PhotoViewController.swift */; };
 		F1BB257829495FEE00127807 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257729495FED00127807 /* LocationPickerViewController.swift */; };
+		F1F5CAC12952C41E009B7749 /* ImageMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F5CAC02952C41E009B7749 /* ImageMessageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		F1B2BBFC294313A200D65D69 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		F1BB257529495F9C00127807 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		F1BB257729495FED00127807 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
+		F1F5CAC02952C41E009B7749 /* ImageMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			children = (
 				F155219E294876620083F652 /* ConversationTableViewCell.swift */,
 				F129E20829505BFE007621A1 /* ChatMessageCell.swift */,
+				F1F5CAC02952C41E009B7749 /* ImageMessageCell.swift */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				F16395252940FB3700DED7D7 /* SceneDelegate.swift in Sources */,
 				F1B2BBFB294312F200D65D69 /* ConversationModel.swift in Sources */,
 				F155219F294876620083F652 /* ConversationTableViewCell.swift in Sources */,
+				F1F5CAC12952C41E009B7749 /* ImageMessageCell.swift in Sources */,
 				F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */,
 				F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */,
 				F115EA67294ADB660056A31F /* Extensions.swift in Sources */,

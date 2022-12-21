@@ -273,7 +273,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
                                messageId: mssgID,
                                sentDate: Date(),
                                kind: .text(text))
-        //Insert db
+        ///Insert db
         self.createMessage(sendMssg: sendMssg)
         
         self.messageInputBar.inputTextView.text = nil

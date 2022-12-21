@@ -8,10 +8,15 @@
 import UIKit
 
 
+enum Kind {
+    case text(String)
+    case photo(UIImage)
+}
+
 struct ChatMessage {
-    let text:String
     let isSender: Bool
     let date: Date
+    let kind: Kind
 }
 
 extension Date {
@@ -28,63 +33,39 @@ class TestViewController: UIViewController {
     var msg = [[ChatMessage]]()
     
     let messagesFromServer = [
-        ChatMessage(text: "Toi la ai", isSender: false, date: Date.dateFromCustomString(customString: "19/10/2022")),
-        ChatMessage(text: "Toi la toi", isSender: true, date: Date.dateFromCustomString(customString: "19/10/2022")),
-        ChatMessage(text: "Em la ai", isSender: true, date: Date.dateFromCustomString(customString: "19/10/2022")),
-        ChatMessage(text: "Em la em", isSender: false, date: Date.dateFromCustomString(customString: "20/12/2022")),
-        ChatMessage(text: """
+        ChatMessage(isSender: false, date: Date.dateFromCustomString(customString: "19/10/2022"), kind: .text("Toi la ai")),
+        ChatMessage(isSender: true, date: Date.dateFromCustomString(customString: "19/10/2022"), kind: .text("Toi la toi")),
+        ChatMessage(isSender: true, date: Date.dateFromCustomString(customString: "19/10/2022"), kind: .text("Em la ai")),
+        ChatMessage(isSender: false, date: Date.dateFromCustomString(customString: "18/12/2022"), kind: .text("Em la em")),
+        ChatMessage(isSender: true, date: Date.dateFromCustomString(customString: "18/12/2022"), kind: .text("""
             The club isn't the best place to find a lover
             So the bar is where I go
             Me and my friends at the table doing shots
             Drinking fast and then we talk slow
-            """, isSender: true, date: Date.dateFromCustomString(customString: "20/12/2022")),
-        ChatMessage(text: """
+            """)),
+        ChatMessage(isSender: false, date: Date.dateFromCustomString(customString: "20/10/2022"), kind: .text("Toi la ai")),
+        ChatMessage(isSender: true, date: Date.dateFromCustomString(customString: "20/10/2022"), kind: .text("Toi la toi")),
+        ChatMessage(isSender: true, date: Date.dateFromCustomString(customString: "20/10/2022"), kind: .text("Em la ai")),
+        ChatMessage(isSender: false, date: Date.dateFromCustomString(customString: "20/12/2022"), kind: .text("Em la em")),
+        ChatMessage(isSender: true, date: Date.dateFromCustomString(customString: "21/12/2022"), kind: .text("""
             The club isn't the best place to find a lover
             So the bar is where I go
             Me and my friends at the table doing shots
             Drinking fast and then we talk slow
-            """, isSender: false, date: Date.dateFromCustomString(customString: "20/12/2022")),
-        ChatMessage(text: "Toi la ai", isSender: false, date: Date.dateFromCustomString(customString: "19/10/2022")),
-        ChatMessage(text: "Toi la toi", isSender: true, date: Date.dateFromCustomString(customString: "19/10/2022")),
-        ChatMessage(text: "Em la ai", isSender: true, date: Date.dateFromCustomString(customString: "19/10/2022")),
-        ChatMessage(text: "Em la em", isSender: false, date: Date.dateFromCustomString(customString: "20/12/2022")),
-        ChatMessage(text: """
-            The club isn't the best place to find a lover
-            So the bar is where I go
-            Me and my friends at the table doing shots
-            Drinking fast and then we talk slow
-            """, isSender: true, date: Date.dateFromCustomString(customString: "20/12/2022")),
-        ChatMessage(text: """
-            The club isn't the best place to find a lover
-            So the bar is where I go
-            Me and my friends at the table doing shots
-            Drinking fast and then we talk slow
-            """, isSender: false, date: Date.dateFromCustomString(customString: "20/12/2022")),
-        ChatMessage(text: "Toi la ai", isSender: false, date: Date.dateFromCustomString(customString: "19/10/2022")),
-        ChatMessage(text: "Toi la toi", isSender: true, date: Date.dateFromCustomString(customString: "19/10/2022")),
-        ChatMessage(text: "Em la ai", isSender: true, date: Date.dateFromCustomString(customString: "19/10/2022")),
-        ChatMessage(text: "Em la em", isSender: false, date: Date.dateFromCustomString(customString: "20/12/2022")),
-        ChatMessage(text: """
-            The club isn't the best place to find a lover
-            So the bar is where I go
-            Me and my friends at the table doing shots
-            Drinking fast and then we talk slow
-            """, isSender: true, date: Date.dateFromCustomString(customString: "20/12/2022")),
-        ChatMessage(text: """
-            The club isn't the best place to find a lover
-            So the bar is where I go
-            Me and my friends at the table doing shots
-            Drinking fast and then we talk slow
-            """, isSender: false, date: Date.dateFromCustomString(customString: "20/12/2022"))
+            """)),
+        ChatMessage(isSender: false, date: Date.dateFromCustomString(customString: "21/12/2022"), kind: .photo(UIImage(named: "image-template1")!)),
+        ChatMessage(isSender: true, date: Date.dateFromCustomString(customString: "21/12/2022"), kind: .photo(UIImage(named: "image-template2")!)),
+        ChatMessage(isSender: true, date: Date.dateFromCustomString(customString: "21/12/2022"), kind: .photo(UIImage(named: "image-template3")!)),
+        ChatMessage(isSender: false, date: Date.dateFromCustomString(customString: "21/12/2022"), kind: .photo(UIImage(named: "image-template4")!)),
+        ChatMessage(isSender: false, date: Date.dateFromCustomString(customString: "21/12/2022"), kind: .photo(UIImage(named: "image-template5")!)),
     ]
     
     fileprivate func attemptToAssembleGroupedMessages(){
     
-        
         let groupedMessages = Dictionary(grouping: messagesFromServer) { (element) -> Date in
             return element.date
         }
-        
+    
         let sortedKeys = groupedMessages.keys.sorted()
         sortedKeys.forEach { (key) in
             let values = groupedMessages[key]
@@ -102,7 +83,24 @@ class TestViewController: UIViewController {
         setupTableView()
      
     }
-    
+
+    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
+        let oldWidth = image.size.width;
+        let oldHeight = image.size.height;
+        
+        let scaleFactor = (oldWidth > oldHeight) ? width / oldWidth : height / oldHeight;
+        
+        let newHeight = oldHeight * scaleFactor;
+        let newWidth = oldWidth * scaleFactor;
+        let newSize = CGSize(width: newWidth, height: newHeight)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize,false,UIScreen.main.scale);
+        
+        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height));
+        let newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return newImage
+    }
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -124,12 +122,22 @@ extension TestViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "msgCell", for: indexPath) as! ChatMessageCell
-    
+        let textCell = tableView.dequeueReusableCell(withIdentifier: "textCell", for: indexPath) as! ChatMessageCell
+        let imgCell = tableView.dequeueReusableCell(withIdentifier: "imgCell", for: indexPath) as! ImageMessageCell
 //        cell.trailingLabel.priority = UILayoutPriority(999)
-        cell.msglabel.text = msg[indexPath.section][indexPath.row].text
-        cell.setupUI(isSender: msg[indexPath.section][indexPath.row].isSender)
-        return cell
+        let item = msg[indexPath.section][indexPath.row]
+        
+        switch item.kind {
+        case .text(let textMsg):
+            textCell.msglabel.text = textMsg
+            textCell.setupUI(isSender: item.isSender)
+            return textCell
+        case .photo(let img):
+            let resimg = resizeImageWithAspect(image: img, scaledToMaxWidth: 300, maxHeight: 300)
+                imgCell.imageMsg.image = resimg!.resizeWithScaleAspectFitMode(to: CGFloat(2000))
+                imgCell.setupUI(isSender: item.isSender)
+                return imgCell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -178,3 +186,6 @@ class DateHeaderLabel: UILabel {
         return CGSize(width: originalContentSize.width + 16, height: height)
     }
 }
+
+
+
