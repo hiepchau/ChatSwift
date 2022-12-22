@@ -10,7 +10,6 @@ import FirebaseCore
 import FirebaseFirestore
 import UIKit
 import CoreLocation
-import MessageKit
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
@@ -177,9 +176,11 @@ extension DatabaseManager {
 //MARK: - Messages
 
 extension DatabaseManager {
+    
+    ///CREATE
     public func createNewMessage(sendMsg: Message, conversationID: String, completion: @escaping(Bool) -> Void){
         let data = MessageModel(message: sendMsg, conversationID: conversationID)
-        _messageRef.document(sendMsg.messageId).setData(data.dictionary){ err in
+        _messageRef.document(sendMsg.id).setData(data.dictionary){ err in
             if let err = err {
                 print("Error writing document: \(err)")
                 completion(false)
@@ -189,6 +190,7 @@ extension DatabaseManager {
         }
     }
     
+    ///GET
     public func getAllMessages(currentConversationID: String, completion: @escaping(Result<[Message], Error>) -> Void){
         var listMessages = [Message]()
         let query = _messageRef.whereField("conversationID", isEqualTo: currentConversationID).order(by: "sentDate")
@@ -206,56 +208,22 @@ extension DatabaseManager {
             querySnapshot.documentChanges.forEach({ change in
                 if change.type == .added {
                     let resMessage = MessageModel(data: change.document.data())
-                    var currKind: MessageKind
-                    let name = self.getUsernameByID(id: resMessage.senderID)
-                    let sender = (resMessage.id == currentID) ? Sender(senderId: currentID, displayName: "self") : Sender(senderId: resMessage.senderID, displayName: name)
-         
+                    var currKind: Kind
+                    let sender = (resMessage.id == currentID) ? currentID : resMessage.senderID
                     switch resMessage.kind {
                     case "photo":
-                        guard let imageUrl = URL(string: resMessage.content),
-                              //TODO: Custom place holder
-                              let placeHolder = UIImage(systemName: "photo") else {
+                        guard let imageUrl = URL(string: resMessage.content) else {
                             return
                         }
-
-                        let media = Media(url: imageUrl,
-                                          image: nil,
-                                          placeholderImage: placeHolder,
-                                          size: CGSize(width: 300, height: 300))
-                        
-                        currKind = .photo(media)
-                        
-                    case "video":
-                        guard let videoUrl = URL(string: resMessage.content),
-                            let placeHolder = UIImage(named: "video_placeholder") else {
-                                return
-                        }
-                        
-                        let media = Media(url: videoUrl,
-                                          image: nil,
-                                          placeholderImage: placeHolder,
-                                          size: CGSize(width: 300, height: 300))
-                        print("Video URl: \(videoUrl)")
-                        currKind = .video(media)
-                        
-                    case "location":
-                        let locationComponents = resMessage.content.components(separatedBy: ",")
-                        guard let longitude = Double(locationComponents[0]),
-                            let latitude = Double(locationComponents[1]) else {
-                            return
-                        }
-                        print("Rendering location: long=\(longitude) | lat=\(latitude)")
-                        let location = Location(location: CLLocation(latitude: latitude, longitude: longitude),
-                                                size: CGSize(width: 300, height: 300))
-                        currKind = .location(location)
-                        
+                        currKind = .photo(imageUrl)
+                    
                     default:
                         currKind = .text(resMessage.content)
                     }
                     
                     //apend
-                    listMessages.append(Message(sender: sender,
-                                                messageId: resMessage.id,
+                    listMessages.append(Message(id: resMessage.id,
+                                                senderID: sender,
                                                 sentDate: resMessage.sentDate,
                                                 kind: currKind))
                 }

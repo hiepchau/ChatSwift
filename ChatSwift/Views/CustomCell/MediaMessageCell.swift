@@ -1,5 +1,5 @@
 //
-//  ImageMessageCell.swift
+//  MediaMessageCell.swift
 //  ChatSwift
 //
 //  Created by Châu Hiệp on 21/12/2022.
@@ -7,10 +7,11 @@
 
 import UIKit
 
-class ImageMessageCell: UITableViewCell {
+class MediaMessageCell: UITableViewCell {
 
-    @IBOutlet weak var imageMsg: UIImageView!
 
+    @IBOutlet weak var imageMsg: CacheImageView!
+    
     var leadingImage: NSLayoutConstraint!
     var trailingImage: NSLayoutConstraint!
     override func awakeFromNib() {
@@ -29,7 +30,6 @@ class ImageMessageCell: UITableViewCell {
         ]
 
         NSLayoutConstraint.activate(constraints)
-
         leadingImage = imageMsg.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16)
         trailingImage = imageMsg.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16)
         leadingImage.isActive = false

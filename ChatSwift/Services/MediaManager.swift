@@ -13,14 +13,14 @@ final class MediaManager {
     
 }
 
-class LazyImageView: UIImageView
+class CacheImageView: UIImageView
 {
 
     private let imageCache = NSCache<AnyObject, UIImage>()
 
-    func loadImage(fromURL imageURL: URL, placeHolderImage: String)
+    func loadImage(fromURL imageURL: URL)
     {
-        self.image = UIImage(named: placeHolderImage)
+        self.image = UIImage(systemName: "photo")
 
         if let cachedImage = self.imageCache.object(forKey: imageURL as AnyObject)
         {
@@ -37,7 +37,7 @@ class LazyImageView: UIImageView
                 {
                     DispatchQueue.main.async {
                         self!.imageCache.setObject(image, forKey: imageURL as AnyObject)
-                        self?.image = image
+                        self?.image = image.resizeWithScaleAspectFitMode(to: CGFloat(300))
                     }
                 }
             }

@@ -11,7 +11,7 @@ import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
+    var rowSelected : Int?
     private let spinner = JGProgressHUD(style: .dark)
     let curID = DatabaseManager.shared.currentID
 
@@ -84,14 +84,27 @@ class ConversationsViewController: UIViewController {
         }
         
     }
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "segue") {
+            if let vc = segue.destination as? ChatViewController, let rowSelected = rowSelected {
+//                guard let indexPath = self.tableView.indexPathForSelectedRow else {
+//                    return
+//                }
+                vc.currentConversationID = listConversation[rowSelected].id
+                vc.title = listConversation[rowSelected].name
+                vc.navigationItem.largeTitleDisplayMode = .never
+         }
+        }
+    }
+
     private func navigateToChatView(id: String, name: String){
         let vc = ChatViewController()
         vc.isNewConversation = false
         vc.currentConversationID = id
         vc.title = name
         vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
+        self.performSegue(withIdentifier: "segue", sender: self)
+//        self.present(test, animated: false)
     }
     
     
@@ -188,12 +201,15 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+//        let vc = ChatViewController()
+//        vc.currentConversationID = listConversation[indexPath.row].id
+//        vc.title = listConversation[indexPath.row].name
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        navigationController?.present(vc, animated: false)
 
-        let vc = ChatViewController()
-        vc.currentConversationID = listConversation[indexPath.row].id
-        vc.title = listConversation[indexPath.row].name
-        vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
+//        navigationController?.pushViewController(vc, animated: true)
+        rowSelected = indexPath.row
+        self.performSegue(withIdentifier: "segue", sender: self)
     }
 }
 

@@ -11,6 +11,7 @@
 		F115EA67294ADB660056A31F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F115EA66294ADB660056A31F /* Extensions.swift */; };
 		F129E207295058ED007621A1 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F129E206295058ED007621A1 /* TestViewController.swift */; };
 		F129E20929505BFE007621A1 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F129E20829505BFE007621A1 /* ChatMessageCell.swift */; };
+		F14029B8295461F400BED75F /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14029B7295461F400BED75F /* MessageViewController.swift */; };
 		F155219F294876620083F652 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F155219E294876620083F652 /* ConversationTableViewCell.swift */; };
 		F15521A2294881E00083F652 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F15521A1294881E00083F652 /* FirebaseAnalytics */; };
 		F15521A4294881E00083F652 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F15521A3294881E00083F652 /* FirebaseFirestore */; };
@@ -37,7 +38,7 @@
 		F1BB257629495F9C00127807 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257529495F9C00127807 /* PhotoViewController.swift */; };
 		F1BB257829495FEE00127807 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257729495FED00127807 /* LocationPickerViewController.swift */; };
 		F1C6D3E429531C0D00387F04 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C6D3E329531C0D00387F04 /* MediaManager.swift */; };
-		F1F5CAC12952C41E009B7749 /* ImageMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F5CAC02952C41E009B7749 /* ImageMessageCell.swift */; };
+		F1F5CAC12952C41E009B7749 /* MediaMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F5CAC02952C41E009B7749 /* MediaMessageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		F115EA66294ADB660056A31F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F129E206295058ED007621A1 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		F129E20829505BFE007621A1 /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
+		F14029B7295461F400BED75F /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		F155219E294876620083F652 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		F15521A7294884F30083F652 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		F163951F2940FB3700DED7D7 /* ChatSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,7 +71,7 @@
 		F1BB257529495F9C00127807 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		F1BB257729495FED00127807 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
 		F1C6D3E329531C0D00387F04 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
-		F1F5CAC02952C41E009B7749 /* ImageMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageCell.swift; sourceTree = "<group>"; };
+		F1F5CAC02952C41E009B7749 /* MediaMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +114,7 @@
 			children = (
 				F155219E294876620083F652 /* ConversationTableViewCell.swift */,
 				F129E20829505BFE007621A1 /* ChatMessageCell.swift */,
-				F1F5CAC02952C41E009B7749 /* ImageMessageCell.swift */,
+				F1F5CAC02952C41E009B7749 /* MediaMessageCell.swift */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -159,6 +161,7 @@
 				F1BB257529495F9C00127807 /* PhotoViewController.swift */,
 				F1BB257729495FED00127807 /* LocationPickerViewController.swift */,
 				F129E206295058ED007621A1 /* TestViewController.swift */,
+				F14029B7295461F400BED75F /* MessageViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -352,8 +355,9 @@
 				F16395252940FB3700DED7D7 /* SceneDelegate.swift in Sources */,
 				F1B2BBFB294312F200D65D69 /* ConversationModel.swift in Sources */,
 				F155219F294876620083F652 /* ConversationTableViewCell.swift in Sources */,
-				F1F5CAC12952C41E009B7749 /* ImageMessageCell.swift in Sources */,
+				F1F5CAC12952C41E009B7749 /* MediaMessageCell.swift in Sources */,
 				F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */,
+				F14029B8295461F400BED75F /* MessageViewController.swift in Sources */,
 				F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */,
 				F115EA67294ADB660056A31F /* Extensions.swift in Sources */,
 				F1BB257629495F9C00127807 /* PhotoViewController.swift in Sources */,
