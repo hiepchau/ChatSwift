@@ -66,6 +66,12 @@ class LoginTableViewController: UITableViewController {
             }
         }
     }
+    @IBAction func signupButtonClicked(_ sender: UIButton) {
+        if let signupVC = self.storyboard?.instantiateViewController(identifier: "SignUpViewController") as? SignUpViewController{
+//            signupVC.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.pushViewController(signupVC, animated: true)
+        }
+    }
     
     func alertUserLoginError(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)

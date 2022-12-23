@@ -9,7 +9,6 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 import UIKit
-import CoreLocation
 
 final class DatabaseManager {
     static let shared = DatabaseManager()

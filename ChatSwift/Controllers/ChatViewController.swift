@@ -227,17 +227,20 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource{
         case .text(let textMsg):
             textCell.msglabel.text = textMsg
             textCell.setupUI(isSender: isSender)
-            textCell.selectionStyle = .none;
             return textCell
         case .photo(let url):
 //            imgCell.imageMsg.image = img.resizeWithScaleAspectFitMode(to: CGFloat(300))
             imgCell.setupUI(isSender: isSender)
             imgCell.imageMsg.loadImage(fromURL: url)
-            imgCell.selectionStyle = .none;
             return imgCell
         }
     }
-
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return false
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
