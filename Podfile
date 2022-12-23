@@ -6,7 +6,6 @@ target 'ChatSwift' do
   use_frameworks!
 
   # Pods for ChatSwift
-  pod 'MessageKit'
   pod 'JGProgressHUD'
   pod 'RealmSwift'
   pod 'SDWebImage'

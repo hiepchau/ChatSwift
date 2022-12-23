@@ -11,7 +11,7 @@ import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
+    var rowSelected : Int?
     private let spinner = JGProgressHUD(style: .dark)
     let curID = DatabaseManager.shared.currentID
 
@@ -84,14 +84,27 @@ class ConversationsViewController: UIViewController {
         }
         
     }
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "segue") {
+            if let vc = segue.destination as? ChatViewController, let rowSelected = rowSelected {
+//                guard let indexPath = self.tableView.indexPathForSelectedRow else {
+//                    return
+//                }
+                vc.currentConversationID = listConversation[rowSelected].id
+                vc.title = listConversation[rowSelected].name
+                vc.navigationItem.largeTitleDisplayMode = .never
+         }
+        }
+    }
+
     private func navigateToChatView(id: String, name: String){
         let vc = ChatViewController()
         vc.isNewConversation = false
         vc.currentConversationID = id
         vc.title = name
         vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
+        self.performSegue(withIdentifier: "segue", sender: self)
+//        self.present(test, animated: false)
     }
     
     
@@ -104,7 +117,7 @@ class ConversationsViewController: UIViewController {
             let arrUser = item.users
             
             print("ARRAY: \(arrUser)")
-            if [curID!, id] == arrUser {
+            if [curID, id] == arrUser {
                 flag = true
                 conversationID = item.id
                 name = item.name
@@ -119,7 +132,7 @@ class ConversationsViewController: UIViewController {
     private func createNewConversation(result: [String: String]) {
         DatabaseManager.shared.createNewConversation(result: result) { isSuccess, uuid in
             if isSuccess {
-                self.navigateToChatView(id: uuid, name: result["username"]!)
+                self.navigateToChatView(id: uuid, name: result["username"] ?? "")
             }
             else {
                 //TODO: Handle noti
@@ -135,26 +148,29 @@ class ConversationsViewController: UIViewController {
         spinner.show(in: view)
         
         //Get conversation list
-        DatabaseManager.shared.getAllConversation { result in
+        DatabaseManager.shared.getAllConversation {[weak self] result in
+          
+            guard let strongself = self else { return }
+            
             DispatchQueue.main.async {
-                self.spinner.dismiss()
+                strongself.spinner.dismiss()
             }
             
             switch result {
             case .success(let dataCollection):
-                self.listConversation = dataCollection
+                strongself.listConversation = dataCollection
                 
-                if self.listConversation.isEmpty {
-                    self.tableView.isHidden = true
-                    self.noConversationsLabel.isHidden = false
+                if strongself.listConversation.isEmpty {
+                    strongself.tableView.isHidden = true
+                    strongself.noConversationsLabel.isHidden = false
                     return
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    strongself.tableView.reloadData()
                 }
             case .failure(let error):
-                self.tableView.isHidden = true
-                self.noConversationsLabel.isHidden = false
+                strongself.tableView.isHidden = true
+                strongself.noConversationsLabel.isHidden = false
                 print("Failed to get conversation: \(error)")
             }
         }
@@ -185,12 +201,15 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+//        let vc = ChatViewController()
+//        vc.currentConversationID = listConversation[indexPath.row].id
+//        vc.title = listConversation[indexPath.row].name
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        navigationController?.present(vc, animated: false)
 
-        let vc = ChatViewController()
-        vc.currentConversationID = listConversation[indexPath.row].id
-        vc.title = listConversation[indexPath.row].name
-        vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
+//        navigationController?.pushViewController(vc, animated: true)
+        rowSelected = indexPath.row
+        self.performSegue(withIdentifier: "segue", sender: self)
     }
 }
 

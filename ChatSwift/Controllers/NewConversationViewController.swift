@@ -81,21 +81,24 @@ class NewConversationViewController: UIViewController {
     private func fetchUsersData(){
         self.usersList = []
         tableView.isHidden = false
-        DatabaseManager.shared.getAllUsers { result in
+        DatabaseManager.shared.getAllUsers {[weak self] result in
+          
+            guard let strongself = self else { return }
+            
             switch result {
             case.success(let userCollection):
-                self.usersList = userCollection
-                if self.usersList.isEmpty {
-                    self.tableView.isHidden = true
-                    self.noResultLabel.isHidden = false
+                strongself.usersList = userCollection
+                if strongself.usersList.isEmpty {
+                    strongself.tableView.isHidden = true
+                    strongself.noResultLabel.isHidden = false
                     return
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    strongself.tableView.reloadData()
                 }
             case.failure(let error):
-                self.tableView.isHidden = true
-                self.noResultLabel.isHidden = false
+                strongself.tableView.isHidden = true
+                strongself.noResultLabel.isHidden = false
                 print("Failed to get users: \(error)")
             }
             

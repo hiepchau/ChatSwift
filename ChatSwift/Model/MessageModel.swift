@@ -6,62 +6,30 @@
 //
 
 import Foundation
-import MessageKit
-import InputBarAccessoryView
 import CloudKit
 
-
-
-struct Message: MessageType {
-    var sender: SenderType
-    var messageId: String
-    var sentDate: Date
-    var kind: MessageKind
-}
-struct Sender: SenderType{
-    var senderId: String
-    var displayName: String
+public enum Kind {
+    case text(String)
+    case photo(URL)
 }
 
-struct Location: LocationItem {
-    var location: CLLocation
-    var size: CGSize
+struct Message {
+    let id: String
+    let senderID: String
+    let sentDate: Date
+    let kind: Kind
 }
 
-struct Media: MediaItem {
-    var url: URL?
-    var image: UIImage?
-    var placeholderImage: UIImage
-    var size: CGSize
-}
-
-extension MessageKind {
+extension Kind {
     var messageKindString: String {
         switch self {
         case .text(_):
             return "text"
-        case .attributedText(_):
-            return "attributed_text"
         case .photo(_):
             return "photo"
-        case .video(_):
-            return "video"
-        case .location(_):
-            return "location"
-        case .emoji(_):
-            return "emoji"
-        case .audio(_):
-            return "audio"
-        case .contact(_):
-            return "contact"
-        case .custom(_):
-            return "customc"
-        case .linkPreview(_):
-            return "link"
         }
     }
 }
-
 
 final class MessageModel: BaseModel{
     var id: String
@@ -81,45 +49,19 @@ final class MessageModel: BaseModel{
     }
     
     init(message: Message, conversationID: String){
-        self.id = message.messageId
+        self.id = message.id
         self.conversationID = conversationID
-        self.senderID = message.sender.senderId
+        self.senderID = message.senderID
         self.sentDate = message.sentDate
-        var tempkind = "text"
+        self.kind = message.kind.messageKindString
         var content = ""
         switch message.kind {
         case .text(let messageText):
-            tempkind = "text"
             content = messageText
-        case .attributedText(_):
-            break
-        case .photo(let mediaItem):
-            tempkind = "photo"
-            if let targetUrlString = mediaItem.url?.absoluteString {
-                content = targetUrlString
-            }
-            break
-        case .video(let mediaItem):
-            tempkind = "video"
-            if let targetUrlString = mediaItem.url?.absoluteString {
-                content = targetUrlString
-            }
-            break
-        case .location(let locationData):
-            tempkind = "location"
-            let location = locationData.location
-            content = "\(location.coordinate.longitude),\(location.coordinate.latitude)"
-            break
-        case .emoji(_):
-            break
-        case .audio(_):
-            break
-        case .contact(_):
-            break
-        case .custom(_), .linkPreview(_):
+        case .photo(let url):
+            content = url.absoluteString
             break
         }
-        self.kind = tempkind
         self.content = content
         super.init()
     }
