@@ -20,12 +20,11 @@ class CacheImageView: UIImageView
 
     func loadImage(fromURL imageURL: URL)
     {
-        self.image = UIImage(systemName: "photo")
-
+        self.image = UIImage(named: "placeholder-image")?.resizeWithScaleAspectFitMode(to: CGFloat(300))
         if let cachedImage = self.imageCache.object(forKey: imageURL as AnyObject)
         {
             debugPrint("image loaded from cache for =\(imageURL)")
-            self.image = cachedImage
+            self.image = cachedImage.resizeWithScaleAspectFitMode(to: CGFloat(300))
             return
         }
 
@@ -36,7 +35,7 @@ class CacheImageView: UIImageView
                 if let image = UIImage(data: imageData)
                 {
                     DispatchQueue.main.async {
-                        self!.imageCache.setObject(image, forKey: imageURL as AnyObject)
+                        self?.imageCache.setObject(image, forKey: imageURL as AnyObject)
                         self?.image = image.resizeWithScaleAspectFitMode(to: CGFloat(300))
                     }
                 }

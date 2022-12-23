@@ -20,6 +20,7 @@ class MediaMessageCell: UITableViewCell {
 //       Initialization code
         imageMsg.layer.cornerRadius = 12
         setupConstraint()
+        
     }
     
     private func setupConstraint() {
@@ -37,9 +38,10 @@ class MediaMessageCell: UITableViewCell {
     }
 
     func setupUI(isSender: Bool){
-
         leadingImage.isActive = isSender ? false : true
         trailingImage.isActive = isSender ? true : false
+    
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

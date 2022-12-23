@@ -22,37 +22,33 @@ class ChatViewController: UIViewController  {
     private var messages = [Message]()
     var currentConversationID = ""
 
-    let currentToken = UserDefaults.standard.string(forKey: "LOGINTOKEN")
+    let currentToken = DatabaseManager.shared.currentID
     public var isNewConversation = false
     
 //MARK: - LoadView
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = false
+        tableView.isHidden = false
+        fetchMessage()
         tableView.separatorStyle = .none
-
-//        setupChatView()
-        view.backgroundColor = .blue
+        setupChatView() 
     }
     
-//    private func setupChatView() {
-//        inputTextView.text = "Aa"
-//        inputTextView.textColor = UIColor.lightGray
-//    }
-
-
+    private func setupChatView() {
+        inputTextView.text = "Aa"
+        inputTextView.textColor = UIColor.lightGray
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchMessage(shouldScrollToBottom: true)
-
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        inputTextView.becomeFirstResponder()
+        inputTextView.becomeFirstResponder()
     }
-    
+
     private func presentInputActionSheet() {
         let actionSheet = UIAlertController(title: "Attach Media",
                                             message: "What would you like to attach?",
@@ -124,16 +120,24 @@ class ChatViewController: UIViewController  {
         present(actionSheet, animated: true)
     }
     
-    @IBAction func didTapSendButton(_ sender: Any) {
-        if !inputTextView.text.replacingOccurrences(of: " ", with: "").isEmpty{
-            print(inputTextView.text!)
-            inputTextView.text = nil
-        } else{
-            return
-        }
-    }
+
 
 //MARK: - Func
+    
+    @IBAction func didTapSendButton(_ sender: Any) {
+        let text = inputTextView.text.replacingOccurrences(of: " ", with: "")
+        guard !text.isEmpty, let currentToken = currentToken else { return }
+        print(text)
+        createMessage(sendMssg: Message(id: createMessageID(),
+                                        senderID: currentToken,
+                                        sentDate: Date(),
+                                        kind: .text(text)))
+        inputTextView.text = nil
+    }
+    
+    @IBAction func didTapAttachButton(_ sender: Any) {
+        presentInputActionSheet()
+    }
     
     private func createMessageID() -> String {
         let uuid = UUID().uuidString
@@ -141,7 +145,7 @@ class ChatViewController: UIViewController  {
     }
     //Write to database
     private func createMessage(sendMssg: Message)  {
-        guard currentConversationID.isEmpty else {
+        guard !currentConversationID.isEmpty else {
             print("Error: Don't match any conversation")
             return
         }
@@ -154,7 +158,7 @@ class ChatViewController: UIViewController  {
         }
     }
     
-    private func fetchMessage(shouldScrollToBottom: Bool) {
+        private func fetchMessage() {
         print("Current conversation ID: \(currentConversationID)")
         
         DatabaseManager.shared.getAllMessages(currentConversationID: currentConversationID, completion: {[weak self] result in
@@ -167,6 +171,10 @@ class ChatViewController: UIViewController  {
             case .success(let messageCollection):
                 strongSelf.messages = messageCollection
                 print("Fetch successful!, \(strongSelf.messages.count)")
+                DispatchQueue.main.async {
+                    strongSelf.tableView.reloadData()
+                    strongSelf.tableView.scrollToBottom()
+                }
             case .failure(let error):
                 print("Failed to get conversation: \(error)")
             }
@@ -205,23 +213,27 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource{
 //    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let textCell = tableView.dequeueReusableCell(withIdentifier: "textCell", for: indexPath) as! ChatMessageCell
         let imgCell = tableView.dequeueReusableCell(withIdentifier: "imgCell", for: indexPath) as! MediaMessageCell
 
 //        let item = messages[indexPath.section][indexPath.row]
         let item = messages[indexPath.row]
 
-        let isSender = (item.id == currentToken)
-        
+                
+        let isSender = (item.senderID == currentToken)
+
         switch item.kind {
         case .text(let textMsg):
             textCell.msglabel.text = textMsg
             textCell.setupUI(isSender: isSender)
+            textCell.selectionStyle = .none;
             return textCell
         case .photo(let url):
 //            imgCell.imageMsg.image = img.resizeWithScaleAspectFitMode(to: CGFloat(300))
-            imgCell.imageMsg.loadImage(fromURL: url)
             imgCell.setupUI(isSender: isSender)
+            imgCell.imageMsg.loadImage(fromURL: url)
+            imgCell.selectionStyle = .none;
             return imgCell
         }
     }
@@ -229,6 +241,13 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    private func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        let lastRowIndex = tableView.numberOfRows(inSection: 0)
+            if indexPath.row == lastRowIndex - 1 {
+                tableView.scrollToBottom(animated: false)
+            }
+        }
 }
 
 class DateHeaderLabel: UILabel {
@@ -253,7 +272,6 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         
         let messageId = createMessageID()
         
-
         if let image = info[.editedImage] as? UIImage, let imageData =  image.pngData() {
             let fileName = "photo_message_" + messageId.replacingOccurrences(of: " ", with: "-") + ".png"
 

@@ -26,8 +26,8 @@ class ChatMessageCell: UITableViewCell {
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
         msglabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let constraints = [ msglabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 16),
-                            msglabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -16),
+        let constraints = [ msglabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 8),
+                            msglabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -8),
                             msglabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 16),
                             msglabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -16),
                 

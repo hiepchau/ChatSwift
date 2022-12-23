@@ -84,7 +84,7 @@ extension UIImage {
 
     func resizeWithScaleAspectFitMode(to dimension: CGFloat) -> UIImage? {
 
-        if max(size.width, size.height) <= dimension { return self }
+//        if max(size.width, size.height) <= dimension { return self }
 
         var newSize: CGSize!
         let aspectRatio = size.width/size.height
@@ -139,5 +139,15 @@ extension UIImage {
         let newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return newImage
+    }
+}
+
+extension UITableView {
+    func scrollToBottom(animated: Bool = true) {
+        let sections = self.numberOfSections
+        let rows = self.numberOfRows(inSection: sections - 1)
+        if (rows > 0){
+            self.scrollToRow(at: NSIndexPath(row: rows - 1, section: sections - 1) as IndexPath, at: .bottom, animated: false)
+        }
     }
 }
