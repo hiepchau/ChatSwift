@@ -4,8 +4,8 @@
 //
 //  Created by Châu Hiệp on 07/12/2022.
 //
-
 import UIKit
+import FBSDKCoreKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

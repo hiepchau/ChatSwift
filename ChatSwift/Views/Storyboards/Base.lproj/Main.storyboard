@@ -119,6 +119,9 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mg9-KV-MkT">
                                                             <rect key="frame" x="95" y="0.0" width="70" height="70"/>
                                                             <state key="normal" image="google-icon"/>
+                                                            <connections>
+                                                                <action selector="googleSignInButtonTapped:" destination="gQT-IV-Ix2" eventType="touchUpInside" id="0KL-RY-Xjr"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6q-tj-mYg">
                                                             <rect key="frame" x="190" y="0.0" width="70" height="70"/>

@@ -10,6 +10,7 @@ import JGProgressHUD
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAnalytics
+import GoogleSignIn
 
 
 class LoginTableViewController: UITableViewController {
@@ -17,21 +18,36 @@ class LoginTableViewController: UITableViewController {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     private let spinner = JGProgressHUD(style: .dark)
-    
+    private var loginObserver: NSObjectProtocol?
+
 //MARK: - LoadView
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            print("helo")
+            strongSelf.performSegue(withIdentifier: "loginSegue", sender: self)
+        })
+        
         usernameField.delegate = self
         passwordField.delegate = self
-
         // Do any additional setup after loading the view.
+    }
+    
+    deinit {
+        if let observer = loginObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 //MARK: -Func
     
     @IBAction func loginButtonTapped(){
         usernameField.resignFirstResponder()
         passwordField.resignFirstResponder()
-
+        
         guard let email = usernameField.text, let password = passwordField.text, !email.isEmpty, password.count >= 6 else {
             alertUserLoginError(message: "Please fill information...")
             return
@@ -66,6 +82,23 @@ class LoginTableViewController: UITableViewController {
             }
         }
     }
+    
+    @IBAction func googleSignInButtonTapped(_ sender: UIButton) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+              let signInConfig = appDelegate.signInConfig else {
+            return
+        }
+        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { (user, error) in
+           print("Error: \(error)")
+            guard let user = user, error == nil else { return }
+            
+            appDelegate.handleSessionRestore(user: user)
+            let token = DatabaseManager.shared.currentID
+            let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
+            print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
+        }
+    }
+
     @IBAction func signupButtonClicked(_ sender: UIButton) {
         if let signupVC = self.storyboard?.instantiateViewController(identifier: "SignUpViewController") as? SignUpViewController{
 //            signupVC.tabBarController?.tabBar.isHidden = true
