@@ -10,6 +10,7 @@ import JGProgressHUD
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAnalytics
+import GoogleSignIn
 
 
 class LoginTableViewController: UITableViewController {
@@ -17,21 +18,35 @@ class LoginTableViewController: UITableViewController {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     private let spinner = JGProgressHUD(style: .dark)
-    
+    private var loginObserver: NSObjectProtocol?
+
 //MARK: - LoadView
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.performSegue(withIdentifier: "loginSegue", sender: self)
+        })
+        
         usernameField.delegate = self
         passwordField.delegate = self
-
         // Do any additional setup after loading the view.
+    }
+    
+    deinit {
+        if let observer = loginObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 //MARK: -Func
     
     @IBAction func loginButtonTapped(){
         usernameField.resignFirstResponder()
         passwordField.resignFirstResponder()
-
+        
         guard let email = usernameField.text, let password = passwordField.text, !email.isEmpty, password.count >= 6 else {
             alertUserLoginError(message: "Please fill information...")
             return
@@ -64,6 +79,21 @@ class LoginTableViewController: UITableViewController {
                 strongself.passwordField.text = nil
                 print("Authenticate failed")
             }
+        }
+    }
+    
+    @IBAction func googleSignInButtonTapped(_ sender: UIButton) {
+        GoogleService.shared.login(vc: self, completion: {})
+    }
+    
+    @IBAction func facebookSignInButtonTapped(_ sender: UIButton) {
+        FacebookService.shared.login(vc: self, completion: {})
+    }
+
+    @IBAction func signupButtonClicked(_ sender: UIButton) {
+        if let signupVC = self.storyboard?.instantiateViewController(identifier: "SignUpViewController") as? SignUpViewController{
+//            signupVC.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.pushViewController(signupVC, animated: true)
         }
     }
     

@@ -9,7 +9,8 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 import UIKit
-import CoreLocation
+import GoogleSignIn
+import FirebaseAuth
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
@@ -35,6 +36,12 @@ final class DatabaseManager {
     }
 }
 
+//MARK: - Login
+extension DatabaseManager {
+    
+    ///Login with Google
+
+}
 //MARK: - Authenticate, users
 extension DatabaseManager {
 
@@ -64,12 +71,38 @@ extension DatabaseManager {
         })
     }
     
+    public func createUser(user: UserModel, completion: @escaping () -> Void) {
+        _userRef.document(user.username).setData(user.dictionary) {err in
+            if let err = err {
+                print("Error writing user: \(err)")
+                completion()
+                return
+            }
+            print("User successfully written!")
+            completion()
+        }
+    }
+    
+    public func userExists(with email: String,
+                           completion: @escaping ((Bool) -> Void)) {
+        let query = _userRef.document(email)
+        query.getDocument { (querySnapshot, err) in
+            if let documentSnapshot = querySnapshot?.exists,
+               !documentSnapshot {
+                completion(false)
+             
+                return
+            }
+            completion(true)
+        }
+    }
+    
     public func getUsernameByID(id: String) -> String{
         var name = ""
         DatabaseManager.shared.getUserByID(id: id) { result in
             switch result{
             case .success(let user):
-                name = user.username
+                name = user.name
             case .failure(let err):
                 print("Get username failed: \(err)")
             }
@@ -119,7 +152,7 @@ extension DatabaseManager {
 
         //Create new Conversation
         let uuid = UUID().uuidString
-        if let unwrappedUid = result["uid"], var name = result["username"]  {
+        if let unwrappedUid = result["uid"], var name = result["name"]  {
             arrayUser.append(unwrappedUid)
             
             name = (currentID == unwrappedUid) ? "self" : name

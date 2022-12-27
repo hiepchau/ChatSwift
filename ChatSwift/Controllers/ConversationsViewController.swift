@@ -14,7 +14,7 @@ class ConversationsViewController: UIViewController {
     var rowSelected : Int?
     private let spinner = JGProgressHUD(style: .dark)
     let curID = DatabaseManager.shared.currentID
-
+    var isNewConversation = false
 
     var listConversation = [ConversationModel]()
     
@@ -72,26 +72,30 @@ class ConversationsViewController: UIViewController {
     private func handleChatViewController(result: [String: String]){
         if let receivedUid = result["uid"] {
             print("RECEIVEUID: \(receivedUid)")
-            checkExists(id: receivedUid, completion: { [self] flag, resID, name in
+            checkExists(id: receivedUid, completion: { [weak self] flag, resID, name in
+                guard let strongself = self else {return}
                 if flag {
                     print("Navigate: \(flag)")
-                    navigateToChatView(id: resID, name: name)
+                    strongself.navigateToChatView(id: resID, name: name)
                 } else {
                     print("Create new")
-                    createNewConversation(result: result)
+                    strongself.createNewConversation(result: result)
                 }
             })
         }
         
     }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "segue") {
             if let vc = segue.destination as? ChatViewController, let rowSelected = rowSelected {
 //                guard let indexPath = self.tableView.indexPathForSelectedRow else {
 //                    return
 //                }
-                vc.currentConversationID = listConversation[rowSelected].id
-                vc.title = listConversation[rowSelected].name
+                    vc.currentConversationID = listConversation[rowSelected].id
+                    vc.title = listConversation[rowSelected].name
+        
                 vc.navigationItem.largeTitleDisplayMode = .never
          }
         }
@@ -132,7 +136,8 @@ class ConversationsViewController: UIViewController {
     private func createNewConversation(result: [String: String]) {
         DatabaseManager.shared.createNewConversation(result: result) { isSuccess, uuid in
             if isSuccess {
-                self.navigateToChatView(id: uuid, name: result["username"] ?? "")
+                self.navigateToChatView(id: uuid, name: result["name"] ?? "")
+                self.isNewConversation = true
             }
             else {
                 //TODO: Handle noti
@@ -168,6 +173,7 @@ class ConversationsViewController: UIViewController {
                 DispatchQueue.main.async {
                     strongself.tableView.reloadData()
                 }
+                print("Success to get conversation")
             case .failure(let error):
                 strongself.tableView.isHidden = true
                 strongself.noConversationsLabel.isHidden = false
@@ -212,6 +218,7 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         self.performSegue(withIdentifier: "segue", sender: self)
     }
 }
+
 
 
 
