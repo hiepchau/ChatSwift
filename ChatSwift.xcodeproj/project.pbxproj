@@ -32,6 +32,8 @@
 		F1BB257629495F9C00127807 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257529495F9C00127807 /* PhotoViewController.swift */; };
 		F1BB257829495FEE00127807 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB257729495FED00127807 /* LocationPickerViewController.swift */; };
 		F1C6D3E429531C0D00387F04 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C6D3E329531C0D00387F04 /* MediaManager.swift */; };
+		F1F44B13295A9771007136A6 /* GoogleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B12295A9771007136A6 /* GoogleService.swift */; };
+		F1F44B16295AA5C5007136A6 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B15295AA5C5007136A6 /* FacebookService.swift */; };
 		F1F5CAC12952C41E009B7749 /* MediaMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F5CAC02952C41E009B7749 /* MediaMessageCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +67,9 @@
 		F1BB257529495F9C00127807 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		F1BB257729495FED00127807 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
 		F1C6D3E329531C0D00387F04 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
+		F1F44B12295A9771007136A6 /* GoogleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleService.swift; sourceTree = "<group>"; };
+		F1F44B14295A9E07007136A6 /* ChatSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatSwift.entitlements; sourceTree = "<group>"; };
+		F1F44B15295AA5C5007136A6 /* FacebookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
 		F1F5CAC02952C41E009B7749 /* MediaMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,6 +151,7 @@
 		F16395212940FB3700DED7D7 /* ChatSwift */ = {
 			isa = PBXGroup;
 			children = (
+				F1F44B14295A9E07007136A6 /* ChatSwift.entitlements */,
 				F173D5C02941EDAB00DDF7DE /* Model */,
 				F16395482940FEA400DED7D7 /* Resources */,
 				F163953F2940FE3C00DED7D7 /* Controllers */,
@@ -216,6 +222,8 @@
 				F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */,
 				F15521A7294884F30083F652 /* StorageManager.swift */,
 				F1C6D3E329531C0D00387F04 /* MediaManager.swift */,
+				F1F44B12295A9771007136A6 /* GoogleService.swift */,
+				F1F44B15295AA5C5007136A6 /* FacebookService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -350,6 +358,7 @@
 				F1B2BBFD294313A200D65D69 /* MessageModel.swift in Sources */,
 				F16395412940FE5000DED7D7 /* ChatViewController.swift in Sources */,
 				F16395252940FB3700DED7D7 /* SceneDelegate.swift in Sources */,
+				F1F44B13295A9771007136A6 /* GoogleService.swift in Sources */,
 				F1B2BBFB294312F200D65D69 /* ConversationModel.swift in Sources */,
 				F155219F294876620083F652 /* ConversationTableViewCell.swift in Sources */,
 				F1F5CAC12952C41E009B7749 /* MediaMessageCell.swift in Sources */,
@@ -361,6 +370,7 @@
 				F129E20929505BFE007621A1 /* ChatMessageCell.swift in Sources */,
 				F1BB257829495FEE00127807 /* LocationPickerViewController.swift in Sources */,
 				F15521A8294884F30083F652 /* StorageManager.swift in Sources */,
+				F1F44B16295AA5C5007136A6 /* FacebookService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,7 +446,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -490,7 +500,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -506,11 +516,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChatSwift/ChatSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PKMHCGLVJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatSwift/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access to share your location";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to send audio and video messages.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to select a photo for your profile.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -535,11 +550,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChatSwift/ChatSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PKMHCGLVJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatSwift/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access to share your location";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to send audio and video messages.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to select a photo for your profile.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

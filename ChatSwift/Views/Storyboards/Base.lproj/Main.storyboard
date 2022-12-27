@@ -115,6 +115,9 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zge-Pg-UTr">
                                                             <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                                             <state key="normal" image="facebook-icon"/>
+                                                            <connections>
+                                                                <action selector="facebookSignInButtonTapped:" destination="gQT-IV-Ix2" eventType="touchUpInside" id="cJ0-g3-OmJ"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mg9-KV-MkT">
                                                             <rect key="frame" x="95" y="0.0" width="70" height="70"/>

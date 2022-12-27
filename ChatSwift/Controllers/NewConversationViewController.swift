@@ -117,7 +117,7 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = usersList[indexPath.row].username
+        cell.textLabel?.text = usersList[indexPath.row].name
         return cell
     }
     

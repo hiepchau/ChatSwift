@@ -28,7 +28,6 @@ class LoginTableViewController: UITableViewController {
             guard let strongSelf = self else {
                 return
             }
-            print("helo")
             strongSelf.performSegue(withIdentifier: "loginSegue", sender: self)
         })
         
@@ -84,19 +83,11 @@ class LoginTableViewController: UITableViewController {
     }
     
     @IBAction func googleSignInButtonTapped(_ sender: UIButton) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-              let signInConfig = appDelegate.signInConfig else {
-            return
-        }
-        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { (user, error) in
-           print("Error: \(error)")
-            guard let user = user, error == nil else { return }
-            
-            appDelegate.handleSessionRestore(user: user)
-            let token = DatabaseManager.shared.currentID
-            let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
-            print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
-        }
+        GoogleService.shared.login(vc: self, completion: {})
+    }
+    
+    @IBAction func facebookSignInButtonTapped(_ sender: UIButton) {
+        FacebookService.shared.login(vc: self, completion: {})
     }
 
     @IBAction func signupButtonClicked(_ sender: UIButton) {

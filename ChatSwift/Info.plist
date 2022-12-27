@@ -2,16 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Please allow access to share your location</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Please allow access to send audio and video messages.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Please allow access to take a profile picture</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Please allow access to select a photo for your profile.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb706819084406804</string>
+			</array>
+		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -20,6 +18,17 @@
 				<string>com.googleusercontent.apps.285511534137-mmklt6dl6mhh1adackkt4fsf561k3dv5</string>
 			</array>
 		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>706819084406804</string>
+	<key>FacebookClientToken</key>
+	<string>d9ebc1f65d5bc40bc64b29843cbbfef0</string>
+	<key>FacebookDisplayName</key>
+	<string>ChatSwift</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

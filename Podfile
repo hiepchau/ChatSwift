@@ -19,7 +19,7 @@ target 'ChatSwift' do
 
 
   pod 'FBSDKLoginKit'
-
+  pod 'FacebookLogin'
   pod 'GoogleSignIn'
   
 end

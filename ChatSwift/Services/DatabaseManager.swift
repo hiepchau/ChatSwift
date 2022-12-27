@@ -9,6 +9,8 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 import UIKit
+import GoogleSignIn
+import FirebaseAuth
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
@@ -34,6 +36,12 @@ final class DatabaseManager {
     }
 }
 
+//MARK: - Login
+extension DatabaseManager {
+    
+    ///Login with Google
+
+}
 //MARK: - Authenticate, users
 extension DatabaseManager {
 
