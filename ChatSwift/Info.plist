@@ -18,6 +18,16 @@
 				<string>com.googleusercontent.apps.285511534137-mmklt6dl6mhh1adackkt4fsf561k3dv5</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Zalo</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>zalo-3857990715579569034</string>
+			</array>
+		</dict>
 	</array>
 	<key>FacebookAppID</key>
 	<string>706819084406804</string>

@@ -43,7 +43,7 @@ class LoginTableViewController: UITableViewController {
     }
 //MARK: -Func
     
-    @IBAction func loginButtonTapped(){
+    @IBAction func loginButtonDidTouch(){
         usernameField.resignFirstResponder()
         passwordField.resignFirstResponder()
         
@@ -82,15 +82,19 @@ class LoginTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func googleSignInButtonTapped(_ sender: UIButton) {
+    @IBAction func googleSignInDidTouch(_ sender: UIButton) {
         GoogleService.shared.login(vc: self, completion: {})
     }
     
-    @IBAction func facebookSignInButtonTapped(_ sender: UIButton) {
+    @IBAction func facebookSignInDidTouch(_ sender: UIButton) {
         FacebookService.shared.login(vc: self, completion: {})
     }
+    
+    @IBAction func zaloSignInButtonDidTouch(_ sender: UIButton){
+        ZaloService.shared.login(vc: self, completion: {})
+    }
 
-    @IBAction func signupButtonClicked(_ sender: UIButton) {
+    @IBAction func signupButtonDidTouch(_ sender: UIButton) {
         if let signupVC = self.storyboard?.instantiateViewController(identifier: "SignUpViewController") as? SignUpViewController{
 //            signupVC.tabBarController?.tabBar.isHidden = true
             self.navigationController?.pushViewController(signupVC, animated: true)
@@ -111,7 +115,7 @@ extension LoginTableViewController : UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         }
         else if textField == passwordField {
-            loginButtonTapped()
+            loginButtonDidTouch()
         }
         return true
     }

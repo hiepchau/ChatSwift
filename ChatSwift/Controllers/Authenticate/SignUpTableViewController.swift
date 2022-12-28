@@ -27,7 +27,7 @@ class SignUpViewController: UIViewController {
         openGallery()
     }
     
-    @IBAction func btnSignupClicked(_ sender: UIButton) {
+    @IBAction func signupButtonDidTouch(_ sender: UIButton) {
         let imgSystem = UIImage(named: "profile")
         
         if imgProfile.image?.pngData() != imgSystem?.pngData(){
@@ -61,7 +61,7 @@ class SignUpViewController: UIViewController {
         }
     }
     
-    @IBAction func btnLoginClicked(_ sender: UIButton) {
+    @IBAction func loginButtonDidTouch(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     

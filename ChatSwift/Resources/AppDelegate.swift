@@ -10,18 +10,19 @@ import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
 import FacebookCore
+import ZaloSDK
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var signInConfig: GIDConfiguration?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        ///Config Firebase
         FirebaseApp.configure()
-//        GIDSignIn.sharedInstance.restorePreviousSignIn { [weak self] user, error in
-//            if let user = user, error == nil {
-//                self?.handleSessionRestore(user: user)
-//            }
-//        }
+        ZaloSDK.sharedInstance().initialize(withAppId: Constant.ZALO_APP_ID)
+
+        ///Config Facebook
         ApplicationDelegate.shared.application(
             application,
             didFinishLaunchingWithOptions: launchOptions
@@ -29,25 +30,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let clientId = FirebaseApp.app()?.options.clientID {
             signInConfig = GIDConfiguration.init(clientID: clientId)
         }
-        
+        /* Save google login
+         GIDSignIn.sharedInstance.restorePreviousSignIn { [weak self] user, error in
+             if let user = user, error == nil {
+                 self?.handleSessionRestore(user: user)
+             }
+         }
+         */
         return true
     }
     
     // MARK: UISceneSession Lifecycle
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        var handled: Bool
-        
+        ///Receive callback from Google
+        GIDSignIn.sharedInstance.handle(url)
+        ///Receive callback from Facebook
         ApplicationDelegate.shared.application(app, open: url,
             sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
             annotation: options[UIApplication.OpenURLOptionsKey.annotation]
         )
-        
-        handled = GIDSignIn.sharedInstance.handle(url)
-        if handled {
-            return true
-        }
-        return false
+        ///Receive callback from zalo
+        ZDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
+        return true
     }
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

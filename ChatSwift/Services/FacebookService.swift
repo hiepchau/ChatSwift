@@ -42,6 +42,7 @@ class FacebookService {
             }
         }
     }
+    
     private func handleSessionRestore(result: [String: Any], token: String){
         let credential = FacebookAuthProvider.credential(withAccessToken: token)
         
@@ -73,12 +74,11 @@ class FacebookService {
             
             UserDefaults.standard.set(uid, forKey: "LOGINTOKEN")
             UserDefaults.standard.set(userModel.dictionary, forKey: "CURUSER")
-            print("GG AUTH 3\(String(describing: Auth.auth().currentUser?.uid))")
             print("Successfully logged user in with Facebook cred")
             let curID = DatabaseManager.shared.currentID
             let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
-            print("Logged in with user: \(String(describing: currentUser))||||| UID: \(String(describing: curID))")
-//            NotificationCenter.default.post(name: .didLogInNotification, object: nil)
+            print("Logged in with user: \(String(describing: currentUser)), UID: \(String(describing: curID))")
+            NotificationCenter.default.post(name: .didLogInNotification, object: nil)
         })
 
     }

@@ -66,7 +66,7 @@
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="loginButtonTapped" destination="gQT-IV-Ix2" eventType="touchUpInside" id="Km2-rk-8DV"/>
+                                                        <action selector="loginButtonDidTouch" destination="gQT-IV-Ix2" eventType="touchUpInside" id="dKx-AK-Grx"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="LTi-a9-267">
@@ -77,23 +77,23 @@
                                                     </state>
                                                 </button>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="UcG-bl-etC" userLabel="Account">
-                                                    <rect key="frame" x="98.333333333333329" y="781" width="231.33333333333337" height="37"/>
+                                                    <rect key="frame" x="98" y="781" width="232" height="37"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mqt-Aa-n1d">
-                                                            <rect key="frame" x="0.0" y="0.0" width="159.33333333333334" height="37"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="160" height="37"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="159.5" id="cYr-nR-k0Z"/>
+                                                                <constraint firstAttribute="width" constant="160" id="cYr-nR-k0Z"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P4j-jN-r7Q">
-                                                            <rect key="frame" x="164.33333333333337" y="0.0" width="67" height="37"/>
+                                                            <rect key="frame" x="165" y="0.0" width="67" height="37"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="18"/>
                                                             <state key="normal" title="Sign up"/>
                                                             <connections>
-                                                                <action selector="signupButtonClicked:" destination="gQT-IV-Ix2" eventType="touchUpInside" id="gym-z3-eFp"/>
+                                                                <action selector="signupButtonDidTouch:" destination="gQT-IV-Ix2" eventType="touchUpInside" id="cDe-B1-iVM"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -110,24 +110,33 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Ckf-Nq-VAy">
-                                                    <rect key="frame" x="84" y="689" width="260" height="70"/>
+                                                    <rect key="frame" x="39" y="689" width="350" height="70"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zge-Pg-UTr">
-                                                            <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="68.666666666666671" height="70"/>
                                                             <state key="normal" image="facebook-icon"/>
                                                             <connections>
-                                                                <action selector="facebookSignInButtonTapped:" destination="gQT-IV-Ix2" eventType="touchUpInside" id="cJ0-g3-OmJ"/>
+                                                                <action selector="facebookSignInDidTouch:" destination="gQT-IV-Ix2" eventType="touchUpInside" id="qc5-Xs-TUS"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mg9-KV-MkT">
-                                                            <rect key="frame" x="95" y="0.0" width="70" height="70"/>
+                                                            <rect key="frame" x="93.666666666666657" y="0.0" width="69" height="70"/>
                                                             <state key="normal" image="google-icon"/>
                                                             <connections>
-                                                                <action selector="googleSignInButtonTapped:" destination="gQT-IV-Ix2" eventType="touchUpInside" id="0KL-RY-Xjr"/>
+                                                                <action selector="googleSignInDidTouch:" destination="gQT-IV-Ix2" eventType="touchUpInside" id="Rcg-zm-gXi"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6q-tj-mYg">
-                                                            <rect key="frame" x="190" y="0.0" width="70" height="70"/>
+                                                            <rect key="frame" x="187.66666666666666" y="0.0" width="68.666666666666657" height="70"/>
+                                                            <state key="normal">
+                                                                <imageReference key="image" image="zalo-icon" symbolScale="large" renderingMode="original"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="zaloSignInButtonDidTouch:" destination="gQT-IV-Ix2" eventType="touchUpInside" id="oSg-SN-Bz6"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VmL-z4-El8">
+                                                            <rect key="frame" x="281.33333333333331" y="0.0" width="68.666666666666686" height="70"/>
                                                             <state key="normal">
                                                                 <imageReference key="image" image="apple" symbolScale="large" renderingMode="original"/>
                                                             </state>
@@ -135,7 +144,7 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="70" id="69x-gb-31m"/>
-                                                        <constraint firstAttribute="width" constant="260" id="Gwc-5m-TCT"/>
+                                                        <constraint firstAttribute="width" constant="350" id="Gwc-5m-TCT"/>
                                                         <constraint firstItem="m6q-tj-mYg" firstAttribute="top" secondItem="Ckf-Nq-VAy" secondAttribute="top" id="XZB-FR-nFf"/>
                                                     </constraints>
                                                 </stackView>
@@ -252,7 +261,7 @@
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Sign up"/>
                                                 <connections>
-                                                    <action selector="btnSignupClicked:" destination="YCY-i2-lzY" eventType="touchUpInside" id="Asq-26-NUz"/>
+                                                    <action selector="signupButtonDidTouch:" destination="YCY-i2-lzY" eventType="touchUpInside" id="pKi-VV-U0E"/>
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5E-5C-72h" userLabel="Bottom View">
@@ -272,7 +281,7 @@
                                                             <color key="titleColor" systemColor="tintColor"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="btnLoginClicked:" destination="YCY-i2-lzY" eventType="touchUpInside" id="8jv-AY-lbp"/>
+                                                            <action selector="loginButtonDidTouch:" destination="YCY-i2-lzY" eventType="touchUpInside" id="1A5-CL-ZTL"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -644,6 +653,7 @@
         <image name="paperclip" catalog="system" width="121" height="128"/>
         <image name="photo" catalog="system" width="128" height="93"/>
         <image name="profile" width="512" height="512"/>
+        <image name="zalo-icon" width="800" height="800"/>
         <namedColor name="MessageColor">
             <color red="0.2630000114440918" green="0.80000001192092896" blue="0.27799999713897705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

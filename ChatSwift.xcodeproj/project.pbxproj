@@ -34,6 +34,10 @@
 		F1C6D3E429531C0D00387F04 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C6D3E329531C0D00387F04 /* MediaManager.swift */; };
 		F1F44B13295A9771007136A6 /* GoogleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B12295A9771007136A6 /* GoogleService.swift */; };
 		F1F44B16295AA5C5007136A6 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B15295AA5C5007136A6 /* FacebookService.swift */; };
+		F1F44B18295AF95C007136A6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B17295AF95C007136A6 /* Utils.swift */; };
+		F1F44B1A295AFA2C007136A6 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B19295AFA2C007136A6 /* Constant.swift */; };
+		F1F44B1C295AFCF2007136A6 /* ZaloService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B1B295AFCF2007136A6 /* ZaloService.swift */; };
+		F1F44B1E295AFFE5007136A6 /* AuthenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B1D295AFFE5007136A6 /* AuthenUtils.swift */; };
 		F1F5CAC12952C41E009B7749 /* MediaMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F5CAC02952C41E009B7749 /* MediaMessageCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +74,10 @@
 		F1F44B12295A9771007136A6 /* GoogleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleService.swift; sourceTree = "<group>"; };
 		F1F44B14295A9E07007136A6 /* ChatSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatSwift.entitlements; sourceTree = "<group>"; };
 		F1F44B15295AA5C5007136A6 /* FacebookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
+		F1F44B17295AF95C007136A6 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		F1F44B19295AFA2C007136A6 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		F1F44B1B295AFCF2007136A6 /* ZaloService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZaloService.swift; sourceTree = "<group>"; };
+		F1F44B1D295AFFE5007136A6 /* AuthenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenUtils.swift; sourceTree = "<group>"; };
 		F1F5CAC02952C41E009B7749 /* MediaMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,6 +232,10 @@
 				F1C6D3E329531C0D00387F04 /* MediaManager.swift */,
 				F1F44B12295A9771007136A6 /* GoogleService.swift */,
 				F1F44B15295AA5C5007136A6 /* FacebookService.swift */,
+				F1F44B1B295AFCF2007136A6 /* ZaloService.swift */,
+				F1F44B17295AF95C007136A6 /* Utils.swift */,
+				F1F44B19295AFA2C007136A6 /* Constant.swift */,
+				F1F44B1D295AFFE5007136A6 /* AuthenUtils.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -350,6 +362,7 @@
 			files = (
 				F16395472940FE9000DED7D7 /* NewConversationViewController.swift in Sources */,
 				F16395432940FE6A00DED7D7 /* ConversationsViewController.swift in Sources */,
+				F1F44B1E295AFFE5007136A6 /* AuthenUtils.swift in Sources */,
 				F129E207295058ED007621A1 /* TestViewController.swift in Sources */,
 				F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */,
 				F14C4E9E295583FE006090FD /* SignUpTableViewController.swift in Sources */,
@@ -365,12 +378,15 @@
 				F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */,
 				F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */,
 				F115EA67294ADB660056A31F /* Extensions.swift in Sources */,
+				F1F44B1A295AFA2C007136A6 /* Constant.swift in Sources */,
 				F1BB257629495F9C00127807 /* PhotoViewController.swift in Sources */,
 				F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */,
 				F129E20929505BFE007621A1 /* ChatMessageCell.swift in Sources */,
 				F1BB257829495FEE00127807 /* LocationPickerViewController.swift in Sources */,
 				F15521A8294884F30083F652 /* StorageManager.swift in Sources */,
+				F1F44B1C295AFCF2007136A6 /* ZaloService.swift in Sources */,
 				F1F44B16295AA5C5007136A6 /* FacebookService.swift in Sources */,
+				F1F44B18295AF95C007136A6 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

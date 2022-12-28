@@ -21,5 +21,6 @@ target 'ChatSwift' do
   pod 'FBSDKLoginKit'
   pod 'FacebookLogin'
   pod 'GoogleSignIn'
-  
+  pod 'ZaloSDK'
+
 end
