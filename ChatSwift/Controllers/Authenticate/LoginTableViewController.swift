@@ -69,9 +69,12 @@ class LoginTableViewController: UITableViewController {
             }
             
             if isSuccess {
-                let token = UserDefaults.standard.string(forKey: "LOGINTOKEN")
-                let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
+                let token = UserDefaults.standard.string(forKey: Constant.LOGIN_TOKEN_KEY)
+                let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)
                 print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
+                ///Update ui
+                strongself.usernameField.text = nil
+                strongself.passwordField.text = nil
                 strongself.performSegue(withIdentifier: "loginSegue", sender: self)
             }
             else {

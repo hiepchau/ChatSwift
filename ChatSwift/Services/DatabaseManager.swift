@@ -14,7 +14,16 @@ import FirebaseAuth
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
-    var currentID = UserDefaults.standard.string(forKey: "LOGINTOKEN")
+    var currentID: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constant.LOGIN_TOKEN_KEY)
+        }
+        get {
+            guard let currentID = UserDefaults.standard.string(forKey: Constant.LOGIN_TOKEN_KEY) else {return nil}
+            return currentID
+        }
+    }
+
     let _userRef = Firestore.firestore().collection("user")
     let _conversationRef = Firestore.firestore().collection("conversation")
     let _messageRef = Firestore.firestore().collection("messages")
@@ -23,6 +32,8 @@ final class DatabaseManager {
     init(){
         self.db = Firestore.firestore()
     }
+    
+    
     
     public enum DatabaseError: Error {
         case failedToFetch
@@ -36,12 +47,6 @@ final class DatabaseManager {
     }
 }
 
-//MARK: - Login
-extension DatabaseManager {
-    
-    ///Login with Google
-
-}
 //MARK: - Authenticate, users
 extension DatabaseManager {
 
@@ -54,7 +59,8 @@ extension DatabaseManager {
         
         let query = _userRef.whereField("username", isEqualTo: username)
             .whereField("password", isEqualTo: password)
-        query.getDocuments(completion: { (querySnapshot, err) in
+        query.getDocuments(completion: {[weak self] (querySnapshot, err) in
+            guard let strongself = self else { return }
             if let error = err {
                 print("Error getting documents: \(error)")
                 completion(false)
@@ -64,9 +70,9 @@ extension DatabaseManager {
                 completion(false)
                 return
             }
-            UserDefaults.standard.set(document.documentID, forKey: "LOGINTOKEN")
+            strongself.currentID = document.documentID
             let curUser = UserModel(data: document.data())
-            UserDefaults.standard.set(curUser.dictionary, forKey: "CURUSER")
+            UserDefaults.standard.set(curUser.dictionary, forKey: Constant.CUR_USER_KEY)
             completion(true)
         })
     }
@@ -90,7 +96,6 @@ extension DatabaseManager {
             if let documentSnapshot = querySnapshot?.exists,
                !documentSnapshot {
                 completion(false)
-             
                 return
             }
             completion(true)
@@ -148,8 +153,9 @@ extension DatabaseManager {
 extension DatabaseManager {
     public func createNewConversation(result: [String: String], completion: @escaping (Bool, String) -> Void) {
         var arrayUser = [String]()
-        arrayUser.append(currentID!)
-
+        if let currentID = currentID {
+            arrayUser.append(currentID)
+        }
         //Create new Conversation
         let uuid = UUID().uuidString
         if let unwrappedUid = result["uid"], var name = result["name"]  {
@@ -164,7 +170,7 @@ extension DatabaseManager {
                     completion(false, "")
                     return
                 }
-               print("Conversation successfully written: fields!")
+               print("Conversation successfully written: \(uuid)!")
                completion(true, uuid)
             }
         }
@@ -193,6 +199,7 @@ extension DatabaseManager {
                 completion(.failure(DatabaseError.failedToFetch))
                 return
             }
+            print("CONVERSATION OF USER: \(String(describing: self.currentID))")
             ///Get conversation data
             listConversation = []
        

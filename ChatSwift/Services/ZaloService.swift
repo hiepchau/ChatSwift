@@ -9,7 +9,7 @@ import Foundation
 import ZaloSDK
 import FirebaseAuth
 
-class ZaloService {
+class ZaloService: Authenticate {
     static let shared = ZaloService()
     
     func login(vc: UIViewController, completion: @escaping() -> Void) {
@@ -51,8 +51,8 @@ class ZaloService {
                                 DatabaseManager.shared.createUser(user: userModel, completion: {})
                             }
                         }
-                        UserDefaults.standard.set(uid, forKey: "LOGINTOKEN")
-                        UserDefaults.standard.set(userModel.dictionary, forKey: "CURUSER")
+                        DatabaseManager.shared.currentID = uid
+                        UserDefaults.standard.set(userModel.dictionary, forKey: Constant.CUR_USER_KEY)
                         print("Successfully logged user in with Zalo")
                         AuthenUtils.shared.printSession()
                         NotificationCenter.default.post(name: .didLogInNotification, object: nil)
@@ -68,8 +68,9 @@ class ZaloService {
     }
     
     func logout() {
-        AuthenUtils.shared.logout()
+        AuthenUtils.shared.tokenResponse = nil
         ZaloSDK.sharedInstance().unauthenticate()
+        
     }
 }
 

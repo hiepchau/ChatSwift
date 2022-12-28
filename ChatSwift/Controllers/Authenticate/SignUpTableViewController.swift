@@ -35,10 +35,10 @@ class SignUpViewController: UIViewController {
             if let email = emailField.text, let password = passwordField.text, let username = usernameField.text, let conPassword = confirmPasswordField.text{
                 if username == ""{
                     print("Please enter username")
-                }else if !email.validateEmailId(){
+                } else if !email.validateEmailId(){
                     openAlert(title: "Alert", message: "Please enter valid email", alertStyle: .alert, actionTitles: ["Okay"], actionStyles: [.default], actions: [{_ in }])
                     print("email is not valid")
-                }else if !password.validatePassword(){
+                } else if !password.validatePassword(){
                     print("Password is not valid")
                 } else{
                     if conPassword == ""{
@@ -46,16 +46,16 @@ class SignUpViewController: UIViewController {
                     }else{
                         if password == conPassword{
                             // navigation code
-                            print("Navigation code Yeah!")
-                        }else{
+                            print("Nice!")
+                        } else{
                             print("password does not match")
                         }
                     }
                 }
-            }else{
+            } else{
                 print("Please check your details")
             }
-        }else{
+        } else{
             print("Please select profile picture")
             openAlert(title: "Alert", message: "Please select profile picture", alertStyle: .alert, actionTitles: ["Okay"], actionStyles: [.default], actions: [{_ in }])
         }

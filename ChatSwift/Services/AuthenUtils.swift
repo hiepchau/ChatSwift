@@ -8,6 +8,11 @@
 import Foundation
 import ZaloSDK
 
+protocol Authenticate {
+    func login(vc: UIViewController, completion: @escaping () -> Void)
+    func logout()
+}
+
 class AuthenUtils {
 
     static let shared = AuthenUtils()
@@ -48,7 +53,6 @@ class AuthenUtils {
         for key in allKeys {
             userDefault.removeObject(forKey: key.rawValue)
         }
-        self.tokenResponse = nil
     }
     
     func getCodeChallenge() -> String {
@@ -66,7 +70,7 @@ class AuthenUtils {
     
     func printSession() {
         let curID = DatabaseManager.shared.currentID
-        let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
+        let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)
         print("Logged in with user: \(String(describing: currentUser)), UID: \(String(describing: curID))")
     }
 }

@@ -11,7 +11,8 @@ import FBSDKLoginKit
 import FacebookLogin
 import FacebookCore
 
-class FacebookService {
+class FacebookService: Authenticate {
+
     static let shared = FacebookService()
     private let loginManager = LoginManager()
     
@@ -71,15 +72,14 @@ class FacebookService {
                     DatabaseManager.shared.createUser(user: userModel, completion: {})
                 }
             })
-            
-            UserDefaults.standard.set(uid, forKey: "LOGINTOKEN")
-            UserDefaults.standard.set(userModel.dictionary, forKey: "CURUSER")
+            DatabaseManager.shared.currentID = uid
+            UserDefaults.standard.set(userModel.dictionary, forKey: Constant.CUR_USER_KEY)
             print("Successfully logged user in with Facebook cred")
-            let curID = DatabaseManager.shared.currentID
-            let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
-            print("Logged in with user: \(String(describing: currentUser)), UID: \(String(describing: curID))")
+            AuthenUtils.shared.printSession()
             NotificationCenter.default.post(name: .didLogInNotification, object: nil)
         })
-
+    }
+    func logout() {
+        FBSDKLoginKit.LoginManager().logOut()
     }
 }

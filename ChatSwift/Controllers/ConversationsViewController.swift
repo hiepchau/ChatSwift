@@ -11,11 +11,12 @@ import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    var rowSelected : Int?
+    var rowSelected : Int = 0
     private let spinner = JGProgressHUD(style: .dark)
     let curID = DatabaseManager.shared.currentID
     var isNewConversation = false
-
+    var navigateConversationID = "", navigateTitle = ""
+    
     var listConversation = [ConversationModel]()
     
     private let noConversationsLabel: UILabel = {
@@ -34,8 +35,11 @@ class ConversationsViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
-                                                            action: #selector(didTapComposeButton))
-        fecthConversation()
+                                                            action: #selector(composeButtonDidTouch))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .redo,
+                                                           target: self, action:
+                                                            #selector(logoutButtonDidTouch))
+        fetchConversation()
         view.addSubview(noConversationsLabel)
         setupTableView()
     }
@@ -57,8 +61,19 @@ class ConversationsViewController: UIViewController {
         tableView.dataSource = self
     }
 //MARK: - Function
+    @objc private func logoutButtonDidTouch() {
+        FacebookService.shared.logout()
+        GoogleService.shared.logout()
+        ZaloService.shared.logout()
+//        AuthenUtils.shared.logout()
+        
+        UserDefaults.standard.set(nil, forKey: Constant.CUR_USER_KEY)
+        DatabaseManager.shared.currentID = nil
+        print("Logout success, token: \(String(describing: DatabaseManager.shared.currentID))")
+        self.dismiss(animated: true)
+    }
     
-    @objc private func didTapComposeButton() {
+    @objc private func composeButtonDidTouch() {
         //Handle from NewConversationViewController
         let vc = NewConversationViewController()
         vc.completionHandler = { [weak self] result in
@@ -74,8 +89,9 @@ class ConversationsViewController: UIViewController {
             print("RECEIVEUID: \(receivedUid)")
             checkExists(id: receivedUid, completion: { [weak self] flag, resID, name in
                 guard let strongself = self else {return}
+                strongself.isNewConversation = flag
                 if flag {
-                    print("Navigate: \(flag)")
+                    print("Navigate")
                     strongself.navigateToChatView(id: resID, name: name)
                 } else {
                     print("Create new")
@@ -89,34 +105,41 @@ class ConversationsViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "segue") {
-            if let vc = segue.destination as? ChatViewController, let rowSelected = rowSelected {
-//                guard let indexPath = self.tableView.indexPathForSelectedRow else {
-//                    return
-//                }
-                    vc.currentConversationID = listConversation[rowSelected].id
-                    vc.title = listConversation[rowSelected].name
-        
-                vc.navigationItem.largeTitleDisplayMode = .never
-         }
+            guard let vc = segue.destination as? ChatViewController else {
+                return
+            }
+            vc.currentConversationID = isNewConversation ? navigateConversationID : listConversation[rowSelected].id
+            vc.title = isNewConversation ? navigateTitle : listConversation[rowSelected].name
+            vc.navigationItem.largeTitleDisplayMode = .never
         }
+        isNewConversation = false
     }
 
     private func navigateToChatView(id: String, name: String){
-        let vc = ChatViewController()
-        vc.isNewConversation = false
-        vc.currentConversationID = id
-        vc.title = name
-        vc.navigationItem.largeTitleDisplayMode = .never
+        navigateConversationID = id
+        print("DATAAAAAAAA: \(navigateConversationID) + \(navigateTitle)")
+        navigateTitle = name
+
         self.performSegue(withIdentifier: "segue", sender: self)
-//        self.present(test, animated: false)
     }
     
+    //New conversation
+    private func createNewConversation(result: [String: String]) {
+        DatabaseManager.shared.createNewConversation(result: result) { isSuccess, id in
+            if isSuccess {
+                self.navigateToChatView(id: id, name: result["name"] ?? "")
+            }
+            else {
+                //TODO: Handle noti
+            }
+        }
+    }
     
     private func checkExists(id: String, completion: @escaping (Bool, String, String) -> Void){
         var flag = false
         var conversationID = ""
         var name = ""
-
+        print("STT: 0")
         for item in listConversation {
             let arrUser = item.users
             
@@ -131,22 +154,8 @@ class ConversationsViewController: UIViewController {
         }
         completion(flag, conversationID, name)
     }
-    
-    //New conversation
-    private func createNewConversation(result: [String: String]) {
-        DatabaseManager.shared.createNewConversation(result: result) { isSuccess, uuid in
-            if isSuccess {
-                self.navigateToChatView(id: uuid, name: result["name"] ?? "")
-                self.isNewConversation = true
-            }
-            else {
-                //TODO: Handle noti
-            }
-        }
-    }
-    
     //Fetch Conversation
-    private func fecthConversation(){
+    private func fetchConversation(){
         
         self.listConversation = []
         tableView.isHidden = false
@@ -164,7 +173,6 @@ class ConversationsViewController: UIViewController {
             switch result {
             case .success(let dataCollection):
                 strongself.listConversation = dataCollection
-                
                 if strongself.listConversation.isEmpty {
                     strongself.tableView.isHidden = true
                     strongself.noConversationsLabel.isHidden = false
@@ -207,13 +215,6 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        let vc = ChatViewController()
-//        vc.currentConversationID = listConversation[indexPath.row].id
-//        vc.title = listConversation[indexPath.row].name
-//        vc.navigationItem.largeTitleDisplayMode = .never
-//        navigationController?.present(vc, animated: false)
-
-//        navigationController?.pushViewController(vc, animated: true)
         rowSelected = indexPath.row
         self.performSegue(withIdentifier: "segue", sender: self)
     }

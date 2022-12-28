@@ -226,6 +226,8 @@
 		F1C6D3E229531BAE00387F04 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F1F44B1D295AFFE5007136A6 /* AuthenUtils.swift */,
+				F1F44B19295AFA2C007136A6 /* Constant.swift */,
 				F115EA66294ADB660056A31F /* Extensions.swift */,
 				F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */,
 				F15521A7294884F30083F652 /* StorageManager.swift */,
@@ -234,8 +236,6 @@
 				F1F44B15295AA5C5007136A6 /* FacebookService.swift */,
 				F1F44B1B295AFCF2007136A6 /* ZaloService.swift */,
 				F1F44B17295AF95C007136A6 /* Utils.swift */,
-				F1F44B19295AFA2C007136A6 /* Constant.swift */,
-				F1F44B1D295AFFE5007136A6 /* AuthenUtils.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";

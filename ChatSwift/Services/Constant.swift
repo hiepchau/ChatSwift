@@ -11,7 +11,10 @@ struct Constant {
     public static let EXT_INFO = [
         "appVersion": "1.0.0",
     ]
+    public static let LOGIN_TOKEN_KEY = "LOGINTOKEN"
+    public static let CUR_USER_KEY = "CURUSER"
     public static let ZALO_APP_ID = "3857990715579569034"
+    
     public static let ZALO_USERNAME_TYPE: (String) -> (String) = { uid in
         return "zalo" + uid
     }
