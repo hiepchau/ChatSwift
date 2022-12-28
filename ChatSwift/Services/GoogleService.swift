@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 import GoogleSignIn
 
-class GoogleService {
+class GoogleService: Authenticate {
     static let shared = GoogleService()
     
     
@@ -24,7 +24,7 @@ class GoogleService {
             guard let user = user, error == nil else { return }
             self.handleSessionRestore(user: user)
             let token = DatabaseManager.shared.currentID
-            let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
+            let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)
             print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
             completion()
         }
@@ -58,9 +58,8 @@ class GoogleService {
             withIDToken: idToken,
             accessToken: authentication.accessToken
         )
-        
-        UserDefaults.standard.set(uid, forKey: "LOGINTOKEN")
-        UserDefaults.standard.set(userModel.dictionary, forKey: "CURUSER")
+        DatabaseManager.shared.currentID = uid
+        UserDefaults.standard.set(userModel.dictionary, forKey: Constant.CUR_USER_KEY)
         
         FirebaseAuth.Auth.auth().signIn(with: credential, completion: { authResult, error in
             guard authResult != nil, error == nil else {
@@ -68,9 +67,7 @@ class GoogleService {
                 return
             }
             print("Successfully signed in with Google cred.")
-            let token = DatabaseManager.shared.currentID
-            let currentUser = UserDefaults.standard.dictionary(forKey: "CURUSER")
-            print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
+            AuthenUtils.shared.printSession()
             NotificationCenter.default.post(name: .didLogInNotification, object: nil)
         })
     }
