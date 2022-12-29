@@ -117,9 +117,7 @@ class ConversationsViewController: UIViewController {
 
     private func navigateToChatView(id: String, name: String){
         navigateConversationID = id
-        print("DATAAAAAAAA: \(navigateConversationID) + \(navigateTitle)")
         navigateTitle = name
-
         self.performSegue(withIdentifier: "segue", sender: self)
     }
     
