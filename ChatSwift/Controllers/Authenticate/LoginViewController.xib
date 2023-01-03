@@ -58,6 +58,9 @@
                     <state key="normal" title="Log In">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="loginButtonDidTouch:" destination="-1" eventType="touchUpInside" id="CKl-Eb-anE"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="A5e-AM-LaA">
                     <rect key="frame" x="133.5" y="493.5" width="147" height="37"/>
@@ -78,16 +81,25 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s85-xu-tt2">
                             <rect key="frame" x="0.0" y="0.0" width="69" height="70"/>
                             <state key="normal" image="facebook-icon"/>
+                            <connections>
+                                <action selector="facebookButtonDidTouch:" destination="-1" eventType="touchUpInside" id="gQ7-ri-vw2"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fo-WS-F4o">
                             <rect key="frame" x="94" y="0.0" width="68.5" height="70"/>
                             <state key="normal" image="google-icon"/>
+                            <connections>
+                                <action selector="googleButtonDidTouch:" destination="-1" eventType="touchUpInside" id="jaU-TU-8gX"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKY-Ru-Nen">
                             <rect key="frame" x="187.5" y="0.0" width="69" height="70"/>
                             <state key="normal">
                                 <imageReference key="image" image="zalo-icon" symbolScale="large" renderingMode="original"/>
                             </state>
+                            <connections>
+                                <action selector="zaloButtonDidTouch:" destination="-1" eventType="touchUpInside" id="7zH-t8-pgV"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmx-Va-1Cd">
                             <rect key="frame" x="281.5" y="0.0" width="68.5" height="70"/>
@@ -118,6 +130,9 @@
                             <rect key="frame" x="165" y="0.0" width="67" height="37"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="18"/>
                             <state key="normal" title="Sign up"/>
+                            <connections>
+                                <action selector="signupButtonDidTouch:" destination="-1" eventType="touchUpInside" id="xPQ-Kq-hKc"/>
+                            </connections>
                         </button>
                     </subviews>
                     <constraints>

@@ -260,9 +260,6 @@
                                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="18"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Sign up"/>
-                                                <connections>
-                                                    <action selector="signupButtonDidTouch:" destination="YCY-i2-lzY" eventType="touchUpInside" id="pKi-VV-U0E"/>
-                                                </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5E-5C-72h" userLabel="Bottom View">
                                                 <rect key="frame" x="83.333333333333314" y="801" width="261" height="37"/>
@@ -280,9 +277,6 @@
                                                         <state key="normal" title="Sign In">
                                                             <color key="titleColor" systemColor="tintColor"/>
                                                         </state>
-                                                        <connections>
-                                                            <action selector="loginButtonDidTouch:" destination="YCY-i2-lzY" eventType="touchUpInside" id="1A5-CL-ZTL"/>
-                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -362,13 +356,6 @@
                             <constraint firstItem="670-8h-HDV" firstAttribute="bottom" secondItem="tvJ-GZ-sIc" secondAttribute="bottom" id="xSS-5f-r5S"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="confirmPasswordField" destination="ZiN-vP-1GP" id="wRQ-Ua-k6p"/>
-                        <outlet property="emailField" destination="o53-bd-2PQ" id="vxh-zd-POu"/>
-                        <outlet property="imgProfile" destination="A2K-fe-INn" id="xRE-2h-uDW"/>
-                        <outlet property="passwordField" destination="dP7-zI-jI8" id="vVs-Of-BGP"/>
-                        <outlet property="usernameField" destination="bP2-8a-OlD" id="F9I-om-G4t"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bNd-n9-aME" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -47,8 +47,9 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func signupButtonDidTouch(_ sender: UIButton) {
-        if let signupVC = self.storyboard?.instantiateViewController(identifier: "SignUpViewController") as? SignUpViewController{
-            self.navigationController?.pushViewController(signupVC, animated: true)
+        DispatchQueue.main.async {
+            let controller = SignUpViewController()
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
     

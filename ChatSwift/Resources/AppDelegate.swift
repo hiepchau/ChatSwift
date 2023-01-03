@@ -12,12 +12,23 @@ import FirebaseAuth
 import FacebookCore
 import ZaloSDK
 
-@main
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    var window: UIWindow?
+    
     public var signInConfig: GIDConfiguration?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        ///Config view
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        let mainNavigationController = UINavigationController(rootViewController: LoginViewController())
+        window.rootViewController = mainNavigationController
+        window.makeKeyAndVisible()
+        
+        self.window = window
+        
         ///Config Firebase
         FirebaseApp.configure()
         ZaloSDK.sharedInstance().initialize(withAppId: Constant.ZALO_APP_ID)
@@ -40,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    // MARK: UISceneSession Lifecycle
+
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         ///Receive callback from Google
@@ -54,14 +65,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ZDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         return true
     }
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
     
+    //MARK: Scene delegate
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else {
+            return
+        }
+        
+        ///Receive callback from facebook
+        ApplicationDelegate.shared.application(
+            UIApplication.shared,
+            open: url,
+            sourceApplication: nil,
+            annotation: [UIApplication.OpenURLOptionsKey.annotation]
+        )
+    }
 }
+
 
 
 

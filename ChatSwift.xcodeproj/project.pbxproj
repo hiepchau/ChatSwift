@@ -11,7 +11,6 @@
 		F115EA67294ADB660056A31F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F115EA66294ADB660056A31F /* Extensions.swift */; };
 		F129E207295058ED007621A1 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F129E206295058ED007621A1 /* TestViewController.swift */; };
 		F129E20929505BFE007621A1 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F129E20829505BFE007621A1 /* ChatMessageCell.swift */; };
-		F14C4E9E295583FE006090FD /* SignUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14C4E9D295583FE006090FD /* SignUpTableViewController.swift */; };
 		F155219F294876620083F652 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F155219E294876620083F652 /* ConversationTableViewCell.swift */; };
 		F15521A8294884F30083F652 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15521A7294884F30083F652 /* StorageManager.swift */; };
 		F1589394295EB351000F9156 /* UIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589393295EB351000F9156 /* UIServices.swift */; };
@@ -26,6 +25,8 @@
 		F16395452940FE7D00DED7D7 /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395442940FE7D00DED7D7 /* LoginTableViewController.swift */; };
 		F16395472940FE9000DED7D7 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395462940FE9000DED7D7 /* NewConversationViewController.swift */; };
 		F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173D5C32941EE5C00DDF7DE /* UserModel.swift */; };
+		F18FBCA32963D80600F171B6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18FBCA12963D80600F171B6 /* SignUpViewController.swift */; };
+		F18FBCA42963D80600F171B6 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F18FBCA22963D80600F171B6 /* SignUpViewController.xib */; };
 		F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBF42942CBE500D65D69 /* BaseModel.swift */; };
 		F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */; };
 		F1B2BBFB294312F200D65D69 /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBFA294312F200D65D69 /* ConversationModel.swift */; };
@@ -54,7 +55,6 @@
 		F115EA66294ADB660056A31F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F129E206295058ED007621A1 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		F129E20829505BFE007621A1 /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
-		F14C4E9D295583FE006090FD /* SignUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTableViewController.swift; sourceTree = "<group>"; };
 		F155219E294876620083F652 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		F15521A7294884F30083F652 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		F1589393295EB351000F9156 /* UIServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIServices.swift; sourceTree = "<group>"; };
@@ -71,6 +71,8 @@
 		F16395442940FE7D00DED7D7 /* LoginTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		F16395462940FE9000DED7D7 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		F173D5C32941EE5C00DDF7DE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		F18FBCA12963D80600F171B6 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		F18FBCA22963D80600F171B6 /* SignUpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
 		F1B2BBF42942CBE500D65D69 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		F1B2BBFA294312F200D65D69 /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModel.swift; sourceTree = "<group>"; };
@@ -136,9 +138,10 @@
 			isa = PBXGroup;
 			children = (
 				F16395442940FE7D00DED7D7 /* LoginTableViewController.swift */,
-				F14C4E9D295583FE006090FD /* SignUpTableViewController.swift */,
 				F1C92C73295D9CD4007D739A /* LoginViewController.swift */,
 				F1C92C74295D9CD4007D739A /* LoginViewController.xib */,
+				F18FBCA12963D80600F171B6 /* SignUpViewController.swift */,
+				F18FBCA22963D80600F171B6 /* SignUpViewController.xib */,
 			);
 			path = Authenticate;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				F163952F2940FB3800DED7D7 /* LaunchScreen.storyboard in Resources */,
 				F163953E2940FDEF00DED7D7 /* GoogleService-Info.plist in Resources */,
 				F163952C2940FB3800DED7D7 /* Assets.xcassets in Resources */,
+				F18FBCA42963D80600F171B6 /* SignUpViewController.xib in Resources */,
 				F163952A2940FB3700DED7D7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -395,12 +399,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F18FBCA32963D80600F171B6 /* SignUpViewController.swift in Sources */,
 				F16395472940FE9000DED7D7 /* NewConversationViewController.swift in Sources */,
 				F16395432940FE6A00DED7D7 /* ConversationsViewController.swift in Sources */,
 				F1F44B1E295AFFE5007136A6 /* AuthenUtils.swift in Sources */,
 				F129E207295058ED007621A1 /* TestViewController.swift in Sources */,
 				F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */,
-				F14C4E9E295583FE006090FD /* SignUpTableViewController.swift in Sources */,
 				F1C6D3E429531C0D00387F04 /* MediaManager.swift in Sources */,
 				F16395232940FB3700DED7D7 /* AppDelegate.swift in Sources */,
 				F1B2BBFD294313A200D65D69 /* MessageModel.swift in Sources */,
@@ -584,7 +588,6 @@
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to select a photo for your profile.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -618,7 +621,6 @@
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to select a photo for your profile.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
