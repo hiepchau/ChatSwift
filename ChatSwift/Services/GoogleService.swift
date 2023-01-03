@@ -15,14 +15,13 @@ class GoogleService: Authenticate {
     
     
     func login(vc: UIViewController, completion: @escaping () -> Void) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-              let signInConfig = appDelegate.signInConfig else {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             completion()
             return
         }
-        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: vc) { (user, error) in
-            guard let user = user, error == nil else { return }
-            self.handleSessionRestore(user: user)
+        GIDSignIn.sharedInstance.signIn(withPresenting: vc) { (result, error) in
+            guard let result = result, error == nil else { return }
+            self.handleSessionRestore(user: result.user)
             let token = DatabaseManager.shared.currentID
             let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)
             print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
@@ -49,14 +48,13 @@ class GoogleService: Authenticate {
             }
         })
 
-        let authentication = user.authentication
-        guard let idToken = authentication.idToken else {
+        guard let idToken = user.idToken else {
             return
         }
 
         let credential = GoogleAuthProvider.credential(
-            withIDToken: idToken,
-            accessToken: authentication.accessToken
+            withIDToken: idToken.tokenString,
+            accessToken: user.accessToken.tokenString
         )
         DatabaseManager.shared.currentID = uid
         UserDefaults.standard.set(userModel.dictionary, forKey: Constant.CUR_USER_KEY)
