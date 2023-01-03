@@ -27,6 +27,10 @@
 		F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173D5C32941EE5C00DDF7DE /* UserModel.swift */; };
 		F18FBCA32963D80600F171B6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18FBCA12963D80600F171B6 /* SignUpViewController.swift */; };
 		F18FBCA42963D80600F171B6 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F18FBCA22963D80600F171B6 /* SignUpViewController.xib */; };
+		F18FBCA62963E32A00F171B6 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18FBCA52963E32A00F171B6 /* SignUpViewModel.swift */; };
+		F18FBCA92963E89D00F171B6 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18FBCA72963E89D00F171B6 /* ConversationViewController.swift */; };
+		F18FBCAA2963E89D00F171B6 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F18FBCA82963E89D00F171B6 /* ConversationViewController.xib */; };
+		F18FBCAC2963EF6F00F171B6 /* ConversationViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18FBCAB2963EF6F00F171B6 /* ConversationViewController+TableView.swift */; };
 		F1B2BBF52942CBE500D65D69 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBF42942CBE500D65D69 /* BaseModel.swift */; };
 		F1B2BBF92942DA3D00D65D69 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */; };
 		F1B2BBFB294312F200D65D69 /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B2BBFA294312F200D65D69 /* ConversationModel.swift */; };
@@ -73,6 +77,10 @@
 		F173D5C32941EE5C00DDF7DE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		F18FBCA12963D80600F171B6 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		F18FBCA22963D80600F171B6 /* SignUpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
+		F18FBCA52963E32A00F171B6 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		F18FBCA72963E89D00F171B6 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		F18FBCA82963E89D00F171B6 /* ConversationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
+		F18FBCAB2963EF6F00F171B6 /* ConversationViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversationViewController+TableView.swift"; sourceTree = "<group>"; };
 		F1B2BBF42942CBE500D65D69 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		F1B2BBF82942DA3D00D65D69 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		F1B2BBFA294312F200D65D69 /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModel.swift; sourceTree = "<group>"; };
@@ -199,6 +207,9 @@
 				F16395402940FE5000DED7D7 /* ChatViewController.swift */,
 				F16395462940FE9000DED7D7 /* NewConversationViewController.swift */,
 				F129E206295058ED007621A1 /* TestViewController.swift */,
+				F18FBCA72963E89D00F171B6 /* ConversationViewController.swift */,
+				F18FBCA82963E89D00F171B6 /* ConversationViewController.xib */,
+				F18FBCAB2963EF6F00F171B6 /* ConversationViewController+TableView.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -265,6 +276,7 @@
 			children = (
 				F1C92C6C295D9A58007D739A /* BaseViewModel.swift */,
 				F1C92C6E295D9A6B007D739A /* LoginViewModel.swift */,
+				F18FBCA52963E32A00F171B6 /* SignUpViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -346,6 +358,7 @@
 				F163953E2940FDEF00DED7D7 /* GoogleService-Info.plist in Resources */,
 				F163952C2940FB3800DED7D7 /* Assets.xcassets in Resources */,
 				F18FBCA42963D80600F171B6 /* SignUpViewController.xib in Resources */,
+				F18FBCAA2963E89D00F171B6 /* ConversationViewController.xib in Resources */,
 				F163952A2940FB3700DED7D7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,7 +421,9 @@
 				F1C6D3E429531C0D00387F04 /* MediaManager.swift in Sources */,
 				F16395232940FB3700DED7D7 /* AppDelegate.swift in Sources */,
 				F1B2BBFD294313A200D65D69 /* MessageModel.swift in Sources */,
+				F18FBCAC2963EF6F00F171B6 /* ConversationViewController+TableView.swift in Sources */,
 				F16395412940FE5000DED7D7 /* ChatViewController.swift in Sources */,
+				F18FBCA92963E89D00F171B6 /* ConversationViewController.swift in Sources */,
 				F16395252940FB3700DED7D7 /* SceneDelegate.swift in Sources */,
 				F1F44B13295A9771007136A6 /* GoogleService.swift in Sources */,
 				F1B2BBFB294312F200D65D69 /* ConversationModel.swift in Sources */,
@@ -430,6 +445,7 @@
 				F15521A8294884F30083F652 /* StorageManager.swift in Sources */,
 				F1F44B1C295AFCF2007136A6 /* ZaloService.swift in Sources */,
 				F1F44B16295AA5C5007136A6 /* FacebookService.swift in Sources */,
+				F18FBCA62963E32A00F171B6 /* SignUpViewModel.swift in Sources */,
 				F1F44B18295AF95C007136A6 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

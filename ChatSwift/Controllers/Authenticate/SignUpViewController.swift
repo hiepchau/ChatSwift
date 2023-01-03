@@ -9,18 +9,27 @@ import UIKit
 
 class SignUpViewController: UIViewController {
 
+    //MARK: - IBOutlets
     @IBOutlet weak var imgProfile: UIImageView!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPasswordField: UITextField!
     
+    //ViewModel
+    let viewModel = SignUpViewModel()
+    
+    //MARK: - ViewController lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
+        
+        //TODO: Remove #selector
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         imgProfile.addGestureRecognizer(tapGesture)
     }
+    
+    //MARK: - IBActions
     
     @objc
     func imageTapped(tapGestureRecognizer: UITapGestureRecognizer){
@@ -28,37 +37,7 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func signupButtonDidTouch(_ sender: UIButton) {
-        let imgSystem = UIImage(named: "profile")
-        
-        if imgProfile.image?.pngData() != imgSystem?.pngData(){
-            // profile image selected
-            if let email = emailField.text, let password = passwordField.text, let username = usernameField.text, let conPassword = confirmPasswordField.text{
-                if username == ""{
-                    print("Please enter username")
-                } else if !email.validateEmailId(){
-                    openAlert(title: "Alert", message: "Please enter valid email", alertStyle: .alert, actionTitles: ["Okay"], actionStyles: [.default], actions: [{_ in }])
-                    print("email is not valid")
-                } else if !password.validatePassword(){
-                    print("Password is not valid")
-                } else{
-                    if conPassword == ""{
-                        print("Please confirm password")
-                    }else{
-                        if password == conPassword{
-                            // navigation code
-                            print("Nice!")
-                        } else{
-                            print("password does not match")
-                        }
-                    }
-                }
-            } else {
-                print("Please check your details")
-            }
-        } else{
-            print("Please select profile picture")
-            openAlert(title: "Alert", message: "Please select profile picture", alertStyle: .alert, actionTitles: ["Okay"], actionStyles: [.default], actions: [{_ in }])
-        }
+        viewModel.signup()
     }
     
     @IBAction func loginButtonDidTouch(_ sender: UIButton) {
@@ -66,6 +45,9 @@ class SignUpViewController: UIViewController {
     }
 }
 
+
+
+//MARK: - Extensions
 extension SignUpViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate{
     
     func openGallery(){

@@ -16,21 +16,21 @@ import ZaloSDK
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    
-    public var signInConfig: GIDConfiguration?
-    
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         ///Config view
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        let mainNavigationController = UINavigationController(rootViewController: LoginViewController())
-        window.rootViewController = mainNavigationController
-        window.makeKeyAndVisible()
-        
-        self.window = window
+//        let window = UIWindow(frame: UIScreen.main.bounds)
+//        let mainNavigationController = UINavigationController(rootViewController: LoginViewController())
+//        window.rootViewController = mainNavigationController
+//        window.makeKeyAndVisible()
+//        
+//        self.window = window
         
         ///Config Firebase
         FirebaseApp.configure()
+        
+        ///Config Zalo
         ZaloSDK.sharedInstance().initialize(withAppId: Constant.ZALO_APP_ID)
 
         ///Config Facebook
@@ -38,40 +38,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application,
             didFinishLaunchingWithOptions: launchOptions
         )
-        if let clientId = FirebaseApp.app()?.options.clientID {
-            signInConfig = GIDConfiguration.init(clientID: clientId)
-        }
-        /* Save google login
-         GIDSignIn.sharedInstance.restorePreviousSignIn { [weak self] user, error in
-             if let user = user, error == nil {
-                 self?.handleSessionRestore(user: user)
-             }
-         }
-         */
+
         return true
     }
     
-
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+            return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        ///Receive callback from Google
-        GIDSignIn.sharedInstance.handle(url)
         ///Receive callback from Facebook
         ApplicationDelegate.shared.application(app, open: url,
             sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
             annotation: options[UIApplication.OpenURLOptionsKey.annotation]
         )
+        ///Receive callback from Google
+        GIDSignIn.sharedInstance.handle(url)
         ///Receive callback from zalo
         ZDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         return true
     }
     
     //MARK: Scene delegate
+
+    
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else {
             return
         }
-        
+
         ///Receive callback from facebook
         ApplicationDelegate.shared.application(
             UIApplication.shared,
