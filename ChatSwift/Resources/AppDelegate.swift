@@ -21,13 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         ///Config view
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        let mainNavigationController = UINavigationController(rootViewController: LoginViewController())
-        window.rootViewController = mainNavigationController
-        window.makeKeyAndVisible()
-        
-        self.window = window
-        
+//        let window = UIWindow(frame: UIScreen.main.bounds)
+//        let mainNavigationController = UINavigationController(rootViewController: LoginViewController())
+//        window.rootViewController = mainNavigationController
+//        window.makeKeyAndVisible()
+//
+//        self.window = window
+//
         ///Config Firebase
         FirebaseApp.configure()
         
@@ -58,7 +58,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //MARK: Scene delegate
 
-    
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
 //    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
 //        guard let url = URLContexts.first?.url else {
 //            return

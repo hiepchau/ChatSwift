@@ -10,7 +10,7 @@ import Foundation
 final class ConversationModel : BaseModel, Identifiable {
     var conversationID: String { id }
     
-    let id , name : String
+    let id, name : String
     let users: [String]
     
     override init(){

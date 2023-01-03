@@ -20,6 +20,7 @@ class SignUpViewController: UIViewController {
     let viewModel = SignUpViewModel()
     
     //MARK: - ViewController lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true

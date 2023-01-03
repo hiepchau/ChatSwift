@@ -12,7 +12,16 @@ import SDWebImage
 
 class ConversationTableViewCell: UITableViewCell {
 
-    static let identifier = "ConversationTableViewCell"
+    static var identifier: String {
+        get {
+            return "ConversationTableViewCell"
+        }
+    }
+    
+    static func register() -> UINib {
+        UINib(nibName: "ConversationTableViewCell", bundle: nil)
+    }
+    
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var msg: UILabel!
     @IBOutlet weak var imgView: UIImageView!
@@ -26,13 +35,14 @@ class ConversationTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+        /// Configure the view for the selected state
     }
 
-    public func configure(with model: ConversationModel) {
-//        userMessageLabel.text = model.latestMessage.text
-        usernameLabel.text = model.name
-        imgView.image = UIImage(named: "profile")
+    public func configure(with viewModel: ConversationTableCellViewModel) {
+//      userMessageLabel.text = model.latestMessage.text
+        usernameLabel.text = viewModel.username
+        msg.text = viewModel.msg
+        imgView.image = viewModel.imgView
         
         //TODO: Picture profile
 //        StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in

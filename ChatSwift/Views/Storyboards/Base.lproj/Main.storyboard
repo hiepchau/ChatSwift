@@ -422,11 +422,6 @@
                                                 <constraint firstAttribute="trailing" secondItem="odo-Lf-xQW" secondAttribute="trailing" constant="5" id="oVn-gA-WvT"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="imgView" destination="Pfv-Zp-Fu1" id="ste-ur-vBr"/>
-                                            <outlet property="msg" destination="ozD-t4-tAF" id="3tj-Ap-nVj"/>
-                                            <outlet property="usernameLabel" destination="oE4-n2-IBk" id="7wp-Yv-ISK"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

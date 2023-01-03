@@ -205,7 +205,7 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ConversationTableViewCell.identifier,
                                                  for: indexPath) as! ConversationTableViewCell
-        cell.configure(with: model)
+//        cell.configure(with: model)
         return cell
     }
     

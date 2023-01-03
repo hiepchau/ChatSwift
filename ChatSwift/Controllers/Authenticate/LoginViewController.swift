@@ -20,6 +20,7 @@ class LoginViewController: UIViewController {
     //Variables
     
     //MARK: - ViewController lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
