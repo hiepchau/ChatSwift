@@ -12,20 +12,21 @@ import FirebaseAuth
 import FacebookCore
 import ZaloSDK
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
         
         ///Config view
-//        let window = UIWindow(frame: UIScreen.main.bounds)
-//        let mainNavigationController = UINavigationController(rootViewController: LoginViewController())
-//        window.rootViewController = mainNavigationController
-//        window.makeKeyAndVisible()
-//        
-//        self.window = window
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        let mainNavigationController = UINavigationController(rootViewController: LoginViewController())
+        window.rootViewController = mainNavigationController
+        window.makeKeyAndVisible()
+        
+        self.window = window
         
         ///Config Firebase
         FirebaseApp.configure()
@@ -38,13 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application,
             didFinishLaunchingWithOptions: launchOptions
         )
-
+ 
         return true
     }
-    
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-            return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-        }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         ///Receive callback from Facebook
@@ -62,19 +59,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: Scene delegate
 
     
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        guard let url = URLContexts.first?.url else {
-            return
-        }
-
-        ///Receive callback from facebook
-        ApplicationDelegate.shared.application(
-            UIApplication.shared,
-            open: url,
-            sourceApplication: nil,
-            annotation: [UIApplication.OpenURLOptionsKey.annotation]
-        )
-    }
+//    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+//        guard let url = URLContexts.first?.url else {
+//            return
+//        }
+//
+//        ///Receive callback from facebook
+//        ApplicationDelegate.shared.application(
+//            UIApplication.shared,
+//            open: url,
+//            sourceApplication: nil,
+//            annotation: [UIApplication.OpenURLOptionsKey.annotation]
+//        )
+//    }
 }
 
 

@@ -2,6 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>GIDClientID</key>
+    <string>285511534137-mmklt6dl6mhh1adackkt4fsf561k3dv5.apps.googleusercontent.com</string>
+
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -39,6 +42,8 @@
 	<array>
 		<string>fbapi</string>
 		<string>fb-messenger-share-api</string>
+        <string>zalosdk</string>
 	</array>
+    
 </dict>
 </plist>
