@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController" customModule="ChatSwift" customModuleProvider="target">
+            <connections>
+                <outlet property="inputTextView" destination="0aW-Tn-r9H" id="sOC-1S-i4b"/>
+                <outlet property="tableView" destination="fi3-IB-w8M" id="GAX-AL-Ueq"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fi3-IB-w8M">
+                    <rect key="frame" x="0.0" y="44" width="414" height="748.5"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FRk-MZ-TYQ" userLabel="Chat View">
+                    <rect key="frame" x="0.0" y="792.5" width="414" height="64.5"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lmw-gE-CZ8" userLabel="AttachButton">
+                            <rect key="frame" x="15" y="12.5" width="35" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="aCx-kD-DIi"/>
+                                <constraint firstAttribute="width" constant="35" id="opL-kd-ipj"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="paperclip" catalog="system"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hmi-79-Yvr" userLabel="SendButton">
+                            <rect key="frame" x="338" y="12.5" width="60" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="SPF-aE-boM"/>
+                                <constraint firstAttribute="width" constant="60" id="X0Y-ve-ObW"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Send">
+                                <fontDescription key="titleFontDescription" type="system" pointSize="15"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="sendButtonDidTouch:" destination="-1" eventType="touchUpInside" id="UAQ-1g-EB5"/>
+                            </connections>
+                        </button>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0aW-Tn-r9H" userLabel="Chat View">
+                            <rect key="frame" x="65" y="9.5" width="258" height="38"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="38" id="Tvz-2O-8u7"/>
+                            </constraints>
+                            <color key="textColor" systemColor="labelColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Hmi-79-Yvr" firstAttribute="bottom" secondItem="lmw-gE-CZ8" secondAttribute="bottom" id="4ma-jN-XME"/>
+                        <constraint firstAttribute="trailing" secondItem="Hmi-79-Yvr" secondAttribute="trailing" constant="16" id="51u-0T-2L2"/>
+                        <constraint firstAttribute="bottom" secondItem="lmw-gE-CZ8" secondAttribute="bottom" constant="17" id="8cZ-Wl-Bez"/>
+                        <constraint firstItem="lmw-gE-CZ8" firstAttribute="leading" secondItem="FRk-MZ-TYQ" secondAttribute="leading" constant="15" id="ht6-jk-Ytm"/>
+                        <constraint firstItem="Hmi-79-Yvr" firstAttribute="leading" secondItem="0aW-Tn-r9H" secondAttribute="trailing" constant="15" id="hxK-z7-BdJ"/>
+                        <constraint firstItem="0aW-Tn-r9H" firstAttribute="bottom" secondItem="lmw-gE-CZ8" secondAttribute="bottom" id="nHV-SH-QjE"/>
+                        <constraint firstItem="0aW-Tn-r9H" firstAttribute="leading" secondItem="lmw-gE-CZ8" secondAttribute="trailing" constant="15" id="p0D-8Q-Nhz"/>
+                        <constraint firstItem="lmw-gE-CZ8" firstAttribute="top" secondItem="FRk-MZ-TYQ" secondAttribute="top" constant="12.5" id="p29-AB-8zW"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="FRk-MZ-TYQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="QDU-8e-UHt"/>
+                <constraint firstItem="FRk-MZ-TYQ" firstAttribute="top" secondItem="fi3-IB-w8M" secondAttribute="bottom" id="UQu-s0-Iaa"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="FRk-MZ-TYQ" secondAttribute="bottom" constant="5" id="bv6-6Q-43I"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fi3-IB-w8M" secondAttribute="trailing" id="rVG-J1-dBj"/>
+                <constraint firstItem="FRk-MZ-TYQ" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="rcB-WE-B0f"/>
+                <constraint firstItem="fi3-IB-w8M" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="tcS-Lk-mVB"/>
+                <constraint firstItem="fi3-IB-w8M" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="yHD-9H-Hl9"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="121"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="paperclip" catalog="system" width="121" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

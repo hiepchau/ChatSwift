@@ -22,3 +22,4 @@ internal class ListenerService: NSObject, UITextFieldDelegate {
         viewModel.setDynamicTextField(text: textField.text)
     }
 }
+

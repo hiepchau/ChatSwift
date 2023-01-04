@@ -12,7 +12,7 @@ class LoginViewController: UIViewController {
     //MARK: - IBOutlets
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    
+    private var loginObserver: NSObjectProtocol?
     //ViewModel
     let viewModel = LoginViewModel()
     
@@ -23,9 +23,13 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let strongself = self else {
+                return
+            }
+            strongself.navigate()
+        })
         ///Text changed:
-        
         ListenerService.shared.textWatcher(textField: usernameTextField, view: self, viewModel: viewModel)
         ListenerService.shared.textWatcher(textField: passwordTextField, view: self, viewModel: viewModel)
     }
@@ -52,6 +56,14 @@ class LoginViewController: UIViewController {
             let controller = SignUpViewController()
             self.navigationController?.pushViewController(controller, animated: true)
         }
+    }
+    
+    func navigate(){
+        let vc = ConversationViewController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.navigationItem.largeTitleDisplayMode = .automatic
+        vc.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     //MARK: - Function

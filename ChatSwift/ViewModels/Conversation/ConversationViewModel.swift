@@ -33,14 +33,22 @@ class ConversationViewModel: BaseViewModel {
     }
     
     func getData() {
+        if isLoading.value ?? true {
+            return
+        }
+        
+        isLoading.value = true
+        
         //Get conversation list
         DatabaseManager.shared.getAllConversation {[weak self] result in
           
             guard let strongself = self else { return }
+            strongself.isLoading.value = false
             
             switch result {
             case .success(let dataCollection):
                 strongself.dataSource = dataCollection
+                strongself.mapCellData()
                 print("Success to get conversation")
             case .failure(let error):
                 print("Failed to get conversation: \(error)")

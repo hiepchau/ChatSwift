@@ -27,8 +27,10 @@ class ConversationViewController: UIViewController {
         return label
     }()
     //MARK: - ViewController lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(composeButtonDidTouch))
@@ -42,7 +44,6 @@ class ConversationViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         viewModel.getData()
-
     }
     
     override func viewDidLayoutSubviews() {
@@ -100,12 +101,12 @@ class ConversationViewController: UIViewController {
     
     //MARK: - Navigation
     func navigateToChatView(id: String, name: String) {
-        let vc = ChatViewController()
-        vc.isNewConversation = false
-        vc.currentConversationID = id
-        vc.title = name
-        vc.navigationItem.largeTitleDisplayMode = .never
-        self.navigationController?.pushViewController(vc, animated: true)
+//        let vc = ChatViewController()
+//        vc.isNewConversation = false
+//        vc.currentConversationID = id
+//        vc.title = name
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
 
 

@@ -31,7 +31,6 @@ class LoginViewModel: BaseViewModel {
     
     func login() {
         DatabaseManager.shared.authenticate(username: username, password: password) { isSuccess in
-            
             if isSuccess {
                 let token = UserDefaults.standard.string(forKey: Constant.LOGIN_TOKEN_KEY)
                 let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)

@@ -48,10 +48,10 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = ChatViewController()
-        vc.currentConversationID = cellDataSources[indexPath.row].id
-        vc.title = cellDataSources[indexPath.row].username
-        vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = ChatViewController()
+//        vc.currentConversationID = cellDataSources[indexPath.row].id
+//        vc.title = cellDataSources[indexPath.row].username
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        navigationController?.pushViewController(vc, animated: true)
     }
 }
