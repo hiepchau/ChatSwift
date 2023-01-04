@@ -208,15 +208,13 @@
 		F163953F2940FE3C00DED7D7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F1BB886B29643E0900D49412 /* Conversation */,
 				F14C4E9F2955843E006090FD /* Authenticate */,
 				F14C4EA029558453006090FD /* Utilities */,
 				F16395422940FE6A00DED7D7 /* ConversationsViewController.swift */,
 				F16395402940FE5000DED7D7 /* ChatViewController.swift */,
 				F16395462940FE9000DED7D7 /* NewConversationViewController.swift */,
 				F129E206295058ED007621A1 /* TestViewController.swift */,
-				F18FBCA72963E89D00F171B6 /* ConversationViewController.swift */,
-				F18FBCA82963E89D00F171B6 /* ConversationViewController.xib */,
-				F18FBCAB2963EF6F00F171B6 /* ConversationViewController+TableView.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -267,6 +265,16 @@
 				F18FBCA52963E32A00F171B6 /* SignUpViewModel.swift */,
 			);
 			path = Authenticate;
+			sourceTree = "<group>";
+		};
+		F1BB886B29643E0900D49412 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				F18FBCA72963E89D00F171B6 /* ConversationViewController.swift */,
+				F18FBCA82963E89D00F171B6 /* ConversationViewController.xib */,
+				F18FBCAB2963EF6F00F171B6 /* ConversationViewController+TableView.swift */,
+			);
+			path = Conversation;
 			sourceTree = "<group>";
 		};
 		F1C6D3E229531BAE00387F04 /* Services */ = {
