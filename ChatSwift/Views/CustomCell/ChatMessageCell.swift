@@ -2,7 +2,7 @@
 //  ChatMessageCell.swift
 //  ChatSwift
 //
-//  Created by Châu Hiệp on 19/12/2022.
+//  Created by Châu Hiệp on 05/01/2023.
 //
 
 import UIKit
@@ -81,7 +81,6 @@ class ChatMessageCell: UITableViewCell {
           
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
     }
     
 }

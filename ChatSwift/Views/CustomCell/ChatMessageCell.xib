@@ -4,22 +4,23 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChatMessageCell" rowHeight="50" id="OCW-QJ-WPl" customClass="ChatMessageCell" customModule="ChatSwift" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="428" height="50"/>
-            <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OCW-QJ-WPl" id="kEa-iF-kop" customClass="ChatMessageCell" customModule="ChatSwift" customModuleProvider="target">
-                <rect key="frame" x="0.0" y="0.0" width="428" height="50"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatMessageCell" rowHeight="55" id="KGk-i7-Jjw" customClass="ChatMessageCell" customModule="ChatSwift" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="428" height="55"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="428" height="55"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="olR-fs-ZNm">
-                        <rect key="frame" x="324.5" y="5" width="73.5" height="40"/>
+                    <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1zW-K3-5yK">
+                        <rect key="frame" x="177" y="7" width="73.5" height="40"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYy-oF-hoH">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tey-ox-9V6">
                                 <rect key="frame" x="16" y="8" width="41.5" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -31,14 +32,15 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="olR-fs-ZNm" firstAttribute="width" relation="lessThanOrEqual" secondItem="kEa-iF-kop" secondAttribute="width" multiplier="2/3" id="FOq-Jo-4N8"/>
+                    <constraint firstItem="1zW-K3-5yK" firstAttribute="width" relation="lessThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="2/3" id="lrx-4B-rMm"/>
                 </constraints>
             </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="bubbleView" destination="olR-fs-ZNm" id="epx-l7-ztJ"/>
-                <outlet property="msglabel" destination="WYy-oF-hoH" id="WSh-jh-0F3"/>
+                <outlet property="bubbleView" destination="1zW-K3-5yK" id="nCl-Ft-uEl"/>
+                <outlet property="msglabel" destination="tey-ox-9V6" id="bGX-bR-IBh"/>
             </connections>
-            <point key="canvasLocation" x="77" y="98"/>
+            <point key="canvasLocation" x="127.53623188405798" y="93.415178571428569"/>
         </tableViewCell>
     </objects>
     <resources>

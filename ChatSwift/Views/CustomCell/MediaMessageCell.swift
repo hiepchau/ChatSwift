@@ -2,7 +2,7 @@
 //  MediaMessageCell.swift
 //  ChatSwift
 //
-//  Created by Châu Hiệp on 21/12/2022.
+//  Created by Châu Hiệp on 05/01/2023.
 //
 
 import UIKit

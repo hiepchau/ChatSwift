@@ -11,6 +11,8 @@ class ChatViewModel: BaseViewModel {
     
     //MARK: - Variables
     
+    let currentToken = DatabaseManager.shared.currentID
+    
     var currentConversationID: String = ""
     var currentConversationName: String = ""
     
@@ -52,7 +54,7 @@ class ChatViewModel: BaseViewModel {
     func sendMesage(){
         guard let text = textViewInput.value,
                 !text.replacingOccurrences(of: " ", with: "").isEmpty,
-                let currentToken = DatabaseManager.shared.currentID else { return }
+                let currentToken = currentToken else { return }
         print(text)
         createMessage(sendMssg: Message(id: createMessageID(),
                                         senderID: currentToken,
@@ -60,6 +62,36 @@ class ChatViewModel: BaseViewModel {
                                         kind: .text(text)))
     }
     
+    func createImageMessage(imageData: Data) {
+        let messageId = createMessageID()
+        let fileName = "photo_message_" + messageId.replacingOccurrences(of: " ", with: "-") + ".png"
+        
+        StorageManager.shared.uploadMessagePhoto(with: imageData, fileName: fileName, completion: { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            switch result {
+            case .success(let urlString):
+                // Ready to send message
+                print("Uploaded Message Photo: \(urlString)")
+
+                guard let url = URL(string: urlString),
+                      let currentToken = strongSelf.currentToken else {
+                        return
+                }
+
+                let message = Message(id: messageId,
+                                      senderID: currentToken,
+                                      sentDate: Date(),
+                                      kind: .photo(url))
+                strongSelf.createMessage(sendMssg: message)
+
+            case .failure(let error):
+                print("message photo upload error: \(error)")
+            }
+        })
+    }
     
     //Create msg in database
     private func createMessage(sendMssg: Message)  {

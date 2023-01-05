@@ -11,10 +11,10 @@ import UIKit
 extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setupTableView() {
+        self.registerCells()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
-        self.registerCells()
+        tableView.separatorStyle = .none
     }
     
     func reloadTableView() {
@@ -37,19 +37,20 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let textCell = tableView.dequeueReusableCell(withIdentifier: ChatMessageCell.identifier, for: indexPath) as? ChatMessageCell, let imgCell = tableView.dequeueReusableCell(withIdentifier: MediaMessageCell.identifier, for: indexPath) as? MediaMessageCell else {
-//            return UITableViewCell()
-//        }
+        guard let textCell = tableView.dequeueReusableCell(withIdentifier: ChatMessageCell.identifier, for: indexPath) as? ChatMessageCell,
+              let imgCell = tableView.dequeueReusableCell(withIdentifier: MediaMessageCell.identifier, for: indexPath) as? MediaMessageCell else {
+            return UITableViewCell()
+        }
         
         let item = cellDataSources[indexPath.row]
         switch item.kind {
         case .text(_):
             dump(item)
-//            textCell.setupUI(with: item)
-            return UITableViewCell()
+            textCell.setupUI(with: item)
+            return textCell
         case .photo(_):
-//            imgCell.setupUI(with: item)
-            return UITableViewCell()
+            imgCell.setupUI(with: item)
+            return imgCell
         }
     }
     
@@ -63,4 +64,21 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                 tableView.scrollToBottom(animated: false)
             }
         }
+}
+
+extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+
+
+        if let image = info[.editedImage] as? UIImage, let imageData =  image.pngData() {
+            // Upload image
+            viewModel.createImageMessage(imageData: imageData)
+        }
+    }
 }
