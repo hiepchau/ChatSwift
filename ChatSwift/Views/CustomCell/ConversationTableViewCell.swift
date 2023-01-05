@@ -12,6 +12,8 @@ import SDWebImage
 
 class ConversationTableViewCell: UITableViewCell {
 
+    //MARK: - Identifier
+    
     static var identifier: String {
         get {
             return "ConversationTableViewCell"
@@ -21,13 +23,17 @@ class ConversationTableViewCell: UITableViewCell {
     static func register() -> UINib {
         UINib(nibName: "ConversationTableViewCell", bundle: nil)
     }
+    //MARK: - IBOulets
     
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var msg: UILabel!
     @IBOutlet weak var imgView: UIImageView!
+    
+    //MARK: - LifeCycle
     override func awakeFromNib() {
         super.awakeFromNib()
-         self.selectionStyle = .none
+    
+        self.selectionStyle = .none
         imgView.dropShadow()
     }
   
@@ -38,7 +44,7 @@ class ConversationTableViewCell: UITableViewCell {
         /// Configure the view for the selected state
     }
 
-    public func configure(with viewModel: ConversationTableCellViewModel) {
+    public func setupUI(with viewModel: ConversationTableCellViewModel) {
 //      userMessageLabel.text = model.latestMessage.text
         usernameLabel.text = viewModel.username
         msg.text = viewModel.msg

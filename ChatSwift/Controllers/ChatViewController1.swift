@@ -225,7 +225,6 @@
 //            textCell.setupUI(isSender: isSender)
 //            return textCell
 //        case .photo(let url):
-////            imgCell.imageMsg.image = img.resizeWithScaleAspectFitMode(to: CGFloat(300))
 //            imgCell.setupUI(isSender: isSender)
 //            imgCell.imageMsg.loadImage(fromURL: url)
 //            return imgCell
@@ -248,7 +247,7 @@
 //            }
 //        }
 //}
-//
+
 //class DateHeaderLabel: UILabel {
 //
 //    override var intrinsicContentSize: CGSize{

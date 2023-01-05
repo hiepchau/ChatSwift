@@ -14,7 +14,7 @@ class ChatViewModel: BaseViewModel {
     var currentConversationID: String = ""
     var currentConversationName: String = ""
     
-    var textViewInput: Observable<String?> = Observable("")
+    var textViewInput: Observable<String> = Observable("")
     
     var isLoading: Observable<Bool> = Observable(false)
     var dataSource: [Message] = []
@@ -50,10 +50,9 @@ class ChatViewModel: BaseViewModel {
     
     //Send msg
     func sendMesage(){
-
-        guard let text = textViewInput.value??.replacingOccurrences(of: " ", with: ""),
-                !text.isEmpty,
-              let currentToken = DatabaseManager.shared.currentID else { return }
+        guard let text = textViewInput.value,
+                !text.replacingOccurrences(of: " ", with: "").isEmpty,
+                let currentToken = DatabaseManager.shared.currentID else { return }
         print(text)
         createMessage(sendMssg: Message(id: createMessageID(),
                                         senderID: currentToken,
@@ -103,7 +102,7 @@ class ChatViewModel: BaseViewModel {
     }
                                               
     private func mapCellData(){
-//        messages.value = self.dataSource.compactMap({ChatTableCellViewModel(conversation: $0)})
+        messages.value = self.dataSource.compactMap({ChatTableCellViewModel(message: $0)})
     }
     
     

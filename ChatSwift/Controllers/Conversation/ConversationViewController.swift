@@ -54,7 +54,7 @@ class ConversationViewController: UIViewController {
     
     func configView() {
         self.title = "Text me"
-        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationItem.largeTitleDisplayMode = .automatic
         view.addSubview(noConversationsLabel)
         setupTableView()
     }
@@ -71,10 +71,10 @@ class ConversationViewController: UIViewController {
                 isLoading ? strongself.spinner.show(in: strongself.view) :  strongself.spinner.dismiss()
             }
         }
-        viewModel.conversations.bind { [weak self] movies in
+        viewModel.conversations.bind { [weak self] items in
             guard let strongself = self,
-                  let movies = movies else { return }
-            strongself.cellDataSources = movies
+                  let items = items else { return }
+            strongself.cellDataSources = items
             strongself.reloadTableView()
         }
     }
@@ -91,7 +91,7 @@ class ConversationViewController: UIViewController {
             guard let strongself = self else { return }
             
             strongself.viewModel.handleChatViewController(result: result, completion: { (id, name) in
-                strongself.navigateToChatView(id: id, name: name)
+                strongself.navigateToChatView(id: id)
             })
         }
         let navVC = UINavigationController(rootViewController: vc)
@@ -100,14 +100,14 @@ class ConversationViewController: UIViewController {
 
     
     //MARK: - Navigation
-    func navigateToChatView(id: String, name: String) {
-//        let vc = ChatViewController()
-//        vc.isNewConversation = false
-//        vc.currentConversationID = id
-//        vc.title = name
-//        vc.navigationItem.largeTitleDisplayMode = .never
-//        self.navigationController?.pushViewController(vc, animated: true)
+    func navigateToChatView(id: String) {
+        guard let conversation = viewModel.retriveConversation(withId: id) else { return }
+        
+        DispatchQueue.main.async {
+            let chatViewModel = ChatViewModel(conversation: conversation)
+            let vc = ChatViewController(viewModel: chatViewModel)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
-
-
 }

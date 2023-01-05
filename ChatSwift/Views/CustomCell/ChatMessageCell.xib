@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChatMessageCell" rowHeight="50" id="OCW-QJ-WPl" customClass="ChatMessageCell" customModule="ChatSwift" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="428" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OCW-QJ-WPl" id="kEa-iF-kop" customClass="ChatMessageCell" customModule="ChatSwift" customModuleProvider="target">
+                <rect key="frame" x="0.0" y="0.0" width="428" height="50"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view verifyAmbiguity="off" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="olR-fs-ZNm">
+                        <rect key="frame" x="324.5" y="5" width="73.5" height="40"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYy-oF-hoH">
+                                <rect key="frame" x="16" y="8" width="41.5" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" name="MessageColor"/>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="olR-fs-ZNm" firstAttribute="width" relation="lessThanOrEqual" secondItem="kEa-iF-kop" secondAttribute="width" multiplier="2/3" id="FOq-Jo-4N8"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="bubbleView" destination="olR-fs-ZNm" id="epx-l7-ztJ"/>
+                <outlet property="msglabel" destination="WYy-oF-hoH" id="WSh-jh-0F3"/>
+            </connections>
+            <point key="canvasLocation" x="77" y="98"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="MessageColor">
+            <color red="0.2630000114440918" green="0.80000001192092896" blue="0.27799999713897705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

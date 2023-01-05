@@ -103,18 +103,6 @@ class ConversationsViewController: UIViewController {
     }
     
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "segue") {
-            guard let vc = segue.destination as? ChatViewController else {
-                return
-            }
-            vc.currentConversationID = isNewConversation ? navigateConversationID : listConversation[rowSelected].id
-            vc.title = isNewConversation ? navigateTitle : listConversation[rowSelected].name
-            vc.navigationItem.largeTitleDisplayMode = .never
-        }
-        isNewConversation = false
-    }
-
     private func navigateToChatView(id: String, name: String){
         navigateConversationID = id
         print("DATAAAAAAAA: \(navigateConversationID) + \(navigateTitle)")

@@ -39,7 +39,7 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversationTableViewCell.identifier, for: indexPath) as? ConversationTableViewCell else {
             return UITableViewCell()
         }
-        cell.configure(with: cellDataSources[indexPath.row])
+        cell.setupUI(with: cellDataSources[indexPath.row])
         return cell
     }
     
@@ -48,10 +48,7 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let vc = ChatViewController()
-//        vc.currentConversationID = cellDataSources[indexPath.row].id
-//        vc.title = cellDataSources[indexPath.row].username
-//        vc.navigationItem.largeTitleDisplayMode = .never
-//        navigationController?.pushViewController(vc, animated: true)
+        let conversationID = cellDataSources[indexPath.row].id
+        self.navigateToChatView(id: conversationID)
     }
 }

@@ -457,7 +457,7 @@
                                 <rect key="frame" x="0.0" y="140" width="428" height="716.66666666666663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="textCell" rowHeight="50" id="qxw-ws-2X9" customClass="ChatMessageCell" customModule="ChatSwift" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChatMessageCell" rowHeight="50" id="qxw-ws-2X9">
                                         <rect key="frame" x="0.0" y="44.666666030883789" width="428" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qxw-ws-2X9" id="QSd-br-2AC">
@@ -482,12 +482,8 @@
                                                 <constraint firstItem="kXu-nk-dlR" firstAttribute="width" relation="lessThanOrEqual" secondItem="QSd-br-2AC" secondAttribute="width" multiplier="2/3" id="Wcb-nV-u3l"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="bubbleView" destination="kXu-nk-dlR" id="4c5-cH-Oel"/>
-                                            <outlet property="msglabel" destination="LLw-RQ-OzX" id="tYN-iA-wWs"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="imgCell" rowHeight="324" id="a2G-gt-BgU" customClass="MediaMessageCell" customModule="ChatSwift" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="imgCell" rowHeight="324" id="a2G-gt-BgU">
                                         <rect key="frame" x="0.0" y="94.666666030883789" width="428" height="324"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="a2G-gt-BgU" id="typ-0n-P5G">
@@ -500,9 +496,6 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="imageMsg" destination="Tsm-be-ze1" id="mIF-Cw-4Jx"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

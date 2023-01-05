@@ -9,20 +9,39 @@ import UIKit
 
 class ChatMessageCell: UITableViewCell {
     
+    //MARK: - Identifier
+    
+    static var identifier: String {
+        get {
+            return "ChatMessageCell"
+        }
+    }
+    
+    static func register() -> UINib {
+        UINib(nibName: "ChatMessageCell", bundle: nil)
+    }
+    
+    //MARK: - IBOulets
+    
     @IBOutlet weak var msglabel: UILabel!
     @IBOutlet weak var bubbleView: UIView!
     
-    var leadingBubble: NSLayoutConstraint!
-    var trailingBubble: NSLayoutConstraint!
+    private var leadingBubble: NSLayoutConstraint!
+    private var trailingBubble: NSLayoutConstraint!
+    
+    //MARK: - LifeCycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        bubbleView.layer.cornerRadius = 12
-
+        
         // Initialization code
+        bubbleView.layer.cornerRadius = 12
         setupConstraint()
     }
     
-    func setupConstraint() {
+    private func setupConstraint() {
+   
+        
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
         msglabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -44,15 +63,20 @@ class ChatMessageCell: UITableViewCell {
         trailingBubble.isActive = true
     }
     
-    func setupUI(isSender: Bool){
+    func setupUI(with viewModel: ChatTableCellViewModel){
         
-        leadingBubble.isActive = isSender ? false : true
-        trailingBubble.isActive = isSender ? true : false
+        ///SetupUI
+        leadingBubble.isActive = viewModel.isSender ? false : true
+        trailingBubble.isActive = viewModel.isSender ? true : false
         
+        bubbleView.backgroundColor = viewModel.isSender ? UIColor(named: "MessageColor") : UIColor(named: "ReceiveMessageColor")
 
-        bubbleView.backgroundColor = isSender ? UIColor(named: "MessageColor") : UIColor(named: "ReceiveMessageColor")
-
-        msglabel.textColor = isSender ? .white : .black
+        msglabel.textColor = viewModel.isSender ? .white : .black
+        
+        ///Setup viewmodel
+        if let text = viewModel.msg as? String, !text.isEmpty {
+            msglabel.text = text
+        }
     }
           
     override func setSelected(_ selected: Bool, animated: Bool) {

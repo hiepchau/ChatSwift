@@ -9,18 +9,32 @@ import UIKit
 
 class MediaMessageCell: UITableViewCell {
 
-
+    //MARK: - Identifier
+    
+    static var identifier: String {
+        get {
+            return "MediaMessageCell"
+        }
+    }
+    
+    static func register() -> UINib {
+        UINib(nibName: "MediaMessageCell", bundle: nil)
+    }
+    
+    //MARK: - IBOutlet
+    
     @IBOutlet weak var imageMsg: CacheImageView!
     
-    var leadingImage: NSLayoutConstraint!
-    var trailingImage: NSLayoutConstraint!
+    private var leadingImage: NSLayoutConstraint!
+    private var trailingImage: NSLayoutConstraint!
+    
+    //MARK: - LifeCycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//       Initialization code
         imageMsg.layer.cornerRadius = 12
         setupConstraint()
-        
     }
     
     private func setupConstraint() {
@@ -37,11 +51,15 @@ class MediaMessageCell: UITableViewCell {
         trailingImage.isActive = true
     }
 
-    func setupUI(isSender: Bool){
-        leadingImage.isActive = isSender ? false : true
-        trailingImage.isActive = isSender ? true : false
-    
+    func setupUI(with viewModel: ChatTableCellViewModel){
         
+        ///Setup UI
+        leadingImage.isActive = viewModel.isSender ? false : true
+        trailingImage.isActive = viewModel.isSender ? true : false
+    
+        ///Setup viewmodel
+        guard let url = viewModel.msg as? URL else {return}
+        self.imageMsg.loadImage(fromURL: url)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

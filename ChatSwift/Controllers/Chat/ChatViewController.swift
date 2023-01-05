@@ -6,15 +6,20 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 class ChatViewController: UIViewController {
     
     //MARK: - IBOutlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var inputTextView: UITextView!
+    private let spinner = JGProgressHUD(style: .dark)
     
+    //Viewmodel
     var viewModel: ChatViewModel
+    var cellDataSources: [ChatTableCellViewModel] = []
     
+    //init
     init(viewModel: ChatViewModel){
         self.viewModel = viewModel
         super.init(nibName: "ChatViewController", bundle: nil)
@@ -29,12 +34,20 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         inputTextView.delegate = self
+        bindViewModel()
+        setupTableView()
+        configView()
+        print("Current chat room ID: \(viewModel.currentConversationID)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         inputTextView.becomeFirstResponder()
         viewModel.getData()
+    }
+    
+    private func configView() {
+        self.title = viewModel.currentConversationName
     }
     
     //MARK: - IBActions
@@ -46,16 +59,32 @@ class ChatViewController: UIViewController {
     
     
     //MARK: - Binding
-
+    
+    func bindViewModel() {
+        viewModel.isLoading.bind { [weak self] isLoading in
+            guard let strongself = self,
+                  let isLoading = isLoading else {
+                return
+            }
+            DispatchQueue.main.async {
+                isLoading ? strongself.spinner.show(in: strongself.view) :  strongself.spinner.dismiss()
+            }
+        }
+        viewModel.messages.bind { [weak self] items in
+            guard let strongself = self,
+                  let items = items else { return }
+            strongself.cellDataSources = items
+            strongself.reloadTableView()
+        }
+    }
 
 }
 
 //MARK: - Extension
 
 extension ChatViewController: UITextViewDelegate {
-
-    private func textFieldDidChange(_ textField: UITextField) {
-        viewModel.observeTextChange(text: textField.text)
+    func textViewDidChange(_ textView: UITextView) {
+        viewModel.observeTextChange(text: textView.text)
     }
     
     func textViewDidBeginEditing(_ chatView: UITextView) {

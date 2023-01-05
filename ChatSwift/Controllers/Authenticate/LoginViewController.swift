@@ -61,7 +61,6 @@ class LoginViewController: UIViewController {
     func navigate(){
         let vc = ConversationViewController()
         vc.modalPresentationStyle = .fullScreen
-        vc.navigationItem.largeTitleDisplayMode = .automatic
         vc.navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(vc, animated: true)
     }
