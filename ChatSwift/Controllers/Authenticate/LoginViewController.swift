@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: BaseViewController {
     
     //MARK: - IBOutlets
     @IBOutlet weak var usernameTextField: UITextField!
@@ -15,8 +15,7 @@ class LoginViewController: UIViewController {
     private var loginObserver: NSObjectProtocol?
     //ViewModel
     let viewModel = LoginViewModel()
-    
-    
+
     //Variables
     
     //MARK: - ViewController lifecycle
@@ -29,6 +28,7 @@ class LoginViewController: UIViewController {
             }
             strongself.navigate()
         })
+        
         ///Text changed:
         ListenerService.shared.textWatcher(textField: usernameTextField, view: self, viewModel: viewModel)
         ListenerService.shared.textWatcher(textField: passwordTextField, view: self, viewModel: viewModel)
@@ -37,6 +37,9 @@ class LoginViewController: UIViewController {
     //MARK: - IBActions
     @IBAction func loginButtonDidTouch(_ sender: UIButton) {
         viewModel.login()
+        self.viewModel.errorMessage.bind { [weak self] error in
+            self?.alertUserLoginError(message: error ?? "Oops, something went wrong!")
+        }
     }
     
     @IBAction func facebookButtonDidTouch(_ sender: UIButton) {
@@ -58,30 +61,20 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func alertUserLoginError(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "TRY AGAIN", style: .cancel, handler: nil))
+        present(alert, animated: true)
+    }
+    
     func navigate(){
         let vc = ConversationViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    //MARK: - Function
-
-    
 }
 
-////MARK: - Extension
-//extension LoginViewController : UITextFieldDelegate {
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
-//        if textField == usernameField {
-//            passwordField.becomeFirstResponder()
-//        }
-//        else if textField == passwordField {
-////            loginButtonDidTouch()
-//        }
-//        return true
-//    }
-//}
 
 //MARK: - Text Field Delegate Methods
 extension LoginViewController: UITextFieldDelegate {

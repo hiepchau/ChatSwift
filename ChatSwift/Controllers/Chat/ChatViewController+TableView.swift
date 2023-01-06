@@ -12,9 +12,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setupTableView() {
         self.registerCells()
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        tableView.separatorStyle = .none
+        self.tableView.separatorStyle = .none
     }
     
     func reloadTableView() {
@@ -26,10 +27,6 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     func registerCells() {
         tableView.register(ChatMessageCell.register(), forCellReuseIdentifier: ChatMessageCell.identifier)
         tableView.register(MediaMessageCell.register(), forCellReuseIdentifier: MediaMessageCell.identifier)
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,8 +61,46 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                 tableView.scrollToBottom(animated: false)
             }
         }
+    
+    //MARK: Header
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return viewModel.heightForHeaderInSection()
+//    }
+//    
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        viewModel.numberOfSections()
+//    }
+//
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//
+//        if let firstMessageInsection = viewModel.groupedMessage[section].first {
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "dd/MM/yyyy"
+//            let dateString = dateFormatter.string(from: firstMessageInsection.sentDate)
+//
+//            let label = DateHeaderLabel()
+//            label.backgroundColor = .clear
+//            label.text = "DATE STRING"
+//            label.textColor = UIColor(named: "HeaderColor")
+//            label.textAlignment = .center
+//            label.translatesAutoresizingMaskIntoConstraints = false
+//            label.font = UIFont.boldSystemFont(ofSize: 14)
+//            label.text = dateString
+//
+//            let containerView = UIView()
+//
+//            containerView.addSubview(label)
+//            label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+//            label.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+//
+//            return containerView
+//
+//        }
+//        return nil
+//    }
 }
 
+// Photo picker delegate
 extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -80,5 +115,18 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
             // Upload image
             viewModel.createImageMessage(imageData: imageData)
         }
+    }
+}
+
+//MARK: - Header section
+
+class DateHeaderLabel: UILabel {
+
+    override var intrinsicContentSize: CGSize{
+        let originalContentSize = super.intrinsicContentSize
+        let height = originalContentSize.height + 12
+        layer.cornerRadius = height / 2
+        layer.masksToBounds = true
+        return CGSize(width: originalContentSize.width + 16, height: height)
     }
 }

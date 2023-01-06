@@ -14,10 +14,9 @@ class LoginViewModel: BaseViewModel {
 
     private var password = ""
     
-    var credentialsInputErrorMessage: Observable<String> = Observable("")
     var isUsernameTextFieldHighLighted: Observable<Bool> = Observable(false)
     var isPasswordTextFieldHighLighted: Observable<Bool> = Observable(false)
-    var errorMessage: Observable<String?> = Observable(nil)
+    var errorMessage: Observable<String> = Observable(nil)
     
     //MARK: - Update variables
     
@@ -30,13 +29,21 @@ class LoginViewModel: BaseViewModel {
     //MARK: - Function
     
     func login() {
-        DatabaseManager.shared.authenticate(username: username, password: password) { isSuccess in
+        guard !username.isEmpty, password.count >= 6 else {
+//            alertUserLoginError(message: "Invalid fields...")
+            errorHandling(ErrorResult.custom(errMessage: "Invalid fields..."))
+            return
+        }
+        
+        DatabaseManager.shared.authenticate(username: username, password: password) {[weak self] isSuccess in
             if isSuccess {
                 let token = UserDefaults.standard.string(forKey: Constant.LOGIN_TOKEN_KEY)
                 let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)
                 print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
+                NotificationCenter.default.post(name: .didLogInNotification, object: nil)
             }
             else {
+                self?.errorHandling(ErrorResult.custom(errMessage: "That password doesn't look right"))
                 print("Authenticate failed")
             }
         }
@@ -56,31 +63,14 @@ class LoginViewModel: BaseViewModel {
         ZaloService.shared.login(vc: LoginViewController(), completion: {})
     }
     
-    func credentialsInput() -> CredentialsInputStatus {
-        if username.isEmpty && password.isEmpty {
-            credentialsInputErrorMessage.value = "Please provide username and password."
-            return .Incorrect
+    private func errorHandling(_ error: ErrorResult) {
+        switch error {
+        case .network(let message):
+            self.errorMessage.value = ErrorResult.network(errMessage: message).errorMessage
+        case .parser(let message):
+            self.errorMessage.value = ErrorResult.parser(errMessage: message).errorMessage
+        case .custom(let message):
+            self.errorMessage.value = ErrorResult.custom(errMessage: message).errorMessage
         }
-        if username.isEmpty {
-            credentialsInputErrorMessage.value = "Username field is empty."
-            isUsernameTextFieldHighLighted.value = true
-            return .Incorrect
-        }
-        if password.isEmpty {
-            credentialsInputErrorMessage.value = "Password field is empty."
-            isPasswordTextFieldHighLighted.value = true
-            return .Incorrect
-        }
-        return .Correct
-    }
-    
-}
-
-//MARK: - extension
-
-extension LoginViewModel {
-    enum CredentialsInputStatus {
-        case Correct
-        case Incorrect
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ChatViewModel: BaseViewModel {
     
@@ -20,6 +21,9 @@ class ChatViewModel: BaseViewModel {
     
     var isLoading: Observable<Bool> = Observable(false)
     var dataSource: [Message] = []
+    
+    var groupedMessage = [[Message]]()
+    
     var messages: Observable<[ChatTableCellViewModel]> = Observable(nil)
 
     //Init
@@ -33,8 +37,13 @@ class ChatViewModel: BaseViewModel {
         1
     }
     
+    func heightForHeaderInSection() -> CGFloat {
+        50
+    }
+    
     func numberOfRows(in section: Int) -> Int {
         self.dataSource.count
+//        groupedMessage[section].count
     }
     
     //MARK: - Function
@@ -48,6 +57,20 @@ class ChatViewModel: BaseViewModel {
     private func createMessageID() -> String {
         let uuid = UUID().uuidString
         return uuid
+    }
+    
+    //Group section
+    func attemptToAssembleGroupedMessages(){
+
+        let temp = Dictionary(grouping: dataSource) { (element) -> Date in
+            return element.sentDate
+        }
+
+        let sortedKeys = temp.keys.sorted()
+        sortedKeys.forEach { (key) in
+            let values = temp[key]
+            groupedMessage.append(values ?? [])
+        }
     }
     
     //Send msg
@@ -113,9 +136,7 @@ class ChatViewModel: BaseViewModel {
         if isLoading.value ?? true {
             return
         }
-        
         isLoading.value = true
-        
         //Get conversation list
         DatabaseManager.shared.getAllMessages(currentConversationID: currentConversationID, completion: {[weak self] result in
           
@@ -136,14 +157,4 @@ class ChatViewModel: BaseViewModel {
     private func mapCellData(){
         messages.value = self.dataSource.compactMap({ChatTableCellViewModel(message: $0)})
     }
-    
-    
-//    func retriveConversation(withId id: String) -> ConversationModel? {
-//        guard let conversation = dataSource.first(where: {$0.id == id}) else {
-//            return nil
-//        }
-//        return conversation
-//    }
-    
-    
 }

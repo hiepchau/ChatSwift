@@ -7,8 +7,11 @@
 
 import Foundation
 import JGProgressHUD
+import UIKit
 
-class BaseViewController {
-    
+class BaseViewController: UIViewController {
+    let spinner = JGProgressHUD(style: .dark)
     func setupViewModel() {}
+    
+
 }

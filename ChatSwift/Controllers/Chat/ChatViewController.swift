@@ -129,7 +129,10 @@ class ChatViewController: UIViewController {
         viewModel.sendMesage()
         inputTextView.text = nil
     }
-    
+
+    @IBAction func didTapAttachButton(_ sender: Any) {
+        presentInputActionSheet()
+    }
     
     //MARK: - Binding
     

@@ -35,6 +35,9 @@
                             </constraints>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="paperclip" catalog="system"/>
+                            <connections>
+                                <action selector="didTapAttachButton:" destination="-1" eventType="touchUpInside" id="C92-Oc-dca"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hmi-79-Yvr" userLabel="SendButton">
                             <rect key="frame" x="338" y="12.5" width="60" height="35"/>
