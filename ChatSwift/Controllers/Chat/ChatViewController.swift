@@ -32,11 +32,9 @@ class ChatViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        inputTextView.delegate = self
-        setupTableView()
+   
+        setupUI()
         bindViewModel()
-        configView()
-        print("Current chat room ID: \(viewModel.currentConversationID)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -45,8 +43,11 @@ class ChatViewController: BaseViewController {
         viewModel.getData()
     }
     
-    private func configView() {
+    override func setupUI() {
         self.title = viewModel.currentConversationName
+        inputTextView.delegate = self
+        setupTableView()
+        print("Current chat room ID: \(viewModel.currentConversationID)")
     }
     
     //MARK: - IBActions
@@ -62,14 +63,14 @@ class ChatViewController: BaseViewController {
     
     //MARK: - Binding
     
-    func bindViewModel() {
+    override func bindViewModel() {
         viewModel.isLoading.bind { [weak self] isLoading in
             guard let strongself = self,
                   let isLoading = isLoading else {
                 return
             }
             DispatchQueue.main.async {
-                isLoading ? strongself.spinner.show(in: strongself.view) :  strongself.spinner.dismiss()
+                isLoading ? strongself.spinner.show(in: strongself.view) : strongself.spinner.dismiss()
             }
         }
         viewModel.messages.bind { [weak self] items in

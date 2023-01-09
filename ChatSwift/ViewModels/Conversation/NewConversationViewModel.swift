@@ -27,7 +27,6 @@ class NewConversationViewModel: BaseViewModel {
         if isLoading.value ?? true {
             return
         }
-        
         isLoading.value = true
         //Get user list
         DatabaseManager.shared.getAllUsers {[weak self] result in
@@ -37,10 +36,18 @@ class NewConversationViewModel: BaseViewModel {
             case.success(let userCollection):
                 strongself.dataSource = userCollection
                 strongself.mapCellData()
+                print("Get users data susccess, Count: \(strongself.dataSource.count)")
             case.failure(let error):
                 print("Failed to get users: \(error)")
             }
         }
+    }
+    
+    func retriveUser(withId id: String) -> UserModel? {
+        guard let user = dataSource.first(where: {$0.id == id}) else {
+            return nil
+        }
+        return user
     }
     
     private func mapCellData(){

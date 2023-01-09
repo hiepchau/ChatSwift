@@ -9,9 +9,16 @@ import Foundation
 import JGProgressHUD
 import UIKit
 
-class BaseViewController: UIViewController {
-    let spinner = JGProgressHUD(style: .dark)
-    func setupViewModel() {}
+class BaseViewController: UIViewController, SetupViewController {
+   
+    func setupUI() {}
+    func bindViewModel(){}
     
+    let spinner = JGProgressHUD(style: .dark)
+   
+}
 
+protocol SetupViewController {
+    func setupUI()
+    func bindViewModel()
 }

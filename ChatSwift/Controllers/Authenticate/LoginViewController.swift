@@ -23,7 +23,12 @@ class LoginViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupUI()
+
+
+    }
+    
+    override func setupUI() {
         ///Observer
         loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: { [weak self] _ in
             guard let strongself = self else {
@@ -41,6 +46,7 @@ class LoginViewController: BaseViewController {
                 self?.alertUserLoginError(message: error)
             }
         })
+        
         ///Text changed:
         ListenerService.shared.textWatcher(textField: usernameTextField, view: self, viewModel: viewModel)
         ListenerService.shared.textWatcher(textField: passwordTextField, view: self, viewModel: viewModel)

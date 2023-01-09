@@ -8,9 +8,11 @@
 import Foundation
 
 class NewConversationTableCellViewModel: BaseViewModel {
-    var username: String
+    var id: String
+    var name: String
     
     init(user: UserModel){
-        self.username = user.username
+        self.id = user.id
+        self.name = user.name
     }
 }

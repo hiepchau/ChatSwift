@@ -47,7 +47,7 @@ class LoginViewModel: BaseViewModel {
             }
             else {
                 self?.errorHandling(ErrorResult.custom(errMessage: "That password doesn't look right"))
-                NotificationCenter.default.post(name: .errorNotification, object: nil)
+                NotificationCenter.default.post(name: .errorNotification, object: nil)  
             }
         }
     }

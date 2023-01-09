@@ -25,7 +25,7 @@ class NewConversationViewController: BaseViewController {
     
     let tableView: UITableView = {
         let table = UITableView()
-        table.isHidden = true
+        table.isHidden = false
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return table
     }()
@@ -45,19 +45,9 @@ class NewConversationViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(noResultLabel)
-        view.addSubview(tableView)
-        
-        setupTableView()
-        
-        view.backgroundColor = .white
-        navigationController?.navigationBar.topItem?.titleView = searchBar
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel",
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(dismissSelf))
 
-        searchBar.becomeFirstResponder()
+        setupUI()
+        bindViewModel()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,17 +58,35 @@ class NewConversationViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
-        noResultLabel.frame = CGRect(x: view.width / 4 ,
-                                 y: (view.height - 200)/2,
-                                 width: view.width / 2,
-                                 height: 200)
+        let constraints = [ noResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                            noResultLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                            noResultLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/2),
+                            noResultLabel.heightAnchor.constraint(equalToConstant: 200)
+        ]
+        NSLayoutConstraint.activate(constraints)
+    }
+    
+    override func setupUI() {
+        view.addSubview(noResultLabel)
+        view.addSubview(tableView)
+        
+        setupTableView()
+    
+        view.backgroundColor = .white
+        navigationController?.navigationBar.topItem?.titleView = searchBar
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel",
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(dismissSelf))
+
+        searchBar.becomeFirstResponder()
     }
     
 
     
     //MARK: - Binding
     
-    func bindViewModel() {
+    override func bindViewModel() {
         viewModel.isLoading.bind { [weak self] isLoading in
             guard let strongself = self,
                   let isLoading = isLoading else {
@@ -88,10 +96,10 @@ class NewConversationViewController: BaseViewController {
                 isLoading ? strongself.spinner.show(in: strongself.view) :  strongself.spinner.dismiss()
             }
         }
-        viewModel.users.bind { [weak self] movies in
+        viewModel.users.bind { [weak self] items in
             guard let strongself = self,
-                  let movies = movies else { return }
-            strongself.cellDataSources = movies
+                  let items = items else { return }
+            strongself.cellDataSources = items
             strongself.reloadTableView()
         }
     }

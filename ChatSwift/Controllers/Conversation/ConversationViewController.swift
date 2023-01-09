@@ -29,6 +29,27 @@ class ConversationViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+ 
+        setupUI()
+        bindViewModel()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        viewModel.getData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
+        noConversationsLabel.frame = view.bounds
+    }
+    
+    override func setupUI() {
+        self.title = "Text me"
+        self.navigationItem.largeTitleDisplayMode = .automatic
+        
+        view.addSubview(noConversationsLabel)
         
         ///Observer logout
         logoutObserver = NotificationCenter.default.addObserver(forName: .didLogOutnotification, object: nil, queue: .main, using: { [weak self] _ in
@@ -44,31 +65,12 @@ class ConversationViewController: BaseViewController {
                                                            style: .plain,
                                                            target: self,
                                                            action: #selector(logoutButtonDidTouch))
-        configView()
-        bindViewModel()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        viewModel.getData()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
-        noConversationsLabel.frame = view.bounds
-    }
-    
-    func configView() {
-        self.title = "Text me"
-        self.navigationItem.largeTitleDisplayMode = .automatic
-        view.addSubview(noConversationsLabel)
         setupTableView()
     }
     
     //MARK: - Binding
     
-    func bindViewModel() {
+    override func bindViewModel() {
         viewModel.isLoading.bind { [weak self] isLoading in
             guard let strongself = self,
                   let isLoading = isLoading else {
