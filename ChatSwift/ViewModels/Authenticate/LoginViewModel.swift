@@ -10,27 +10,29 @@ import Foundation
 class LoginViewModel: BaseViewModel {
     
     //MARK: - Variables
-    private var username = ""
-
-    private var password = ""
     
-    var isUsernameTextFieldHighLighted: Observable<Bool> = Observable(false)
+    private var username: String?
+    private var password: String?
+    
     var isPasswordTextFieldHighLighted: Observable<Bool> = Observable(false)
     var errorMessage: Observable<String> = Observable(nil)
     
     //MARK: - Update variables
     
-    func observeTextChange(text: String?){
-        self.username = text ?? ""
-        self.password = text  ?? ""
+    override func setDynamicTextField(text: String?, tag: Int) {
+        if tag == 0{
+            username = text
+        }
+        else {
+            password = text
+        }
     }
-    
     
     //MARK: - Function
     
     func login() {
-        guard !username.isEmpty, password.count >= 6 else {
-//            alertUserLoginError(message: "Invalid fields...")
+        guard let username = username, let password = password,
+              password.count >= 6 else {
             errorHandling(ErrorResult.custom(errMessage: "Invalid fields..."))
             return
         }

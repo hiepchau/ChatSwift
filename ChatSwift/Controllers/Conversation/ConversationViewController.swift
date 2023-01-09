@@ -6,12 +6,11 @@
 //
 
 import UIKit
-import JGProgressHUD
-class ConversationViewController: UIViewController {
+
+class ConversationViewController: BaseViewController {
 
     //MARK: - @IBOutlet
     @IBOutlet weak var tableView: UITableView!
-    private let spinner = JGProgressHUD(style: .dark)
     
     var viewModel: ConversationViewModel = ConversationViewModel()
     
@@ -81,7 +80,7 @@ class ConversationViewController: UIViewController {
     
     @objc private func logoutButtonDidTouch() {
         viewModel.logout()
-        self.dismiss(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc private func composeButtonDidTouch() {

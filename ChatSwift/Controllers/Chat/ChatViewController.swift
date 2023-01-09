@@ -6,14 +6,13 @@
 //
 
 import UIKit
-import JGProgressHUD
 
-class ChatViewController: UIViewController {
+class ChatViewController: BaseViewController {
     
     //MARK: - IBOutlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var inputTextView: UITextView!
-    private let spinner = JGProgressHUD(style: .dark)
+    
     
     //Viewmodel
     var viewModel: ChatViewModel

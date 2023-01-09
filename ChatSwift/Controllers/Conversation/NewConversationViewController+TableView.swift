@@ -4,9 +4,8 @@
 //
 //  Created by Châu Hiệp on 04/01/2023.
 //
-
-import Foundation
 import UIKit
+
 extension NewConversationViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     func setupTableView() {

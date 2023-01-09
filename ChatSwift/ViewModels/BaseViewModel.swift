@@ -8,5 +8,5 @@
 import Foundation
 
 class BaseViewModel {
-    func setDynamicTextField(text: String?) { }
+    func setDynamicTextField(text: String?, tag: Int) { }
 }

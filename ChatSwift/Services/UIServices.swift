@@ -19,7 +19,7 @@ internal class ListenerService: NSObject, UITextFieldDelegate {
     }
     
     @objc internal func textFieldDidChange(_ textField: UITextField) {
-        viewModel.setDynamicTextField(text: textField.text)
+        viewModel.setDynamicTextField(text: textField.text, tag: textField.tag)
     }
 }
 

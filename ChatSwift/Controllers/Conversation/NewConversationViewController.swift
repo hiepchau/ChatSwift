@@ -6,15 +6,13 @@
 //
 
 import UIKit
-import FirebaseFirestore
-import JGProgressHUD
 
-class NewConversationViewController: UIViewController {
+class NewConversationViewController: BaseViewController {
 
     //MARK: - Variables
     
     var viewModel: NewConversationViewModel = NewConversationViewModel()
-    private let spinner = JGProgressHUD(style: .dark)
+    
     var cellDataSources: [NewConversationTableCellViewModel] = []
     
     public var completionHandler: (([String: String]) ->Void)?

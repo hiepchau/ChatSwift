@@ -12,17 +12,17 @@ class ChatViewModel: BaseViewModel {
     
     //MARK: - Variables
     
-    let currentToken = DatabaseManager.shared.currentID
+    private let currentToken = DatabaseManager.shared.currentID
     
     var currentConversationID: String = ""
     var currentConversationName: String = ""
     
+    private var dataSource: [Message] = []
+    private var groupedMessage = [[Message]]()
+    
     var textViewInput: Observable<String> = Observable("")
     
     var isLoading: Observable<Bool> = Observable(false)
-    var dataSource: [Message] = []
-    
-    var groupedMessage = [[Message]]()
     
     var messages: Observable<[ChatTableCellViewModel]> = Observable(nil)
 

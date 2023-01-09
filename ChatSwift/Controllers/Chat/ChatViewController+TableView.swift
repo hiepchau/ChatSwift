@@ -41,8 +41,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         
         let item = cellDataSources[indexPath.row]
         switch item.kind {
-        case .text(_):
-            dump(item)
+        case .text(_):  
             textCell.setupUI(with: item)
             return textCell
         case .photo(_):

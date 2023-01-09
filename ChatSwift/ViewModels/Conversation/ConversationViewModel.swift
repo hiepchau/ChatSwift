@@ -56,10 +56,6 @@ class ConversationViewModel: BaseViewModel {
         }
     }
     
-    private func mapCellData(){
-        conversations.value = self.dataSource.compactMap({ConversationTableCellViewModel(conversation: $0)})
-    }
-    
     
     func retriveConversation(withId id: String) -> ConversationModel? {
         guard let conversation = dataSource.first(where: {$0.id == id}) else {
@@ -67,6 +63,11 @@ class ConversationViewModel: BaseViewModel {
         }
         return conversation
     }
+    
+    private func mapCellData(){
+        conversations.value = self.dataSource.compactMap({ConversationTableCellViewModel(conversation: $0)})
+    }
+ 
     
     //MARK: - NewConversation handle
     func handleChatViewController(result: [String: String], completion: @escaping (String, String) -> Void){
