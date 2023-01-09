@@ -34,6 +34,7 @@ class LoginViewModel: BaseViewModel {
         guard let username = username, let password = password,
               password.count >= 6 else {
             errorHandling(ErrorResult.custom(errMessage: "Invalid fields..."))
+            NotificationCenter.default.post(name: .errorNotification, object: nil)
             return
         }
         
@@ -46,7 +47,7 @@ class LoginViewModel: BaseViewModel {
             }
             else {
                 self?.errorHandling(ErrorResult.custom(errMessage: "That password doesn't look right"))
-                print("Authenticate failed")
+                NotificationCenter.default.post(name: .errorNotification, object: nil)
             }
         }
     }
@@ -59,7 +60,6 @@ class LoginViewModel: BaseViewModel {
     func loginGoogle() {
         GoogleService.shared.login(vc: LoginViewController(), completion: {})
     }
-    
     
     func loginZalo() {
         ZaloService.shared.login(vc: LoginViewController(), completion: {})

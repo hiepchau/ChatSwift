@@ -29,6 +29,7 @@ class ConversationViewModel: BaseViewModel {
         
         UserDefaults.standard.set(nil, forKey: Constant.CUR_USER_KEY)
         DatabaseManager.shared.currentID = nil
+        NotificationCenter.default.post(name: .didLogOutnotification, object: nil)
         print("Logout success, token: \(String(describing: DatabaseManager.shared.currentID))")
     }
     

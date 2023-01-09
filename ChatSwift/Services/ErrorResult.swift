@@ -26,3 +26,11 @@ extension ErrorResult {
         }
     }
 }
+
+
+extension Notification.Name {
+    /// Notificaiton  when user logs in
+    static let didLogInNotification = Notification.Name("didLogInNotification")
+    static let didLogOutnotification = Notification.Name("didLogOutNotification")
+    static let errorNotification = Notification.Name("errorNotification")
+}

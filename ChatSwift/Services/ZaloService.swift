@@ -46,7 +46,7 @@ class ZaloService: Authenticate {
                                                   username: username,
                                                   name: name)
                         ///Insert user
-                        DatabaseManager.shared.userExists(with: username) { exists in
+                        DatabaseManager.shared.checkUserExists(with: username) { exists in
                             if !exists {
                                 DatabaseManager.shared.createUser(user: userModel, completion: {})
                             }

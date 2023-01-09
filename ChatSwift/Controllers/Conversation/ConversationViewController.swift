@@ -13,7 +13,7 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var viewModel: ConversationViewModel = ConversationViewModel()
-    
+    private var logoutObserver: NSObjectProtocol?
     var cellDataSources: [ConversationTableCellViewModel] = []
    
     private let noConversationsLabel: UILabel = {
@@ -29,13 +29,21 @@ class ConversationViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.isHidden = false
+        
+        ///Observer logout
+        logoutObserver = NotificationCenter.default.addObserver(forName: .didLogOutnotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let strongself = self else {
+                return
+            }
+            strongself.navigationController?.popToRootViewController(animated: true)
+        })
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
                                                             target: self,
                                                             action: #selector(composeButtonDidTouch))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .redo,
-                                                           target: self, action:
-                                                            #selector(logoutButtonDidTouch))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "rectangle.portrait.and.arrow.right"),
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(logoutButtonDidTouch))
         configView()
         bindViewModel()
     }
@@ -80,7 +88,6 @@ class ConversationViewController: BaseViewController {
     
     @objc private func logoutButtonDidTouch() {
         viewModel.logout()
-        self.navigationController?.popViewController(animated: true)
     }
     
     @objc private func composeButtonDidTouch() {

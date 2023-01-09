@@ -42,7 +42,7 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func loginButtonDidTouch(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: false)
     }
 }
 

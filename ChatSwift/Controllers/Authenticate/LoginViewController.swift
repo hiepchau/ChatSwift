@@ -13,6 +13,7 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     private var loginObserver: NSObjectProtocol?
+    private var errorObserver: NSObjectProtocol?
     //ViewModel
     let viewModel = LoginViewModel()
 
@@ -22,6 +23,8 @@ class LoginViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ///Observer
         loginObserver = NotificationCenter.default.addObserver(forName: .didLogInNotification, object: nil, queue: .main, using: { [weak self] _ in
             guard let strongself = self else {
                 return
@@ -29,6 +32,15 @@ class LoginViewController: BaseViewController {
             strongself.navigate()
         })
         
+        errorObserver = NotificationCenter.default.addObserver(forName: .errorNotification, object: nil, queue: .main, using: { [weak self] _ in
+            guard let strongself = self else {
+                return
+            }
+            strongself.viewModel.errorMessage.bind { [weak self] error in
+                guard let error = error else { return }
+                self?.alertUserLoginError(message: error)
+            }
+        })
         ///Text changed:
         ListenerService.shared.textWatcher(textField: usernameTextField, view: self, viewModel: viewModel)
         ListenerService.shared.textWatcher(textField: passwordTextField, view: self, viewModel: viewModel)
@@ -37,9 +49,6 @@ class LoginViewController: BaseViewController {
     //MARK: - IBActions
     @IBAction func loginButtonDidTouch(_ sender: UIButton) {
         viewModel.login()
-        self.viewModel.errorMessage.bind { [weak self] error in
-            self?.alertUserLoginError(message: error ?? "Oops, something went wrong!")
-        }
     }
     
     @IBAction func facebookButtonDidTouch(_ sender: UIButton) {
@@ -57,7 +66,7 @@ class LoginViewController: BaseViewController {
     @IBAction func signupButtonDidTouch(_ sender: UIButton) {
         DispatchQueue.main.async {
             let controller = SignUpViewController()
-            self.navigationController?.pushViewController(controller, animated: true)
+            self.navigationController?.pushViewController(controller, animated: false)
         }
     }
     
@@ -68,9 +77,10 @@ class LoginViewController: BaseViewController {
     }
     
     func navigate(){
+        usernameTextField.text = nil
+        passwordTextField.text = nil
         let vc = ConversationViewController()
         vc.modalPresentationStyle = .fullScreen
-        vc.navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -80,7 +90,6 @@ class LoginViewController: BaseViewController {
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         usernameTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
         return true
     }
     

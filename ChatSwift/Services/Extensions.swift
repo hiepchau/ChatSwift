@@ -49,10 +49,6 @@ extension UIView {
 
 }
 
-extension Notification.Name {
-    /// Notificaiton  when user logs in
-    static let didLogInNotification = Notification.Name("didLogInNotification")
-}
 
 //MARK: - RESIZE IMAGE
 

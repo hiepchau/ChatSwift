@@ -33,8 +33,6 @@ final class DatabaseManager {
         self.db = Firestore.firestore()
     }
     
-    
-    
     public enum DatabaseError: Error {
         case failedToFetch
 
@@ -89,7 +87,7 @@ extension DatabaseManager {
         }
     }
     
-    public func userExists(with email: String,
+    public func checkUserExists(with email: String,
                            completion: @escaping ((Bool) -> Void)) {
         let query = _userRef.document(email)
         query.getDocument { (querySnapshot, err) in
@@ -100,35 +98,6 @@ extension DatabaseManager {
             }
             completion(true)
         }
-    }
-    
-    public func getUsernameByID(id: String) -> String{
-        var name = ""
-        DatabaseManager.shared.getUserByID(id: id) { result in
-            switch result{
-            case .success(let user):
-                name = user.name
-            case .failure(let err):
-                print("Get username failed: \(err)")
-            }
-        }
-        return name
-    }
-    
-    public func getUserByID(id: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
-
-        let query = _userRef.whereField("uid", isEqualTo: id)
-        query.getDocuments(completion: { (querySnapshot, err) in
-            if let err = err  {
-                print("Error getting documents: \(err)")
-                completion(.failure(err))
-                return
-            }
-            guard let querySnapshot = querySnapshot, let document = querySnapshot.documents.first else {
-                return
-            }
-            completion(.success(UserModel(data: document.data())))
-        })
     }
     
     public func getAllUsers(completion: @escaping (Result<[UserModel], Error>) -> Void) {

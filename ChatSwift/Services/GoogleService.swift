@@ -38,7 +38,7 @@ class GoogleService: Authenticate {
                                    username: email,
                                    name: lastName + " " + firstName)
         
-        DatabaseManager.shared.userExists(with: email, completion: { exists in
+        DatabaseManager.shared.checkUserExists(with: email, completion: { exists in
             if !exists {
                 // insert to database
                 DatabaseManager.shared.createUser(user: userModel, completion: {})
