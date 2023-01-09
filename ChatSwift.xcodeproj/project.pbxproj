@@ -25,6 +25,7 @@
 		F163953E2940FDEF00DED7D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F163953D2940FDEF00DED7D7 /* GoogleService-Info.plist */; };
 		F16395472940FE9000DED7D7 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16395462940FE9000DED7D7 /* NewConversationViewController.swift */; };
 		F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F173D5C32941EE5C00DDF7DE /* UserModel.swift */; };
+		F18AECA2296C0819008DFCED /* ChatViewController+ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18AECA1296C0819008DFCED /* ChatViewController+ActionSheet.swift */; };
 		F18FBCA32963D80600F171B6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18FBCA12963D80600F171B6 /* SignUpViewController.swift */; };
 		F18FBCA42963D80600F171B6 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F18FBCA22963D80600F171B6 /* SignUpViewController.xib */; };
 		F18FBCA62963E32A00F171B6 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18FBCA52963E32A00F171B6 /* SignUpViewModel.swift */; };
@@ -86,6 +87,7 @@
 		F163953D2940FDEF00DED7D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F16395462940FE9000DED7D7 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		F173D5C32941EE5C00DDF7DE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		F18AECA1296C0819008DFCED /* ChatViewController+ActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+ActionSheet.swift"; sourceTree = "<group>"; };
 		F18FBCA12963D80600F171B6 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		F18FBCA22963D80600F171B6 /* SignUpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
 		F18FBCA52963E32A00F171B6 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
@@ -249,17 +251,9 @@
 			children = (
 				F115EA68294B0FE50056A31F /* CustomCell */,
 				F163952B2940FB3800DED7D7 /* Assets.xcassets */,
-				F163954A2940FEED00DED7D7 /* Storyboards */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		F163954A2940FEED00DED7D7 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
 				F163952D2940FB3800DED7D7 /* LaunchScreen.storyboard */,
 			);
-			path = Storyboards;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F173D5C02941EDAB00DDF7DE /* Model */ = {
@@ -349,6 +343,7 @@
 				F1CEE981296562BB0008A1DC /* ChatViewController.swift */,
 				F1CEE982296562BB0008A1DC /* ChatViewController.xib */,
 				F1CEE986296572550008A1DC /* ChatViewController+TableView.swift */,
+				F18AECA1296C0819008DFCED /* ChatViewController+ActionSheet.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -528,6 +523,7 @@
 				F1F44B1C295AFCF2007136A6 /* ZaloService.swift in Sources */,
 				F1CEE983296562BB0008A1DC /* ChatViewController.swift in Sources */,
 				F1F44B16295AA5C5007136A6 /* FacebookService.swift in Sources */,
+				F18AECA2296C0819008DFCED /* ChatViewController+ActionSheet.swift in Sources */,
 				F18FBCA62963E32A00F171B6 /* SignUpViewModel.swift in Sources */,
 				F1F44B18295AF95C007136A6 /* Utils.swift in Sources */,
 				F1CEE98C296572FD0008A1DC /* ChatTableCellViewModel.swift in Sources */,

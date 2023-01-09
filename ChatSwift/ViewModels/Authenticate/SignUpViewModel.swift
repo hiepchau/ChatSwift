@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+//TODO: HANDLE SIGNUP
+
 class SignUpViewModel: BaseViewModel {
     
     //MARK: - Variables

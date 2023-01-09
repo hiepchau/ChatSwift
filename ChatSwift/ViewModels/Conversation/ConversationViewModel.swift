@@ -9,7 +9,7 @@ import Foundation
 
 class ConversationViewModel: BaseViewModel {
     var isLoading: Observable<Bool> = Observable(false)
-    var dataSource: [ConversationModel] = []
+    private var dataSource: [ConversationModel] = []
     var conversations: Observable<[ConversationTableCellViewModel]> = Observable(nil)
 
     //MARK: - Tableview config
