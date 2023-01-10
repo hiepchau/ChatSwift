@@ -112,6 +112,22 @@ extension DatabaseManager {
         }
     }
     
+    public func getUserByID(id: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+
+        let query = _userRef.whereField(Constant.USER_UID, isEqualTo: id)
+         query.getDocuments(completion: { (querySnapshot, err) in
+             if let err = err  {
+                 print("Error getting documents: \(err)")
+                 completion(.failure(err))
+                 return
+             }
+             guard let querySnapshot = querySnapshot, let document = querySnapshot.documents.first else {
+                 return
+             }
+             completion(.success(UserModel(data: document.data())))
+         })
+     }
+    
     public func getAllUsers(completion: @escaping (Result<[UserModel], Error>) -> Void) {
         var listUsers = [UserModel]()
         

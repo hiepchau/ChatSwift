@@ -49,7 +49,7 @@ class ConversationTableViewCell: UITableViewCell {
         usernameLabel.text = viewModel.username
         msg.text = viewModel.msg
         imgView.image = viewModel.imgView
-        stateView.isHidden = !viewModel.isLogin
+        stateView.isHidden = !viewModel.isOnline()
         //TODO: Picture profile
 //        StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in
 //            switch result {

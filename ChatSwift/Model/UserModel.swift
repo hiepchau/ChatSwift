@@ -28,7 +28,12 @@ final class UserModel : BaseModel, Identifiable, Codable {
         self.uid = data[Constant.USER_UID] as? String ?? ""
         self.username = data[Constant.USER_USERNAME] as? String ?? ""
         self.name = data[Constant.USER_NAME] as? String ?? ""
-        self.isOnline = (data[Constant.USER_ISONLINE] != nil)
+        self.isOnline = false
+        super.init()
+        if let temp = data[Constant.USER_ISONLINE] as? Int {
+            self.isOnline = temp != 0
+        }
+       
     }
     
     var dictionary: [String: Any] {

@@ -110,7 +110,6 @@ class ConversationViewController: BaseViewController {
     //MARK: - Navigation
     func navigateToChatView(id: String) {
         guard let conversation = viewModel.retriveConversation(withId: id) else { return }
-        
         DispatchQueue.main.async {
             let chatViewModel = ChatViewModel(conversation: conversation)
             let vc = ChatViewController(viewModel: chatViewModel)
