@@ -24,8 +24,6 @@ class LoginViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
-
     }
     
     override func setupUI() {
@@ -43,7 +41,7 @@ class LoginViewController: BaseViewController {
             }
             strongself.viewModel.errorMessage.bind { [weak self] error in
                 guard let error = error else { return }
-                self?.alertUserLoginError(message: error)
+                self?.alertError(message: error)
             }
         })
         
@@ -76,12 +74,6 @@ class LoginViewController: BaseViewController {
         }
     }
     
-    func alertUserLoginError(message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "TRY AGAIN", style: .cancel, handler: nil))
-        present(alert, animated: true)
-    }
-    
     func navigate(){
         usernameTextField.text = nil
         passwordTextField.text = nil
@@ -95,7 +87,7 @@ class LoginViewController: BaseViewController {
 //MARK: - Text Field Delegate Methods
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        usernameTextField.resignFirstResponder()
+        usernameTextField.becomeFirstResponder()
         return true
     }
     

@@ -13,39 +13,29 @@ final class UserModel : BaseModel, Identifiable, Codable {
     var id: String { uid }
     
     let uid: String
-    let username: String, name: String
-
-    init(uid: String, username: String, name: String) {
+    let username: String
+    let name: String
+    var isOnline: Bool
+    
+    init(uid: String, username: String, name: String, isOnline: Bool) {
         self.uid = uid
         self.username = username
         self.name = name
-    }
-    
-    init(userGID: GIDGoogleUser) {
-        self.uid = Auth.auth().currentUser?.uid ?? ""
-        self.username = userGID.profile?.email ?? ""
-        self.name = (userGID.profile?.givenName ?? "") + " " + (userGID.profile?.familyName ?? "")
-        super.init()
+        self.isOnline = isOnline
     }
     
     init(data: [String: Any?]) {
-        self.uid = data["uid"] as? String ?? ""
-        self.username = data["username"] as? String ?? ""
-        self.name = data["name"] as? String ?? ""
+        self.uid = data[Constant.USER_UID] as? String ?? ""
+        self.username = data[Constant.USER_USERNAME] as? String ?? ""
+        self.name = data[Constant.USER_NAME] as? String ?? ""
+        self.isOnline = (data[Constant.USER_ISONLINE] != nil)
     }
     
-//    init(dictionary: [String: Any]) throws {
-//        self = try JSONDecoder().decode(UserModel.self, from: JSONSerialization.data(withJSONObject: dictionary))
-//    }
-//    private enum CodingKeys: String, CodingKey {
-//        case number = "uid", name = "username"
-//    }
-    
-    
-    var dictionary: [String: String] {
-        return ["uid": uid,
-                "username": username,
-                "name": name]
+    var dictionary: [String: Any] {
+        return [Constant.USER_UID: uid,
+                Constant.USER_USERNAME: username,
+                Constant.USER_NAME: name,
+                Constant.USER_ISONLINE: isOnline]
     }
     
     var nsDictionary: NSDictionary {

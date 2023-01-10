@@ -15,7 +15,7 @@ class NewConversationViewController: BaseViewController {
     
     var cellDataSources: [NewConversationTableCellViewModel] = []
     
-    public var completionHandler: (([String: String]) ->Void)?
+    public var completionHandler: (([String: Any]) ->Void)?
     
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()

@@ -25,11 +25,11 @@ class ConversationViewController: BaseViewController {
         label.isHidden = true
         return label
     }()
+    
     //MARK: - ViewController lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
- 
         setupUI()
         bindViewModel()
     }

@@ -9,4 +9,6 @@ import Foundation
 
 class BaseViewModel {
     func setDynamicTextField(text: String?, tag: Int) { }
+    var alertTitle = "Error"
+    var actionTitle = "TRY AGAIN"
 }

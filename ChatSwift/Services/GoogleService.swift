@@ -35,10 +35,11 @@ class GoogleService: Authenticate {
         }
         
         let userModel = UserModel(uid: uid,
-                                   username: email,
-                                   name: lastName + " " + firstName)
+                                  username: email,
+                                  name: lastName + " " + firstName,
+                                  isOnline: true)
         
-        DatabaseManager.shared.checkUserExists(with: email, completion: { exists in
+        DatabaseManager.shared.checkUserExists(with: uid, completion: { exists in
             if !exists {
                 // insert to database
                 DatabaseManager.shared.createUser(user: userModel, completion: {})
@@ -54,17 +55,14 @@ class GoogleService: Authenticate {
             accessToken: user.accessToken.tokenString
         )
         
-        DatabaseManager.shared.currentID = uid
-        UserDefaults.standard.set(userModel.dictionary, forKey: Constant.CUR_USER_KEY)
-        
         FirebaseAuth.Auth.auth().signIn(with: credential, completion: { authResult, error in
             guard authResult != nil, error == nil else {
                 print("failed to log in with google credential")
                 return
             }
+            AuthenUtils.shared.setupLoginSuccess(with: uid, with: userModel)
             print("Successfully signed in with Google cred.")
             AuthenUtils.shared.printSession()
-            NotificationCenter.default.post(name: .didLogInNotification, object: nil)
         })
     }
     

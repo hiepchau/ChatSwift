@@ -68,9 +68,31 @@ class AuthenUtils {
         self.codeChallenage = generateCodeChallenge(codeVerifier: self.codeVerifier) ?? ""
     }
     
+    //Login Handle
+    func loginHandle(with uid: String, with userModel: UserModel) {
+        DatabaseManager.shared.checkUserExists(with: uid, completion: { exists in
+            if !exists {
+                ///Insert to db
+                DatabaseManager.shared.createUser(user: userModel, completion: {})
+            }
+        })
+        
+        //Setup Login Success
+        self.setupLoginSuccess(with: uid, with: userModel)
+        
+        //Print Session
+        self.printSession()
+    }
+    
+    func setupLoginSuccess(with uid: String, with userModel: UserModel) {
+        DatabaseManager.shared.currentID = uid
+        DatabaseManager.shared.currentUser = userModel.dictionary
+        
+        DatabaseManager.shared.setStateIsOnline(id: uid, isOnline: true)
+        NotificationCenter.default.post(name: .didLogInNotification, object: nil)
+    }
+    
     func printSession() {
-        let curID = DatabaseManager.shared.currentID
-        let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)
-        print("Logged in with user: \(String(describing: currentUser)), UID: \(String(describing: curID))")
+        print("Logged in with user: \(String(describing: DatabaseManager.shared.currentUser)); Token: \(String(describing: DatabaseManager.shared.currentID))")
     }
 }

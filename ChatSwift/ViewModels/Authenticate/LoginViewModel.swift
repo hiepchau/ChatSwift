@@ -40,9 +40,7 @@ class LoginViewModel: BaseViewModel {
         
         DatabaseManager.shared.authenticate(username: username, password: password) {[weak self] isSuccess in
             if isSuccess {
-                let token = UserDefaults.standard.string(forKey: Constant.LOGIN_TOKEN_KEY)
-                let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)
-                print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
+                print("Logged in with user: \(String(describing: DatabaseManager.shared.currentUser)); Token: \(String(describing: DatabaseManager.shared.currentID))")
                 NotificationCenter.default.post(name: .didLogInNotification, object: nil)
             }
             else {

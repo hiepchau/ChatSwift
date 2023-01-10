@@ -20,15 +20,15 @@ final class ConversationModel : BaseModel, Identifiable {
     }
     
     init(data: [String: Any?]) {
-        self.id = data["id"] as? String ?? ""
-        self.name = data["name"] as? String ?? ""
-        self.users = data["users"] as? [String] ?? [""]
+        self.id = data[Constant.CONVERSATION_ID] as? String ?? ""
+        self.name = data[Constant.CONVERSATION_NAME] as? String ?? ""
+        self.users = data[Constant.CONVERSATION_USERS] as? [String] ?? [""]
     }
     
     var dictionary: [String: Any] {
-        return ["id": id,
-                "name": name,
-                "users": users]
+        return [Constant.CONVERSATION_ID: id,
+                Constant.CONVERSATION_NAME: name,
+                Constant.CONVERSATION_USERS: users]
     }
     
     var nsDictionary: NSDictionary {

@@ -19,7 +19,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fbm-XK-wVY">
                         <rect key="frame" x="5" y="5" width="418" height="90"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NCn-se-6ek">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile" translatesAutoresizingMaskIntoConstraints="NO" id="NCn-se-6ek">
                                 <rect key="frame" x="8" y="12.5" width="60" height="65"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="I5d-t7-pzi"/>
@@ -38,16 +38,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="green-circle-icon-28" translatesAutoresizingMaskIntoConstraints="NO" id="4Xh-PB-mdK">
+                                <rect key="frame" x="58" y="67.5" width="10" height="12"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="10" id="NYu-MW-T08"/>
+                                    <constraint firstAttribute="height" constant="12" id="yly-Fy-bgH"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="b6U-fq-Fcb" firstAttribute="leading" secondItem="49r-Sn-jZT" secondAttribute="leading" id="7ZE-Wb-gRe"/>
                             <constraint firstItem="NCn-se-6ek" firstAttribute="leading" secondItem="Fbm-XK-wVY" secondAttribute="leading" constant="8" id="7df-l1-NKG"/>
                             <constraint firstItem="NCn-se-6ek" firstAttribute="centerY" secondItem="Fbm-XK-wVY" secondAttribute="centerY" id="MOP-Aj-V8r"/>
+                            <constraint firstItem="49r-Sn-jZT" firstAttribute="leading" secondItem="NCn-se-6ek" secondAttribute="trailing" constant="15" id="Znq-Sp-g6z"/>
                             <constraint firstAttribute="trailing" secondItem="49r-Sn-jZT" secondAttribute="trailing" constant="10" id="iZX-yR-QW1"/>
+                            <constraint firstItem="4Xh-PB-mdK" firstAttribute="leading" secondItem="NCn-se-6ek" secondAttribute="trailing" constant="-10" id="ijQ-FS-Lq1"/>
+                            <constraint firstItem="NCn-se-6ek" firstAttribute="bottom" secondItem="4Xh-PB-mdK" secondAttribute="bottom" constant="-2" id="kuv-j2-aRQ"/>
                             <constraint firstItem="b6U-fq-Fcb" firstAttribute="top" secondItem="NCn-se-6ek" secondAttribute="top" constant="5" id="mzR-K2-VZf"/>
                             <constraint firstItem="49r-Sn-jZT" firstAttribute="bottom" secondItem="NCn-se-6ek" secondAttribute="bottom" constant="-5" id="orc-pW-w8x"/>
-                            <constraint firstItem="49r-Sn-jZT" firstAttribute="leading" secondItem="NCn-se-6ek" secondAttribute="trailing" constant="15" id="qnW-4B-hqi"/>
-                            <constraint firstItem="b6U-fq-Fcb" firstAttribute="leading" secondItem="NCn-se-6ek" secondAttribute="trailing" constant="15" id="rk6-VC-aVt"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -61,12 +70,15 @@
             <connections>
                 <outlet property="imgView" destination="NCn-se-6ek" id="MY1-ui-IC5"/>
                 <outlet property="msg" destination="49r-Sn-jZT" id="Yoq-oe-Q4I"/>
+                <outlet property="stateView" destination="4Xh-PB-mdK" id="B0O-uR-h6p"/>
                 <outlet property="usernameLabel" destination="b6U-fq-Fcb" id="Btf-FM-OfP"/>
             </connections>
-            <point key="canvasLocation" x="-180" y="31"/>
+            <point key="canvasLocation" x="-181.15942028985509" y="30.803571428571427"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="green-circle-icon-28" width="600" height="600"/>
+        <image name="profile" width="512" height="512"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

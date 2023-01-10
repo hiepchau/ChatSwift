@@ -28,6 +28,7 @@ class ConversationTableViewCell: UITableViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var msg: UILabel!
     @IBOutlet weak var imgView: UIImageView!
+    @IBOutlet weak var stateView: UIImageView!
     
     //MARK: - LifeCycle
     override func awakeFromNib() {
@@ -48,7 +49,7 @@ class ConversationTableViewCell: UITableViewCell {
         usernameLabel.text = viewModel.username
         msg.text = viewModel.msg
         imgView.image = viewModel.imgView
-        
+        stateView.isHidden = !viewModel.isLogin
         //TODO: Picture profile
 //        StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in
 //            switch result {

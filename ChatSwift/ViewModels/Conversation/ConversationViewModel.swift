@@ -26,6 +26,8 @@ class ConversationViewModel: BaseViewModel {
         FacebookService.shared.logout()
         GoogleService.shared.logout()
         ZaloService.shared.logout()
+        guard let currID = DatabaseManager.shared.currentID else {return}
+        DatabaseManager.shared.setStateIsOnline(id: currID, isOnline: false)
         
         UserDefaults.standard.set(nil, forKey: Constant.CUR_USER_KEY)
         DatabaseManager.shared.currentID = nil
@@ -57,7 +59,6 @@ class ConversationViewModel: BaseViewModel {
         }
     }
     
-    
     func retriveConversation(withId id: String) -> ConversationModel? {
         guard let conversation = dataSource.first(where: {$0.id == id}) else {
             return nil
@@ -71,29 +72,30 @@ class ConversationViewModel: BaseViewModel {
  
     
     //MARK: - NewConversation handle
-    func handleChatViewController(result: [String: String], completion: @escaping (String, String) -> Void){
-        if let receivedUid = result["uid"] {
-            print("RECEIVEUID: \(receivedUid)")
-            checkExists(id: receivedUid, completion: { [weak self] flag, resID, name in
-                guard let strongself = self else {return}
-                
-                if flag {
-                    print("Navigate")
-                    completion(resID, name)
-                } else {
-                    print("Create new")
-                    strongself.createNewConversation(result: result, completion: { id, name in
-                        completion(id, name)
-                    })
-                }
-            })
-        }
+    func handleChatViewController(result: [String: Any], completion: @escaping (String, String) -> Void) {
+        guard let receivedUid = result["uid"],
+              let receivedUid = receivedUid as? String else { return }
+        
+        print("RECEIVEUID: \(receivedUid)")
+        checkExists(id: receivedUid, completion: { [weak self] flag, resID, name in
+            guard let strongself = self else {return}
+            if flag {
+                print("Navigate")
+                completion(resID, name)
+            } else {
+                print("Create new")
+                strongself.createNewConversation(result: result, completion: { id, name in
+                    completion(id, name)
+                })
+            }
+        })
     }
     
-    private func createNewConversation(result: [String: String], completion: @escaping (String, String) -> Void) {
+    private func createNewConversation(result: [String: Any], completion: @escaping (String, String) -> Void) {
         DatabaseManager.shared.createNewConversation(result: result) { isSuccess, id in
+            guard let name = result["name"] as? String else { return }
             if isSuccess {
-                completion(id, result["name"] ?? "")
+                completion(id, name)
                 return
             }
             else {

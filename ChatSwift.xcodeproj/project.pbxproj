@@ -291,6 +291,7 @@
 		F1C6D3E229531BAE00387F04 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F1F44B17295AF95C007136A6 /* Utils.swift */,
 				F1F44B1D295AFFE5007136A6 /* AuthenUtils.swift */,
 				F1F44B19295AFA2C007136A6 /* Constant.swift */,
 				F115EA66294ADB660056A31F /* Extensions.swift */,
@@ -300,7 +301,6 @@
 				F1F44B12295A9771007136A6 /* GoogleService.swift */,
 				F1F44B15295AA5C5007136A6 /* FacebookService.swift */,
 				F1F44B1B295AFCF2007136A6 /* ZaloService.swift */,
-				F1F44B17295AF95C007136A6 /* Utils.swift */,
 				F1589393295EB351000F9156 /* UIServices.swift */,
 				F1E5EE5329681832006CB5DC /* ErrorResult.swift */,
 			);

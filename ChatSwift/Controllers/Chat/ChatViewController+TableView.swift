@@ -21,6 +21,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     func reloadTableView() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.tableView.scrollToBottom()
         }
     }
     

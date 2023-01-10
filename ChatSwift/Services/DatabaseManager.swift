@@ -14,25 +14,31 @@ import FirebaseAuth
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
+    
     var currentID: String? {
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constant.LOGIN_TOKEN_KEY)
-        }
         get {
             guard let currentID = UserDefaults.standard.string(forKey: Constant.LOGIN_TOKEN_KEY) else {return nil}
             return currentID
         }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constant.LOGIN_TOKEN_KEY)
+        }
     }
 
-    let _userRef = Firestore.firestore().collection("user")
-    let _conversationRef = Firestore.firestore().collection("conversation")
-    let _messageRef = Firestore.firestore().collection("messages")
-    let db: Firestore
-
-    init(){
-        self.db = Firestore.firestore()
+    var currentUser: [String: Any]? {
+        get {
+            guard let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY) else {return nil}
+            return currentUser
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constant.CUR_USER_KEY)
+        }
     }
     
+    private let _userRef = Firestore.firestore().collection(Constant.USER)
+    private let _conversationRef = Firestore.firestore().collection(Constant.CONVERSATION)
+    private let _messageRef = Firestore.firestore().collection(Constant.MESSAGE)
+
     public enum DatabaseError: Error {
         case failedToFetch
 
@@ -55,8 +61,8 @@ extension DatabaseManager {
             return
         }
         
-        let query = _userRef.whereField("username", isEqualTo: username)
-            .whereField("password", isEqualTo: password)
+        let query = _userRef.whereField(Constant.USER_USERNAME, isEqualTo: username)
+            .whereField(Constant.USER_PASSWORD, isEqualTo: password)
         query.getDocuments(completion: {[weak self] (querySnapshot, err) in
             guard let strongself = self else { return }
             if let error = err {
@@ -68,15 +74,21 @@ extension DatabaseManager {
                 completion(false)
                 return
             }
+            
+            strongself.setStateIsOnline(id: document.documentID, isOnline: true)
+            ///Set UserDefaults
             strongself.currentID = document.documentID
+            /// SetState
             let curUser = UserModel(data: document.data())
-            UserDefaults.standard.set(curUser.dictionary, forKey: Constant.CUR_USER_KEY)
+            ///Set current user
+            strongself.currentUser = curUser.dictionary
+
             completion(true)
         })
     }
     
     public func createUser(user: UserModel, completion: @escaping () -> Void) {
-        _userRef.document(user.username).setData(user.dictionary) {err in
+        _userRef.document(user.uid).setData(user.dictionary) {err in
             if let err = err {
                 print("Error writing user: \(err)")
                 completion()
@@ -117,22 +129,30 @@ extension DatabaseManager {
             completion(.success(listUsers))
         }
     }
+    // MARK: Update State
+    func setStateIsOnline(id: String, isOnline: Bool) {
+        _userRef.document(id).updateData([Constant.USER_ISONLINE : isOnline])
+    }
 }
 //MARK: - Conversation
 extension DatabaseManager {
-    public func createNewConversation(result: [String: String], completion: @escaping (Bool, String) -> Void) {
+    public func createNewConversation(result: [String: Any], completion: @escaping (Bool, String) -> Void) {
         var arrayUser = [String]()
         if let currentID = currentID {
             arrayUser.append(currentID)
         }
         //Create new Conversation
         let uuid = UUID().uuidString
-        if let unwrappedUid = result["uid"], var name = result["name"]  {
+        if let unwrappedUid = result[Constant.USER_UID],
+           var name = result[Constant.USER_NAME],
+            let unwrappedUid = unwrappedUid as? String {
             arrayUser.append(unwrappedUid)
             
             name = (currentID == unwrappedUid) ? "self" : name
 
-            let documentData: [String: Any] = ["id": uuid, "name": name, "users": arrayUser]
+            let documentData: [String: Any] = [Constant.CONVERSATION_ID: uuid,
+                                               Constant.CONVERSATION_NAME: name,
+                                               Constant.CONVERSATION_USERS: arrayUser]
             
             _conversationRef.document(uuid).setData(documentData){ err in
                 if let _ = err  {
@@ -146,7 +166,7 @@ extension DatabaseManager {
     }
     
     private func getConversationByID(id: String, completion: @escaping(Result<ConversationModel, Error>) -> Void){
-        _conversationRef.whereField("uid", isEqualTo: id).getDocuments { (querySnapshot, err) in
+        _conversationRef.whereField(Constant.CONVERSATION_ID, isEqualTo: id).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting conversation: \(err)")
                 completion(.failure(err))
@@ -163,7 +183,7 @@ extension DatabaseManager {
         var listConversation = [ConversationModel]()
         
         //Get conversation list
-        _conversationRef.whereField("users", arrayContainsAny: [currentID as Any]).addSnapshotListener { (querySnapshot, err) in
+        _conversationRef.whereField(Constant.CONVERSATION_USERS, arrayContainsAny: [currentID as Any]).addSnapshotListener { (querySnapshot, err) in
             if let _ = err {
                 completion(.failure(DatabaseError.failedToFetch))
                 return
