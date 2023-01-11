@@ -99,9 +99,9 @@ extension DatabaseManager {
         }
     }
     
-    public func checkUserExists(with email: String,
+    public func checkUserExists(with uid: String,
                            completion: @escaping ((Bool) -> Void)) {
-        let query = _userRef.document(email)
+        let query = _userRef.document(uid)
         query.getDocument { (querySnapshot, err) in
             if let documentSnapshot = querySnapshot?.exists,
                !documentSnapshot {
@@ -112,19 +112,19 @@ extension DatabaseManager {
         }
     }
     
-    public func getUserByID(id: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
-
-        let query = _userRef.whereField(Constant.USER_UID, isEqualTo: id)
-         query.getDocuments(completion: { (querySnapshot, err) in
+    public func getUserByID(uid: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+        let query = _userRef.document(uid)
+         query.getDocument(completion: { (querySnapshot, err) in
              if let err = err  {
                  print("Error getting documents: \(err)")
                  completion(.failure(err))
                  return
              }
-             guard let querySnapshot = querySnapshot, let document = querySnapshot.documents.first else {
+             guard let querySnapshot = querySnapshot, let data = querySnapshot.data() else {
                  return
              }
-             completion(.success(UserModel(data: document.data())))
+             completion(.success(UserModel(data: data)))
+
          })
      }
     

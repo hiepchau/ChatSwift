@@ -21,25 +21,25 @@ class ConversationTableCellViewModel {
         self.msg = "This is msg"
         self.imgView = UIImage(named: "profile")
         self.users = conversation.users
-//        self.isLogin = false
     }
     
-    func isOnline() -> Bool{
-        var flag: Bool = false
-        for userID in users {
-            if (DatabaseManager.shared.currentID != userID) {
-                DatabaseManager.shared.getUserByID(id: userID) { result in
+    func isOnline(completion: @escaping (Bool) -> Void) {
+        for userID in self.users {
+            if(DatabaseManager.shared.currentID != userID) {
+                DatabaseManager.shared.getUserByID(uid: userID) { result in
                     switch result {
                     case.success(let userData):
                         print("Get user data susccess, ID: \(userData.uid), isOnline: \(userData.isOnline)")
-                        flag = userData.isOnline
-                        break
+                        completion(userData.isOnline)
                     case.failure(let error):
                         print("Failed to get user: \(error)")
+                        completion(false)
                     }
                 }
             }
+            else {
+                completion(true)
+            }
         }
-        return flag
     }
 }

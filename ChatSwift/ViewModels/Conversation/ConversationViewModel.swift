@@ -68,6 +68,7 @@ class ConversationViewModel: BaseViewModel {
     
     private func mapCellData(){
         conversations.value = self.dataSource.compactMap({ConversationTableCellViewModel(conversation: $0)})
+            
     }
  
     

@@ -44,25 +44,14 @@ class ConversationTableViewCell: UITableViewCell {
 
     }
 
-    public func setupUI(with viewModel: ConversationTableCellViewModel) {
+    public func setupUI(with viewModel: ConversationTableCellViewModel)  {
 //      userMessageLabel.text = model.latestMessage.text
         usernameLabel.text = viewModel.username
         msg.text = viewModel.msg
         imgView.image = viewModel.imgView
-        stateView.isHidden = !viewModel.isOnline()
-        //TODO: Picture profile
-//        StorageManager.shared.downloadURL(for: path, completion: { [weak self] result in
-//            switch result {
-//            case .success(let url):
-//
-//                DispatchQueue.main.async {
-//                    self?.userImageView.sd_setImage(with: url, completed: nil)
-//                }
-//
-//            case .failure(let error):
-//                print("failed to get image url: \(error)")
-//            }
-//        })
+        viewModel.isOnline { res in
+            self.stateView.isHidden = !res
+        }
     }
 
 }
