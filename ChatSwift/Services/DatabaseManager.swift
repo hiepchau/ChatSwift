@@ -114,7 +114,7 @@ extension DatabaseManager {
     
     public func getUserByID(uid: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         let query = _userRef.document(uid)
-         query.getDocument(completion: { (querySnapshot, err) in
+         query.addSnapshotListener({ (querySnapshot, err) in
              if let err = err  {
                  print("Error getting documents: \(err)")
                  completion(.failure(err))
@@ -124,7 +124,6 @@ extension DatabaseManager {
                  return
              }
              completion(.success(UserModel(data: data)))
-
          })
      }
     
@@ -238,7 +237,7 @@ extension DatabaseManager {
     ///GET
     public func getAllMessages(currentConversationID: String, completion: @escaping(Result<[Message], Error>) -> Void){
         var listMessages = [Message]()
-        let query = _messageRef.whereField("conversationID", isEqualTo: currentConversationID).order(by: "sentDate")
+        let query = _messageRef.whereField(Constant.MESSAGE_CONVERSATIONID, isEqualTo: currentConversationID).order(by: Constant.MESSAGE_SENTDATE)
 
         //Listen for msg
         query.addSnapshotListener { querySnapshot, err in

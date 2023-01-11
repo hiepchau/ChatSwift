@@ -27,6 +27,12 @@ struct Constant {
     public static let CONVERSATION_USERS = "users"
 
     //MESSAGE MODEL
+    public static let MESSAGE_ID = "id"
+    public static let MESSAGE_CONVERSATIONID = "conversationID"
+    public static let MESSAGE_SENDERID = "senderID"
+    public static let MESSAGE_SENTDATE = "sentDate"
+    public static let MESSAGE_KIND = "kind"
+    public static let MESSAGE_CONTENT = "content"
     
     public static let EXT_INFO = [
         "appVersion": "1.0.0",

@@ -40,12 +40,12 @@ final class MessageModel: BaseModel{
     var content: String
 
     init(data: [String: Any?]) {
-        self.id = data["id"] as? String ?? ""
-        self.conversationID = data["conversationID"] as? String ?? ""
-        self.senderID = data["senderID"] as? String ?? ""
-        self.sentDate = data["sentDate"] as? Date ?? Date()
-        self.kind = data["kind"] as? String ?? ""
-        self.content = data["content"] as? String ?? ""
+        self.id = data[Constant.MESSAGE_ID] as? String ?? ""
+        self.conversationID = data[Constant.MESSAGE_CONVERSATIONID] as? String ?? ""
+        self.senderID = data[Constant.MESSAGE_SENDERID] as? String ?? ""
+        self.sentDate = data[ Constant.MESSAGE_SENTDATE] as? Date ?? Date()
+        self.kind = data[Constant.MESSAGE_KIND] as? String ?? ""
+        self.content = data[Constant.MESSAGE_CONTENT] as? String ?? ""
     }
     
     init(message: Message, conversationID: String){
@@ -67,12 +67,12 @@ final class MessageModel: BaseModel{
     }
 
     var dictionary: [String: Any] {
-        return ["id": id,
-                "conversationID": conversationID,
-                "senderID": senderID,
-                "sentDate": sentDate,
-                "kind": kind,
-                "content": content]
+        return [Constant.MESSAGE_ID: id,
+                Constant.MESSAGE_CONVERSATIONID: conversationID,
+                Constant.MESSAGE_SENDERID: senderID,
+                Constant.MESSAGE_SENTDATE: sentDate,
+                Constant.MESSAGE_KIND: kind,
+                Constant.MESSAGE_CONTENT: content]
     }
     
     var nsDictionary: NSDictionary {
