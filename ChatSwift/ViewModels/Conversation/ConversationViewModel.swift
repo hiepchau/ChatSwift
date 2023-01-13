@@ -42,7 +42,6 @@ class ConversationViewModel: BaseViewModel {
         
         isLoading.value = true
         
-        //Get conversation list
         DatabaseManager.shared.getAllConversation {[weak self] result in
           
             guard let strongself = self else { return }
@@ -68,7 +67,6 @@ class ConversationViewModel: BaseViewModel {
     
     private func mapCellData(){
         conversations.value = self.dataSource.compactMap({ConversationTableCellViewModel(conversation: $0)})
-            
     }
  
     
@@ -100,7 +98,6 @@ class ConversationViewModel: BaseViewModel {
                 return
             }
             else {
-                //TODO: Handle noti
             }
         }
     }

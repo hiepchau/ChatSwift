@@ -12,7 +12,6 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setupTableView() {
         self.registerCells()
-        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .none
@@ -102,15 +101,12 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
 
 // Photo picker delegate
 extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
-
-
         if let image = info[.editedImage] as? UIImage, let imageData =  image.pngData() {
             // Upload image
             viewModel.createImageMessage(imageData: imageData)
@@ -121,7 +117,6 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
 //MARK: - Header section
 
 class DateHeaderLabel: UILabel {
-
     override var intrinsicContentSize: CGSize{
         let originalContentSize = super.intrinsicContentSize
         let height = originalContentSize.height + 12

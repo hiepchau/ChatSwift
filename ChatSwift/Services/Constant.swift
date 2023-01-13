@@ -4,7 +4,6 @@
 //
 //  Created by Châu Hiệp on 27/12/2022.
 //
-
 import Foundation
 
 struct Constant {
@@ -37,6 +36,7 @@ struct Constant {
     public static let EXT_INFO = [
         "appVersion": "1.0.0",
     ]
+    
     public static let LOGIN_TOKEN_KEY = "LOGINTOKEN"
     public static let CUR_USER_KEY = "CURUSER"
     public static let ZALO_APP_ID = "3857990715579569034"

@@ -8,9 +8,7 @@ import UIKit
 import FacebookCore
 // SceneDelegate.swift
 
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -25,7 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let url = URLContexts.first?.url else {
             return
         }
-
         ApplicationDelegate.shared.application(
             UIApplication.shared,
             open: url,

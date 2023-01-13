@@ -4,17 +4,12 @@
 //
 //  Created by Châu Hiệp on 08/12/2022.
 //
-
 import UIKit
 
 class NewConversationViewController: BaseViewController {
-
     //MARK: - Variables
-    
     var viewModel: NewConversationViewModel = NewConversationViewModel()
-    
     var cellDataSources: [NewConversationTableCellViewModel] = []
-    
     public var completionHandler: (([String: Any]) ->Void)?
     
     let searchBar: UISearchBar = {
@@ -45,7 +40,6 @@ class NewConversationViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
         bindViewModel()
     }
@@ -69,16 +63,13 @@ class NewConversationViewController: BaseViewController {
     override func setupUI() {
         view.addSubview(noResultLabel)
         view.addSubview(tableView)
-        
         setupTableView()
-    
         view.backgroundColor = .white
         navigationController?.navigationBar.topItem?.titleView = searchBar
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(dismissSelf))
-
         searchBar.becomeFirstResponder()
     }
     

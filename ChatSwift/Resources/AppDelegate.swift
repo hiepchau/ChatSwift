@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        window.makeKeyAndVisible()
 //
 //        self.window = window
-//
+
         ///Config Firebase
         FirebaseApp.configure()
         
@@ -54,24 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    //MARK: Scene delegate
-
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-//    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-//        guard let url = URLContexts.first?.url else {
-//            return
-//        }
-//
-//        ///Receive callback from facebook
-//        ApplicationDelegate.shared.application(
-//            UIApplication.shared,
-//            open: url,
-//            sourceApplication: nil,
-//            annotation: [UIApplication.OpenURLOptionsKey.annotation]
-//        )
-//    }
 }
 
 

@@ -4,7 +4,6 @@
 //
 //  Created by Châu Hiệp on 06/01/2023.
 //
-
 import Foundation
 
 enum ErrorResult: Error {
@@ -22,11 +21,9 @@ extension ErrorResult {
             return errMessage
         case .custom(let errMessage):
             return errMessage
-
         }
     }
 }
-
 
 extension Notification.Name {
     /// Notificaiton  when user logs in

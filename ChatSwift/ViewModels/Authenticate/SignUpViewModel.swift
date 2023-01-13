@@ -31,9 +31,7 @@ class SignUpViewModel: BaseViewModel {
     //MARK: - Function
     
     func signup() {
-        validate()
-        ///Handle 
-    }
+        validate()    }
     
     func validate() {
         let imgSystem = UIImage(named: "profile")

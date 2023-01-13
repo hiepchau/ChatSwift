@@ -9,9 +9,7 @@ import Foundation
 import UIKit
 
 class ChatViewModel: BaseViewModel {
-    
     //MARK: - Variables
-    
     private let currentToken = DatabaseManager.shared.currentID
     
     var currentConversationID: String = ""
@@ -43,7 +41,6 @@ class ChatViewModel: BaseViewModel {
     
     func numberOfRows(in section: Int) -> Int {
         self.dataSource.count
-//        groupedMessage[section].count
     }
     
     //MARK: - Function
@@ -61,7 +58,6 @@ class ChatViewModel: BaseViewModel {
     
     //Group section
     func attemptToAssembleGroupedMessages(){
-
         let temp = Dictionary(grouping: dataSource) { (element) -> Date in
             return element.sentDate
         }
@@ -96,7 +92,6 @@ class ChatViewModel: BaseViewModel {
             
             switch result {
             case .success(let urlString):
-                // Ready to send message
                 print("Uploaded Message Photo: \(urlString)")
 
                 guard let url = URL(string: urlString),
@@ -116,7 +111,6 @@ class ChatViewModel: BaseViewModel {
         })
     }
     
-    //Create msg in database
     private func createMessage(sendMssg: Message)  {
         guard !currentConversationID.isEmpty else {
             print("Error: Don't match any conversation")

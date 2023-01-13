@@ -4,11 +4,9 @@
 //
 //  Created by Châu Hiệp on 03/01/2023.
 //
-
 import UIKit
 
 class ConversationViewController: BaseViewController {
-
     //MARK: - @IBOutlet
     @IBOutlet weak var tableView: UITableView!
     
@@ -48,9 +46,7 @@ class ConversationViewController: BaseViewController {
     override func setupUI() {
         self.title = "Text me"
         self.navigationItem.largeTitleDisplayMode = .automatic
-        
         view.addSubview(noConversationsLabel)
-        
         ///Observer logout
         logoutObserver = NotificationCenter.default.addObserver(forName: .didLogOutnotification, object: nil, queue: .main, using: { [weak self] _ in
             guard let strongself = self else {
@@ -93,7 +89,6 @@ class ConversationViewController: BaseViewController {
     }
     
     @objc private func composeButtonDidTouch() {
-        //Handle from NewConversationViewController
         let vc = NewConversationViewController()
         vc.completionHandler = { [weak self] result in
             guard let strongself = self else { return }

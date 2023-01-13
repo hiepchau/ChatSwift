@@ -4,7 +4,6 @@
 //
 //  Created by Châu Hiệp on 04/01/2023.
 //
-
 import UIKit
 
 class ChatViewController: BaseViewController {
@@ -13,12 +12,9 @@ class ChatViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var inputTextView: UITextView!
     
-    
-    //Viewmodel
     var viewModel: ChatViewModel
     var cellDataSources: [ChatTableCellViewModel] = []
     
-    //init
     init(viewModel: ChatViewModel){
         self.viewModel = viewModel
         super.init(nibName: "ChatViewController", bundle: nil)
@@ -29,10 +25,8 @@ class ChatViewController: BaseViewController {
     }
     
     //MARK: - ViewController lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-   
         setupUI()
         bindViewModel()
     }
@@ -51,7 +45,6 @@ class ChatViewController: BaseViewController {
     }
     
     //MARK: - IBActions
-    
     @IBAction func sendButtonDidTouch(_ sender: UIButton) {
         viewModel.sendMesage()
         inputTextView.text = nil
@@ -62,7 +55,6 @@ class ChatViewController: BaseViewController {
     }
     
     //MARK: - Binding
-    
     override func bindViewModel() {
         viewModel.isLoading.bind { [weak self] isLoading in
             guard let strongself = self,
@@ -80,7 +72,6 @@ class ChatViewController: BaseViewController {
             strongself.reloadTableView()
         }
     }
-
 }
 
 //MARK: - Extension

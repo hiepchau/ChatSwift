@@ -8,17 +8,13 @@
 import Foundation
 
 class LoginViewModel: BaseViewModel {
-    
     //MARK: - Variables
-    
     private var username: String?
     private var password: String?
-    
     var isPasswordTextFieldHighLighted: Observable<Bool> = Observable(false)
     var errorMessage: Observable<String> = Observable(nil)
     
     //MARK: - Update variables
-    
     override func setDynamicTextField(text: String?, tag: Int) {
         if tag == 0{
             username = text
@@ -29,7 +25,6 @@ class LoginViewModel: BaseViewModel {
     }
     
     //MARK: - Function
-    
     func login() {
         guard let username = username, let password = password,
               password.count >= 6 else {

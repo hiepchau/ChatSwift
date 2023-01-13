@@ -8,7 +8,6 @@
 import UIKit
 
 class SignUpViewController: UIViewController {
-
     //MARK: - IBOutlets
     @IBOutlet weak var imgProfile: UIImageView!
     @IBOutlet weak var usernameField: UITextField!
@@ -24,8 +23,6 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
-        
-        //TODO: Remove #selector
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         imgProfile.addGestureRecognizer(tapGesture)
     }

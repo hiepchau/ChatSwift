@@ -10,12 +10,10 @@ import JGProgressHUD
 import UIKit
 
 class BaseViewController: UIViewController, SetupViewController {
-   
     func setupUI() {}
     func bindViewModel(){}
     
     let vm = BaseViewModel()
-    
     let spinner = JGProgressHUD(style: .dark)
     
     func alertError(message: String) {

@@ -8,7 +8,6 @@
 import UIKit
 
 class LoginViewController: BaseViewController {
-    
     //MARK: - IBOutlets
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -20,7 +19,6 @@ class LoginViewController: BaseViewController {
     //Variables
     
     //MARK: - ViewController lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()

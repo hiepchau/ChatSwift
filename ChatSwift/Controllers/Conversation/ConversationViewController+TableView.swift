@@ -4,16 +4,13 @@
 //
 //  Created by Châu Hiệp on 03/01/2023.
 //
-
 import Foundation
 import UIKit
 
 extension ConversationViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func setupTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
         self.registerCells()
     }
     

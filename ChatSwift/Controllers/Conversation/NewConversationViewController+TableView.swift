@@ -7,7 +7,6 @@
 import UIKit
 
 extension NewConversationViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-    
     func setupTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -30,7 +29,6 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        //TODO: custom cell
         cell.textLabel?.text = cellDataSources[indexPath.row].name
         print(cellDataSources[indexPath.row].name)
         return cell
@@ -38,7 +36,6 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         guard let targetUserData = viewModel.retriveUser(withId: cellDataSources[indexPath.row].id) else { return }
         dismiss(animated: true, completion: { [weak self] in
             self?.completionHandler?(targetUserData.dictionary)
@@ -48,6 +45,5 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
     
     //TODO: search handle
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
-
     }
 }

@@ -4,7 +4,6 @@
 //
 //  Created by Châu Hiệp on 27/12/2022.
 //
-
 import Foundation
 import ZaloSDK
 
@@ -14,19 +13,16 @@ protocol Authenticate {
 }
 
 class AuthenUtils {
-
     static let shared = AuthenUtils()
     var tokenResponse: ZOTokenResponseObject?
     var codeChallenage = ""
     var codeVerifier = ""
     
-
     func getAccessToken(_ completionHandler: @escaping (String?) -> ()) {
         let now = TimeInterval(Date().timeIntervalSince1970 - 10)
         if let tokenResponse = tokenResponse,
            let accessToken = tokenResponse.accessToken, !accessToken.isEmpty,
            tokenResponse.expriedTime > now {
-
             completionHandler(accessToken)
             return
         }
@@ -67,20 +63,14 @@ class AuthenUtils {
         self.codeVerifier = generateCodeVerifier() ?? ""
         self.codeChallenage = generateCodeChallenge(codeVerifier: self.codeVerifier) ?? ""
     }
-    
-    //Login Handle
+
     func loginHandle(with uid: String, with userModel: UserModel) {
         DatabaseManager.shared.checkUserExists(with: uid, completion: { exists in
             if !exists {
-                ///Insert to db
                 DatabaseManager.shared.createUser(user: userModel, completion: {})
             }
         })
-        
-        //Setup Login Success
         self.setupLoginSuccess(with: uid, with: userModel)
-        
-        //Print Session
         self.printSession()
     }
     

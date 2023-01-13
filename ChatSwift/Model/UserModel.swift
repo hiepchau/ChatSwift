@@ -33,7 +33,6 @@ final class UserModel : BaseModel, Identifiable, Codable {
         if let temp = data[Constant.USER_ISONLINE] as? Int {
             self.isOnline = temp != 0
         }
-       
     }
     
     var dictionary: [String: Any] {

@@ -4,9 +4,9 @@
 //
 //  Created by Châu Hiệp on 03/01/2023.
 //
-
 import Foundation
 import UIKit
+
 class ConversationTableCellViewModel {
     var id: String
     var username: String
@@ -14,6 +14,7 @@ class ConversationTableCellViewModel {
     var imgView: UIImage?
     var users: [String]
     var user: [UserModel] = []
+    
     init(conversation: ConversationModel) {
         self.id = conversation.conversationID
         self.username = conversation.name
