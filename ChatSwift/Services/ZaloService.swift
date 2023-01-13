@@ -4,7 +4,6 @@
 //
 //  Created by Châu Hiệp on 27/12/2022.
 //
-
 import Foundation
 import ZaloSDK
 import FirebaseAuth
@@ -44,18 +43,12 @@ class ZaloService: Authenticate {
                         let username = Constant.ZALO_USERNAME_TYPE(uid)
                         let userModel = UserModel(uid: uid,
                                                   username: username,
-                                                  name: name)
-                        ///Insert user
-                        DatabaseManager.shared.userExists(with: username) { exists in
-                            if !exists {
-                                DatabaseManager.shared.createUser(user: userModel, completion: {})
-                            }
-                        }
-                        DatabaseManager.shared.currentID = uid
-                        UserDefaults.standard.set(userModel.dictionary, forKey: Constant.CUR_USER_KEY)
+                                                  name: name,
+                                                  isOnline: true)
+                      
+                        AuthenUtils.shared.loginHandle(with: uid, with: userModel)
                         print("Successfully logged user in with Zalo")
-                        AuthenUtils.shared.printSession()
-                        NotificationCenter.default.post(name: .didLogInNotification, object: nil)
+
                     }
                 }
             }
@@ -70,7 +63,6 @@ class ZaloService: Authenticate {
     func logout() {
         AuthenUtils.shared.tokenResponse = nil
         ZaloSDK.sharedInstance().unauthenticate()
-        
     }
 }
 

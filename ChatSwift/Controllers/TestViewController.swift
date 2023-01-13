@@ -112,35 +112,13 @@
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return msg[section].count
 //    }
-//
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return msg.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let textCell = tableView.dequeueReusableCell(withIdentifier: "textCell", for: indexPath) as! ChatMessageCell
-//        let imgCell = tableView.dequeueReusableCell(withIdentifier: "imgCell", for: indexPath) as! MediaMessageCell
-//
-//        let item = msg[indexPath.section][indexPath.row]
-//
-//        switch item.kind {
-//        case .text(let textMsg):
-//            textCell.msglabel.text = textMsg
-//            textCell.setupUI(isSender: item.isSender)
-//            return textCell
-//        case .photo(let img):
-//            imgCell.imageMsg.image = img.resizeWithScaleAspectFitMode(to: CGFloat(300))
-//            imgCell.setupUI(isSender: item.isSender)
-//            return imgCell
-//        }
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
 //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 //        return 50
 //    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return msg.count
+//    }
+//    
 //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 //
 //        if let firstMessageInsection = msg[section].first {
@@ -168,7 +146,28 @@
 //        }
 //        return nil
 //    }
+//    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let textCell = tableView.dequeueReusableCell(withIdentifier: "textCell", for: indexPath) as! ChatMessageCell
+//        let imgCell = tableView.dequeueReusableCell(withIdentifier: "imgCell", for: indexPath) as! MediaMessageCell
 //
+//        let item = msg[indexPath.section][indexPath.row]
+//
+//        switch item.kind {
+//        case .text(let textMsg):
+//            textCell.msglabel.text = textMsg
+//            textCell.setupUI(isSender: item.isSender)
+//            return textCell
+//        case .photo(let img):
+//            imgCell.imageMsg.image = img.resizeWithScaleAspectFitMode(to: CGFloat(300))
+//            imgCell.setupUI(isSender: item.isSender)
+//            return imgCell
+//        }
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
 //}
 //
 //

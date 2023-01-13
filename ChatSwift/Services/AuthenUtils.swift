@@ -4,7 +4,6 @@
 //
 //  Created by Châu Hiệp on 27/12/2022.
 //
-
 import Foundation
 import ZaloSDK
 
@@ -14,19 +13,16 @@ protocol Authenticate {
 }
 
 class AuthenUtils {
-
     static let shared = AuthenUtils()
     var tokenResponse: ZOTokenResponseObject?
     var codeChallenage = ""
     var codeVerifier = ""
     
-
     func getAccessToken(_ completionHandler: @escaping (String?) -> ()) {
         let now = TimeInterval(Date().timeIntervalSince1970 - 10)
         if let tokenResponse = tokenResponse,
            let accessToken = tokenResponse.accessToken, !accessToken.isEmpty,
            tokenResponse.expriedTime > now {
-
             completionHandler(accessToken)
             return
         }
@@ -67,10 +63,26 @@ class AuthenUtils {
         self.codeVerifier = generateCodeVerifier() ?? ""
         self.codeChallenage = generateCodeChallenge(codeVerifier: self.codeVerifier) ?? ""
     }
+
+    func loginHandle(with uid: String, with userModel: UserModel) {
+        DatabaseManager.shared.checkUserExists(with: uid, completion: { exists in
+            if !exists {
+                DatabaseManager.shared.createUser(user: userModel, completion: {})
+            }
+        })
+        self.setupLoginSuccess(with: uid, with: userModel)
+        self.printSession()
+    }
+    
+    func setupLoginSuccess(with uid: String, with userModel: UserModel) {
+        DatabaseManager.shared.currentID = uid
+        DatabaseManager.shared.currentUser = userModel.dictionary
+        
+        DatabaseManager.shared.setStateIsOnline(id: uid, isOnline: true)
+        NotificationCenter.default.post(name: .didLogInNotification, object: nil)
+    }
     
     func printSession() {
-        let curID = DatabaseManager.shared.currentID
-        let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)
-        print("Logged in with user: \(String(describing: currentUser)), UID: \(String(describing: curID))")
+        print("Logged in with user: \(String(describing: DatabaseManager.shared.currentUser)); Token: \(String(describing: DatabaseManager.shared.currentID))")
     }
 }

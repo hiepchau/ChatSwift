@@ -4,7 +4,6 @@
 //
 //  Created by Châu Hiệp on 27/12/2022.
 //
-
 import Foundation
 import FirebaseAuth
 import FBSDKLoginKit
@@ -61,22 +60,15 @@ class FacebookService: Authenticate {
                     print("Failed to get email and name from fb result")
                     return
             }
+            
             let userModel = UserModel(
                 uid: uid,
                 username: email,
-                name: lastName + " " + firstName
+                name: lastName + " " + firstName,
+                isOnline: true
             )
-            DatabaseManager.shared.userExists(with: email, completion: { exists in
-                if !exists {
-                    ///Insert to db
-                    DatabaseManager.shared.createUser(user: userModel, completion: {})
-                }
-            })
-            DatabaseManager.shared.currentID = uid
-            UserDefaults.standard.set(userModel.dictionary, forKey: Constant.CUR_USER_KEY)
+            AuthenUtils.shared.loginHandle(with: uid, with: userModel)
             print("Successfully logged user in with Facebook cred")
-            AuthenUtils.shared.printSession()
-            NotificationCenter.default.post(name: .didLogInNotification, object: nil)
         })
     }
     func logout() {

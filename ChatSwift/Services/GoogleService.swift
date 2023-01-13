@@ -4,7 +4,6 @@
 //
 //  Created by Châu Hiệp on 27/12/2022.
 //
-
 import Foundation
 import Foundation
 import Firebase
@@ -15,14 +14,10 @@ class GoogleService: Authenticate {
     
     
     func login(vc: UIViewController, completion: @escaping () -> Void) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-              let signInConfig = appDelegate.signInConfig else {
-            completion()
-            return
-        }
-        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: vc) { (user, error) in
-            guard let user = user, error == nil else { return }
-            self.handleSessionRestore(user: user)
+        GIDSignIn.sharedInstance.signIn(withPresenting: vc) { (signInResult, error) in
+            guard let signInResult = signInResult, error == nil else { return }
+         
+            self.handleSessionRestore(user: signInResult.user)
             let token = DatabaseManager.shared.currentID
             let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)
             print("Logged in with user: \(String(describing: currentUser)); Token: \(String(describing: token))")
@@ -39,36 +34,34 @@ class GoogleService: Authenticate {
         }
         
         let userModel = UserModel(uid: uid,
-                                   username: email,
-                                   name: lastName + " " + firstName)
+                                  username: email,
+                                  name: lastName + " " + firstName,
+                                  isOnline: true)
         
-        DatabaseManager.shared.userExists(with: email, completion: { exists in
+        DatabaseManager.shared.checkUserExists(with: uid, completion: { exists in
             if !exists {
                 // insert to database
                 DatabaseManager.shared.createUser(user: userModel, completion: {})
             }
         })
-
-        let authentication = user.authentication
-        guard let idToken = authentication.idToken else {
+        
+        guard let idToken = user.idToken else {
             return
         }
 
         let credential = GoogleAuthProvider.credential(
-            withIDToken: idToken,
-            accessToken: authentication.accessToken
+            withIDToken: idToken.tokenString,
+            accessToken: user.accessToken.tokenString
         )
-        DatabaseManager.shared.currentID = uid
-        UserDefaults.standard.set(userModel.dictionary, forKey: Constant.CUR_USER_KEY)
         
         FirebaseAuth.Auth.auth().signIn(with: credential, completion: { authResult, error in
             guard authResult != nil, error == nil else {
                 print("failed to log in with google credential")
                 return
             }
+            AuthenUtils.shared.setupLoginSuccess(with: uid, with: userModel)
             print("Successfully signed in with Google cred.")
             AuthenUtils.shared.printSession()
-            NotificationCenter.default.post(name: .didLogInNotification, object: nil)
         })
     }
     

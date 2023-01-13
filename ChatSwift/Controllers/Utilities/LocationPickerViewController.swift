@@ -46,12 +46,11 @@ final class LocationPickerViewController: UIViewController {
             map.addGestureRecognizer(gesture)
         }
         else {
-            // just showing location
+            /// just showing location
             guard let coordinates = self.coordinates else {
                 return
             }
-            
-            // drop a pin on that location
+            /// drop a pin on that location
             let pin = MKPointAnnotation()
             pin.coordinate = coordinates
             map.addAnnotation(pin)
@@ -76,7 +75,7 @@ final class LocationPickerViewController: UIViewController {
             map.removeAnnotation(annotation)
         }
 
-        // drop a pin on that location
+        /// drop a pin on that location
         let pin = MKPointAnnotation()
         pin.coordinate = coordinates
         map.addAnnotation(pin)

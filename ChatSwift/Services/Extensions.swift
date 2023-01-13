@@ -4,36 +4,10 @@
 //
 //  Created by Châu Hiệp on 15/12/2022.
 //
-
 import Foundation
 import UIKit
 
 extension UIView {
-
-    public var width: CGFloat {
-        return frame.size.width
-    }
-
-    public var height: CGFloat {
-        return frame.size.height
-    }
-
-    public var top: CGFloat {
-        return frame.origin.y
-    }
-
-    public var bottom: CGFloat {
-        return frame.size.height + frame.origin.y
-    }
-
-    public var left: CGFloat {
-        return frame.origin.x
-    }
-
-    public var right: CGFloat {
-        return frame.size.width + frame.origin.x
-    }
-    
     func dropShadow() {
         DispatchQueue.main.async {  [weak self] in
                guard let this = self else { return }
@@ -46,16 +20,10 @@ extension UIView {
                   this.layer.rasterizationScale = UIScreen.main.scale
         }
     }
-
 }
 
-extension Notification.Name {
-    /// Notificaiton  when user logs in
-    static let didLogInNotification = Notification.Name("didLogInNotification")
-}
 
 //MARK: - RESIZE IMAGE
-
 extension UIImage {
     func getFileSizeInfo(allowedUnits: ByteCountFormatter.Units = .useMB,
                          countStyle: ByteCountFormatter.CountStyle = .memory,
@@ -74,21 +42,14 @@ extension UIImage {
 }
 
 extension UIImage {
-        
     /// Resize image with ScaleAspectFit mode and given size.
     ///
     /// - Parameter dimension: width or length of the image output.
     /// - Parameter resizeFramework: Technique for image resizing: UIKit / CoreImage / CoreGraphics / ImageIO / Accelerate.
     /// - Returns: Resized image.
-    
-
     func resizeWithScaleAspectFitMode(to dimension: CGFloat) -> UIImage? {
-
-//        if max(size.width, size.height) <= dimension { return self }
-
         var newSize: CGSize!
         let aspectRatio = size.width/size.height
-
         if aspectRatio > 1 {
             // Landscape image
             newSize = CGSize(width: dimension, height: dimension / aspectRatio)
@@ -98,7 +59,6 @@ extension UIImage {
         }
         return resize(to: newSize)
     }
-
     /// Resize image from given size.
     ///
     /// - Parameter newSize: Size of the image output.
@@ -107,9 +67,7 @@ extension UIImage {
     public func resize(to newSize: CGSize) -> UIImage? {
           return resizeWithUIKit(to: newSize)
     }
-
     // MARK: UIKit
-
     /// Resize image from given size.
     ///
     /// - Parameter newSize: Size of the image output.
@@ -121,20 +79,16 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext()
     }
     
-    
     /// Second way
     func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
         let oldWidth = image.size.width;
         let oldHeight = image.size.height;
-        
         let scaleFactor = (oldWidth > oldHeight) ? width / oldWidth : height / oldHeight;
-        
         let newHeight = oldHeight * scaleFactor;
         let newWidth = oldWidth * scaleFactor;
         let newSize = CGSize(width: newWidth, height: newHeight)
-        
+
         UIGraphicsBeginImageContextWithOptions(newSize,false,UIScreen.main.scale);
-        
         image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height));
         let newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -154,7 +108,6 @@ extension UITableView {
 
 //ALERT
 extension UIViewController{
-    
     // Global Alert
     // Define Your number of buttons, styles and completion
     public func openAlert(title: String,
@@ -163,7 +116,7 @@ extension UIViewController{
                           actionTitles:[String],
                           actionStyles:[UIAlertAction.Style],
                           actions: [((UIAlertAction) -> Void)]){
-        
+    
         let alertController = UIAlertController(title: title, message: message, preferredStyle: alertStyle)
         for(index, indexTitle) in actionTitles.enumerated(){
             let action = UIAlertAction(title: indexTitle, style: actionStyles[index], handler: actions[index])
@@ -174,9 +127,7 @@ extension UIViewController{
     //https://stackoverflow.com/a/56579842/8201581
 }
 //MARK: - Data type
-
 extension String{
-    
     func validateEmailId() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
         return applyPredicateOnRegex(regexStr: emailRegEx)
