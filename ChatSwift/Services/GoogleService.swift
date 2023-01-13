@@ -4,6 +4,7 @@
 //
 //  Created by Châu Hiệp on 27/12/2022.
 //
+
 import Foundation
 import Foundation
 import Firebase
@@ -16,7 +17,6 @@ class GoogleService: Authenticate {
     func login(vc: UIViewController, completion: @escaping () -> Void) {
         GIDSignIn.sharedInstance.signIn(withPresenting: vc) { (signInResult, error) in
             guard let signInResult = signInResult, error == nil else { return }
-         
             self.handleSessionRestore(user: signInResult.user)
             let token = DatabaseManager.shared.currentID
             let currentUser = UserDefaults.standard.dictionary(forKey: Constant.CUR_USER_KEY)

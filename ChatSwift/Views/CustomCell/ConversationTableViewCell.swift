@@ -4,8 +4,8 @@
 //
 //  Created by Châu Hiệp on 13/12/2022.
 //
-import Foundation
 
+import Foundation
 import UIKit
 import SDWebImage
 
@@ -21,6 +21,7 @@ class ConversationTableViewCell: UITableViewCell {
     static func register() -> UINib {
         UINib(nibName: "ConversationTableViewCell", bundle: nil)
     }
+    
     //MARK: - IBOulets
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var msg: UILabel!

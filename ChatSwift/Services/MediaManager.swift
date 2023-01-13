@@ -4,12 +4,12 @@
 //
 //  Created by Châu Hiệp on 21/12/2022.
 //
+
 import Foundation
 import UIKit
 
 final class MediaManager {
     static let shared = MediaManager()
-    
 }
 
 class CacheImageView: UIImageView
@@ -28,11 +28,9 @@ class CacheImageView: UIImageView
         }
 
         DispatchQueue.global().async { [weak self] in
-            if let imageData = try? Data(contentsOf: imageURL)
-            {
+            if let imageData = try? Data(contentsOf: imageURL) {
                 debugPrint("image downloaded from server...")
-                if let image = UIImage(data: imageData)
-                {
+                if let image = UIImage(data: imageData) {
                     DispatchQueue.main.async {
                         self?.imageCache.setObject(image, forKey: imageURL as AnyObject)
                         self?.image = image.resizeWithScaleAspectFitMode(to: CGFloat(300))

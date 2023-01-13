@@ -8,6 +8,7 @@
 import Foundation
 
 class LoginViewModel: BaseViewModel {
+    
     //MARK: - Variables
     private var username: String?
     private var password: String?

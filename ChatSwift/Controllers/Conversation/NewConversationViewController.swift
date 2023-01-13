@@ -4,6 +4,7 @@
 //
 //  Created by Châu Hiệp on 08/12/2022.
 //
+
 import UIKit
 
 class NewConversationViewController: BaseViewController {
@@ -72,9 +73,7 @@ class NewConversationViewController: BaseViewController {
                                                             action: #selector(dismissSelf))
         searchBar.becomeFirstResponder()
     }
-    
 
-    
     //MARK: - Binding
     
     override func bindViewModel() {

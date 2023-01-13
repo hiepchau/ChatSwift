@@ -4,9 +4,9 @@
 //
 //  Created by Châu Hiệp on 07/12/2022.
 //
+
 import UIKit
 import FacebookCore
-// SceneDelegate.swift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?

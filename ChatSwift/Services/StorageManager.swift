@@ -11,9 +11,7 @@ import UIKit
 final class StorageManager {
 
     static let shared = StorageManager()
-
     private init() {}
-
     private let storage = Storage.storage().reference()
 
     /*
@@ -21,7 +19,6 @@ final class StorageManager {
      */
 
     public typealias UploadPictureCompletion = (Result<String, Error>) -> Void
-
     /// Uploads picture to firebase storage and returns completion with url string to download
     public func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
         storage.child("images/\(fileName)").putData(data, metadata: nil, completion: { [weak self] metadata, error in

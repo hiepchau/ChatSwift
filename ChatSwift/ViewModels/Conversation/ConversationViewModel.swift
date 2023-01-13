@@ -39,11 +39,8 @@ class ConversationViewModel: BaseViewModel {
         if isLoading.value ?? true {
             return
         }
-        
         isLoading.value = true
-        
         DatabaseManager.shared.getAllConversation {[weak self] result in
-          
             guard let strongself = self else { return }
             strongself.isLoading.value = false
             
