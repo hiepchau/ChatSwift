@@ -62,6 +62,8 @@
 		F1F44B1A295AFA2C007136A6 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B19295AFA2C007136A6 /* Constant.swift */; };
 		F1F44B1C295AFCF2007136A6 /* ZaloService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B1B295AFCF2007136A6 /* ZaloService.swift */; };
 		F1F44B1E295AFFE5007136A6 /* AuthenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F44B1D295AFFE5007136A6 /* AuthenUtils.swift */; };
+		F1F829E529A8AFA8004546DE /* TestCallKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F829E329A8AFA8004546DE /* TestCallKitViewController.swift */; };
+		F1F829E629A8AFA8004546DE /* TestCallKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1F829E429A8AFA8004546DE /* TestCallKitViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,6 +127,8 @@
 		F1F44B19295AFA2C007136A6 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		F1F44B1B295AFCF2007136A6 /* ZaloService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZaloService.swift; sourceTree = "<group>"; };
 		F1F44B1D295AFFE5007136A6 /* AuthenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenUtils.swift; sourceTree = "<group>"; };
+		F1F829E329A8AFA8004546DE /* TestCallKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCallKitViewController.swift; sourceTree = "<group>"; };
+		F1F829E429A8AFA8004546DE /* TestCallKitViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestCallKitViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +237,8 @@
 				F1CEE985296572010008A1DC /* Chat */,
 				F14C4EA029558453006090FD /* Utilities */,
 				F129E206295058ED007621A1 /* TestViewController.swift */,
+				F1F829E329A8AFA8004546DE /* TestCallKitViewController.swift */,
+				F1F829E429A8AFA8004546DE /* TestCallKitViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -426,6 +432,7 @@
 				F163952F2940FB3800DED7D7 /* LaunchScreen.storyboard in Resources */,
 				F1CEE984296562BB0008A1DC /* ChatViewController.xib in Resources */,
 				F163953E2940FDEF00DED7D7 /* GoogleService-Info.plist in Resources */,
+				F1F829E629A8AFA8004546DE /* TestCallKitViewController.xib in Resources */,
 				F163952C2940FB3800DED7D7 /* Assets.xcassets in Resources */,
 				F1BB8868296419B900D49412 /* ConversationTableViewCell.xib in Resources */,
 				F18FBCA42963D80600F171B6 /* SignUpViewController.xib in Resources */,
@@ -492,6 +499,7 @@
 				F173D5C42941EE5C00DDF7DE /* UserModel.swift in Sources */,
 				F1C6D3E429531C0D00387F04 /* MediaManager.swift in Sources */,
 				F16395232940FB3700DED7D7 /* AppDelegate.swift in Sources */,
+				F1F829E529A8AFA8004546DE /* TestCallKitViewController.swift in Sources */,
 				F1B2BBFD294313A200D65D69 /* MessageModel.swift in Sources */,
 				F18FBCAC2963EF6F00F171B6 /* ConversationViewController+TableView.swift in Sources */,
 				F1CEE9802965371D0008A1DC /* NewConversationViewController+TableView.swift in Sources */,
@@ -670,6 +678,7 @@
 				DEVELOPMENT_TEAM = PKMHCGLVJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatSwift/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access to share your location";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to send audio and video messages.";
@@ -703,6 +712,7 @@
 				DEVELOPMENT_TEAM = PKMHCGLVJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatSwift/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take a profile picture";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access to share your location";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to send audio and video messages.";

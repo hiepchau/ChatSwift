@@ -78,7 +78,7 @@ class AuthenUtils {
     func setupLoginSuccess(with uid: String, with userModel: UserModel) {
         DatabaseManager.shared.currentID = uid
         DatabaseManager.shared.currentUser = userModel.dictionary
-        
+
         DatabaseManager.shared.setStateIsOnline(id: uid, isOnline: true)
         NotificationCenter.default.post(name: .didLogInNotification, object: nil)
     }

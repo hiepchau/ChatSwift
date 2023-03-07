@@ -18,8 +18,7 @@ class Observable<T> {
             }
         }
     }
-    //TÁKDJAKSLDÁASDASD
-//    ASDASD
+
     init(_ value: T?){
         self.value = value
     }

@@ -17,7 +17,6 @@ target 'ChatSwift' do
   pod 'RealmSwift'
   pod 'SDWebImage'
 
-
   pod 'FBSDKLoginKit'
   pod 'FacebookLogin'
   pod 'GoogleSignIn'
